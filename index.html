@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2060 Mission Control V1.5</title>
+<title>2060 Mission Control V1.6</title>
 
 <style>
 * {
@@ -43,7 +43,12 @@ header {
 .header-right {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+}
+
+.signal {
+    color: #6cff9b;
+    font-size: 11px;
 }
 
 .status {
@@ -53,11 +58,6 @@ header {
     color: #6cff9b;
     font-size: 11px;
     font-weight: bold;
-}
-
-.signal {
-    color: #6cff9b;
-    font-size: 12px;
 }
 
 .container {
@@ -119,6 +119,10 @@ button:hover {
     background: #39485a;
 }
 
+.ai-btn {
+    background: #6c3fd1;
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -175,6 +179,10 @@ button:hover {
 
 .fuel-bar {
     background: #ffc857;
+}
+
+.health-bar {
+    background: #6cff9b;
 }
 
 .main-grid {
@@ -256,7 +264,7 @@ button:hover {
     border-radius: 50%;
     box-shadow: 0 0 18px #6cff9b;
     left: 50%;
-    top: 50%;
+    top: 58%;
     z-index: 5;
     transition: left .8s ease, top .8s ease;
 }
@@ -356,6 +364,63 @@ button:hover {
     margin-top: 7px;
 }
 
+.ai-panel {
+    border: 1px solid #5536a1;
+    background:
+        radial-gradient(circle at 90% 10%, #25164c 0%, transparent 35%),
+        #0a0c17;
+}
+
+.ai-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-badge {
+    background: #6c3fd1;
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.ai-decision {
+    margin-top: 10px;
+    background: #060a12;
+    border-radius: 8px;
+    padding: 14px;
+    border-left: 3px solid #6c3fd1;
+}
+
+.ai-decision-title {
+    color: #c7aaff;
+    font-size: 10px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+}
+
+.ai-decision-text {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.health {
+    margin-top: 15px;
+}
+
+.health-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    margin-bottom: 7px;
+}
+
+.health-number {
+    color: #6cff9b;
+    font-weight: bold;
+}
+
 .chart {
     height: 180px;
     background: #050b12;
@@ -383,7 +448,7 @@ canvas {
 }
 
 .alerts {
-    max-height: 200px;
+    max-height: 190px;
     overflow-y: auto;
 }
 
@@ -404,6 +469,10 @@ canvas {
     border-left-color: #ff5c69;
 }
 
+.alert.ai {
+    border-left-color: #9b6cff;
+}
+
 .system-row {
     display: flex;
     justify-content: space-between;
@@ -422,6 +491,10 @@ canvas {
 
 .danger {
     color: #ff5c69;
+}
+
+.ai-color {
+    color: #b99aff;
 }
 
 .log {
@@ -493,7 +566,10 @@ footer {
     </div>
 
     <div class="header-right">
-        <div class="signal">● LINK 98%</div>
+        <div class="signal">
+            ● AI LINK ACTIVE
+        </div>
+
         <div class="status" id="globalStatus">
             SYSTEM READY
         </div>
@@ -505,10 +581,10 @@ footer {
 
 <section class="hero">
 
-    <h2>ORBITAL MISSION SIMULATION</h2>
+    <h2>AUTONOMOUS ORBITAL MISSION</h2>
 
     <p>
-        Kenya Aerospace Command • 2060 Mission Operations Center
+        Kenya Aerospace Command • Mission Intelligence System V1.6
     </p>
 
     <div class="controls">
@@ -519,6 +595,10 @@ footer {
 
         <button class="abort-btn" onclick="abortMission()">
             ⚠ ABORT
+        </button>
+
+        <button class="ai-btn" onclick="runAIAnalysis()">
+            🧠 RUN AI ANALYSIS
         </button>
 
         <button class="reset-btn" onclick="resetMission()">
@@ -568,15 +648,15 @@ footer {
     </div>
 
     <div class="card">
-        <div class="card-title">Fuel</div>
+        <div class="card-title">Mission Health</div>
         <div class="value">
-            <span id="fuel">100.0</span>
+            <span id="healthValue">100</span>
+            <span class="unit">%</span>
         </div>
-        <div class="unit">%</div>
 
         <div class="progress">
-            <div class="progress-bar fuel-bar"
-                 id="fuelBar"
+            <div class="progress-bar health-bar"
+                 id="healthBar"
                  style="width:100%">
             </div>
         </div>
@@ -590,15 +670,31 @@ footer {
 
     <h3>🌍 LIVE MISSION MAP</h3>
 
-    <div class="map" id="missionMap">
+    <div class="map">
 
-        <div class="grid-line grid-horizontal" style="top:25%"></div>
-        <div class="grid-line grid-horizontal" style="top:50%"></div>
-        <div class="grid-line grid-horizontal" style="top:75%"></div>
+        <div class="grid-line grid-horizontal"
+             style="top:25%">
+        </div>
 
-        <div class="grid-line grid-vertical" style="left:25%"></div>
-        <div class="grid-line grid-vertical" style="left:50%"></div>
-        <div class="grid-line grid-vertical" style="left:75%"></div>
+        <div class="grid-line grid-horizontal"
+             style="top:50%">
+        </div>
+
+        <div class="grid-line grid-horizontal"
+             style="top:75%">
+        </div>
+
+        <div class="grid-line grid-vertical"
+             style="left:25%">
+        </div>
+
+        <div class="grid-line grid-vertical"
+             style="left:50%">
+        </div>
+
+        <div class="grid-line grid-vertical"
+             style="left:75%">
+        </div>
 
         <div class="map-label north">N</div>
         <div class="map-label east">E</div>
@@ -613,82 +709,152 @@ footer {
 
 </section>
 
+<section class="panel ai-panel">
+
+    <div class="ai-header">
+
+        <h3>🧠 MISSION INTELLIGENCE</h3>
+
+        <div class="ai-badge">
+            AUTONOMOUS AI
+        </div>
+
+    </div>
+
+    <div class="ai-decision">
+
+        <div class="ai-decision-title">
+            Current AI Decision
+        </div>
+
+        <div class="ai-decision-text"
+             id="aiDecision">
+
+            Awaiting mission telemetry.
+            AI system is standing by.
+
+        </div>
+
+    </div>
+
+    <div class="health">
+
+        <div class="health-header">
+
+            <span>MISSION HEALTH</span>
+
+            <span class="health-number"
+                  id="healthLabel">
+                100%
+            </span>
+
+        </div>
+
+        <div class="progress">
+
+            <div class="progress-bar health-bar"
+                 id="healthBarLarge"
+                 style="width:100%">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="telemetry-row">
+        <span>AI Mode</span>
+        <strong class="ai-color"
+                id="aiMode">
+            STANDBY
+        </strong>
+    </div>
+
+    <div class="telemetry-row">
+        <span>Anomalies</span>
+        <strong id="anomalyCount">
+            0
+        </strong>
+    </div>
+
+</section>
+
+</div>
+
+<div class="two-column">
+
 <section class="panel">
 
     <h3>📡 LIVE TELEMETRY</h3>
 
     <div class="telemetry-row">
         <span>Latitude</span>
-        <strong id="latitude">-1.2921°</strong>
+        <strong id="latitude">
+            -1.2921°
+        </strong>
     </div>
 
     <div class="telemetry-row">
         <span>Longitude</span>
-        <strong id="longitude">36.8219°</strong>
+        <strong id="longitude">
+            36.8219°
+        </strong>
     </div>
 
     <div class="telemetry-row">
         <span>Heading</span>
-        <strong id="heading">090°</strong>
+        <strong id="heading">
+            090°
+        </strong>
     </div>
 
     <div class="telemetry-row">
         <span>Orbital Phase</span>
-        <strong id="orbitalPhase">GROUND</strong>
+        <strong id="orbitalPhase">
+            GROUND
+        </strong>
     </div>
 
     <div class="telemetry-row">
         <span>Signal</span>
-        <strong id="signalValue">98%</strong>
+        <strong id="signalValue">
+            98%
+        </strong>
     </div>
 
     <div class="telemetry-row">
         <span>Temperature</span>
-        <strong id="temperature">24°C</strong>
+        <strong id="temperature">
+            24°C
+        </strong>
     </div>
 
     <div class="telemetry-row">
         <span>Mission State</span>
-        <strong id="telemetryState">STANDBY</strong>
+        <strong id="telemetryState">
+            STANDBY
+        </strong>
     </div>
 
 </section>
-
-</div>
-
-<div class="two-column">
 
 <section class="panel stage-box">
 
     <h3>MISSION PHASE</h3>
 
-    <div class="countdown" id="countdown">
+    <div class="countdown"
+         id="countdown">
         10
     </div>
 
-    <div class="stage" id="missionStage">
+    <div class="stage"
+         id="missionStage">
         READY
     </div>
 
-    <div class="stage-message" id="missionMessage">
+    <div class="stage-message"
+         id="missionMessage">
+
         Vehicle standing by for launch sequence.
-    </div>
-
-</section>
-
-<section class="panel">
-
-    <h3>🚨 MISSION ALERTS</h3>
-
-    <div class="alerts" id="alerts">
-
-        <div class="alert">
-            SYSTEM — Mission Control initialized.
-        </div>
-
-        <div class="alert">
-            SYSTEM — Telemetry link established.
-        </div>
 
     </div>
 
@@ -700,7 +866,7 @@ footer {
 
 <section class="panel">
 
-    <h3>📈 ALTITUDE / VELOCITY GRAPH</h3>
+    <h3>📈 TELEMETRY GRAPH</h3>
 
     <div class="chart">
 
@@ -714,18 +880,41 @@ footer {
 
 <section class="panel">
 
+    <h3>🚨 AI ANOMALY MONITOR</h3>
+
+    <div class="alerts"
+         id="alerts">
+
+        <div class="alert ai">
+            AI — System initialized. No anomalies detected.
+        </div>
+
+        <div class="alert">
+            SYSTEM — Telemetry link established.
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+<section class="panel">
+
     <h3>🛰️ SYSTEM STATUS</h3>
 
     <div class="system-row">
         <span>Flight Computer</span>
-        <strong class="online" id="computerStatus">
+        <strong class="online"
+                id="computerStatus">
             ONLINE
         </strong>
     </div>
 
     <div class="system-row">
         <span>Navigation</span>
-        <strong class="online" id="navigationStatus">
+        <strong class="online"
+                id="navigationStatus">
             ONLINE
         </strong>
     </div>
@@ -739,7 +928,16 @@ footer {
 
     <div class="system-row">
         <span>Propulsion</span>
-        <strong class="online" id="propulsionStatus">
+        <strong class="online"
+                id="propulsionStatus">
+            STANDBY
+        </strong>
+    </div>
+
+    <div class="system-row">
+        <span>AI Mission Director</span>
+        <strong class="ai-color"
+                id="aiSystemStatus">
             STANDBY
         </strong>
     </div>
@@ -753,17 +951,18 @@ footer {
 
 </section>
 
-</div>
+<br>
 
 <section class="panel">
 
-    <h3>📋 MISSION LOG</h3>
+    <h3>📋 AI DECISION LOG</h3>
 
-    <div class="log" id="missionLog">
+    <div class="log"
+         id="missionLog">
 
         <div class="log-entry">
-            <span>[SYSTEM]</span>
-            Mission Control initialized.
+            <span>[AI]</span>
+            Mission Intelligence initialized.
         </div>
 
         <div class="log-entry">
@@ -773,7 +972,7 @@ footer {
 
         <div class="log-entry">
             <span>[READY]</span>
-            Vehicle awaiting launch command.
+            Awaiting mission command.
         </div>
 
     </div>
@@ -783,7 +982,7 @@ footer {
 </div>
 
 <footer>
-    2060 Aerospace Initiative • Mission Control Prototype V1.5
+    2060 Aerospace Initiative • Mission Control Prototype V1.6
 </footer>
 
 <script>
@@ -805,11 +1004,18 @@ let heading = 90;
 let signal = 98;
 let temperature = 24;
 
+let health = 100;
+let anomalyCount = 0;
+
 let missionInterval = null;
 let countdownInterval = null;
 
 let altitudeHistory = [];
 let speedHistory = [];
+
+let lastFuelWarning = false;
+let lastSignalWarning = false;
+let lastTemperatureWarning = false;
 
 const missionTimeEl =
     document.getElementById("missionTime");
@@ -820,17 +1026,11 @@ const altitudeEl =
 const speedEl =
     document.getElementById("speed");
 
-const fuelEl =
-    document.getElementById("fuel");
-
 const altitudeBar =
     document.getElementById("altitudeBar");
 
 const speedBar =
     document.getElementById("speedBar");
-
-const fuelBar =
-    document.getElementById("fuelBar");
 
 const countdownEl =
     document.getElementById("countdown");
@@ -862,7 +1062,7 @@ const canvas =
 const ctx =
     canvas.getContext("2d");
 
-function addLog(message, type="SYSTEM") {
+function addLog(message, type="AI") {
 
     const entry =
         document.createElement("div");
@@ -882,7 +1082,7 @@ function addLog(message, type="SYSTEM") {
         missionLog.scrollHeight;
 }
 
-function addAlert(message, type="normal") {
+function addAlert(message, type="ai") {
 
     const alert =
         document.createElement("div");
@@ -895,264 +1095,80 @@ function addAlert(message, type="normal") {
 
     alerts.prepend(alert);
 
-    if (alerts.children.length > 7) {
+    if (alerts.children.length > 8) {
         alerts.removeChild(
             alerts.lastChild
         );
     }
 }
 
-function updateDisplay() {
+function updateHealth() {
 
-    altitudeEl.textContent =
-        Math.round(altitude);
+    health = 100;
 
-    speedEl.textContent =
-        speed.toFixed(2);
-
-    fuelEl.textContent =
-        fuel.toFixed(1);
-
-    altitudeBar.style.width =
-        Math.min(100, altitude / 2) + "%";
-
-    speedBar.style.width =
-        Math.min(100, speed / 7.8 * 100) + "%";
-
-    fuelBar.style.width =
-        Math.max(0, fuel) + "%";
-
-    const minutes =
-        Math.floor(missionSeconds / 60)
-        .toString()
-        .padStart(2,"0");
-
-    const seconds =
-        (missionSeconds % 60)
-        .toString()
-        .padStart(2,"0");
-
-    missionTimeEl.textContent =
-        `${minutes}:${seconds}`;
-
-    document.getElementById("latitude")
-        .textContent =
-        latitude.toFixed(4) + "°";
-
-    document.getElementById("longitude")
-        .textContent =
-        longitude.toFixed(4) + "°";
-
-    document.getElementById("heading")
-        .textContent =
-        Math.round(heading) + "°";
-
-    document.getElementById("signalValue")
-        .textContent =
-        Math.round(signal) + "%";
-
-    document.getElementById("temperature")
-        .textContent =
-        Math.round(temperature) + "°C";
-
-    updateMap();
-
-    drawChart();
-}
-
-function updateMap() {
-
-    let mapX;
-    let mapY;
-
-    if (!missionRunning) {
-
-        mapX = 50;
-        mapY = 58;
-
-    } else {
-
-        mapX =
-            50 +
-            Math.sin(missionSeconds / 7) * 35;
-
-        mapY =
-            58 -
-            Math.min(
-                42,
-                altitude / 5
-            );
-
+    if (fuel < 50) {
+        health -= 8;
     }
 
-    mapX =
-        Math.max(5, Math.min(95, mapX));
-
-    mapY =
-        Math.max(5, Math.min(95, mapY));
-
-    spacecraft.style.left =
-        mapX + "%";
-
-    spacecraft.style.top =
-        mapY + "%";
-}
-
-function drawChart() {
-
-    const width =
-        canvas.clientWidth;
-
-    const height =
-        canvas.clientHeight;
-
-    const dpr =
-        window.devicePixelRatio || 1;
-
-    canvas.width =
-        width * dpr;
-
-    canvas.height =
-        height * dpr;
-
-    ctx.setTransform(
-        dpr,
-        0,
-        0,
-        dpr,
-        0,
-        0
-    );
-
-    ctx.clearRect(
-        0,
-        0,
-        width,
-        height
-    );
-
-    if (altitudeHistory.length < 2) {
-        return;
+    if (fuel < 25) {
+        health -= 15;
     }
 
-    const maxPoints = 50;
+    if (signal < 95) {
+        health -= 8;
+    }
 
-    const alt =
-        altitudeHistory.slice(-maxPoints);
+    if (temperature > 30) {
+        health -= 10;
+    }
 
-    const spd =
-        speedHistory.slice(-maxPoints);
+    if (speed > 7.8) {
+        health -= 10;
+    }
 
-    const maxAltitude =
+    health =
         Math.max(
-            200,
-            ...alt
+            0,
+            Math.min(100, health)
         );
 
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = "#4da3ff";
+    document.getElementById(
+        "healthValue"
+    ).textContent =
+        Math.round(health);
 
-    ctx.beginPath();
+    document.getElementById(
+        "healthLabel"
+    ).textContent =
+        Math.round(health) + "%";
 
-    alt.forEach((value, index) => {
+    document.getElementById(
+        "healthBar"
+    ).style.width =
+        health + "%";
 
-        const x =
-            index /
-            (alt.length - 1) *
-            width;
+    document.getElementById(
+        "healthBarLarge"
+    ).style.width =
+        health + "%";
 
-        const y =
-            height -
-            (value / maxAltitude) *
-            (height - 10);
+    if (health >= 70) {
 
-        if (index === 0) {
-            ctx.moveTo(x,y);
-        } else {
-            ctx.lineTo(x,y);
-        }
+        document.getElementById(
+            "healthBar"
+        ).style.background =
+            "#6cff9b";
 
-    });
+        document.getElementById(
+            "healthBarLarge"
+        ).style.background =
+            "#6cff9b";
 
-    ctx.stroke();
+    } else if (health >= 40) {
 
-    ctx.strokeStyle = "#b66cff";
+        document.getElementById(
+            "healthBar"
+        ).style.background =
+            "#ffc857";
 
-    ctx.beginPath();
-
-    spd.forEach((value,index) => {
-
-        const x =
-            index /
-            (spd.length - 1) *
-            width;
-
-        const y =
-            height -
-            (value / 8) *
-            (height - 10);
-
-        if (index === 0) {
-            ctx.moveTo(x,y);
-        } else {
-            ctx.lineTo(x,y);
-        }
-
-    });
-
-    ctx.stroke();
-}
-
-function startMission() {
-
-    if (missionRunning) {
-        return;
-    }
-
-    missionAborted = false;
-
-    countdownValue = 10;
-
-    countdownEl.textContent =
-        countdownValue;
-
-    missionStageEl.textContent =
-        "LAUNCH PREPARATION";
-
-    missionMessageEl.textContent =
-        "Final systems check in progress.";
-
-    globalStatus.textContent =
-        "LAUNCH SEQUENCE";
-
-    globalStatus.style.color =
-        "#ffc857";
-
-    propulsionStatus.textContent =
-        "ARMING";
-
-    propulsionStatus.className =
-        "warning";
-
-    addLog(
-        "Launch sequence initiated.",
-        "LAUNCH"
-    );
-
-    addAlert(
-        "Launch sequence initiated."
-    );
-
-    countdownInterval =
-        setInterval(() => {
-
-            countdownValue--;
-
-            countdownEl.textContent =
-                countdownValue;
-
-            if (countdownValue > 0) {
-
-                addLog(
-                    "T-" +
- 
+       
