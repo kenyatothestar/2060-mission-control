@@ -1,3 +1,14 @@
-<div id="telemetry">
-    ALTITUDE: <span id="altitude">0</span> km
-</div>
+status.innerText =
+"LIFTOFF!";
+
+rocket.classList.add("fly");
+
+let altitude = 0;
+
+let altitudeTimer = setInterval(function(){
+
+altitude += 100;
+
+document.getElementById("altitude").innerText = altitude;
+
+},1000);
