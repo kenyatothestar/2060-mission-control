@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>2060 Mission Control V2.3.6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2060 Mission Control</title>
 
 <style>
-
 body{
     margin:0;
     background:#020617;
@@ -76,7 +70,6 @@ button:disabled{
 }
 
 @keyframes launch{
-
     from{
         bottom:30px;
         transform:translateX(-50%);
@@ -86,12 +79,11 @@ button:disabled{
         bottom:430px;
         transform:translateX(-50%);
     }
-
 }
 
 .telemetry{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:1fr 1fr;
     gap:12px;
     margin-top:20px;
 }
@@ -114,55 +106,165 @@ button:disabled{
     color:#38bdf8;
 }
 
-.fuel-container{
-    height:8px;
-    background:#1e293b;
-    border-radius:10px;
-    overflow:hidden;
-    margin-top:12px;
+@media(max-width:500px){
+    .telemetry{
+        grid-template-columns:1fr;
+    }
 }
-
-#fuelBar{
-    height:100%;
-    width:100%;
-    background:#00d084;
-    transition:width .5s;
-}
-
-@media(max-width:600px){
-
-.telemetry{
-    grid-template-columns:1fr;
-}
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<h1>
-🚀 2060 MISSION CONTROL
-</h1>
-
+<h1>🚀 2060 MISSION CONTROL</h1>
 
 <div id="status">
 SYSTEM READY
 </div>
 
-
 <div id="countdown"></div>
-
 
 <button id="launchButton">
 🚀 LAUNCH
 </button>
 
-
 <div id="space">
 
-<div id="
+<div id="rocket">
+🚀
+</div>
+
+</div>
+
+<div class="telemetry">
+
+<div class="card">
+
+<small>ALTITUDE</small>
+
+<strong>
+<span id="altitude">0</span> km
+</strong>
+
+</div>
+
+<div class="card">
+
+<small>SPEED</small>
+
+<strong>
+<span id="speed">0</span> km/h
+</strong>
+
+</div>
+
+</div>
+
+<script>
+
+const button =
+document.getElementById("launchButton");
+
+const countdown =
+document.getElementById("countdown");
+
+const rocket =
+document.getElementById("rocket");
+
+const status =
+document.getElementById("status");
+
+const altitudeDisplay =
+document.getElementById("altitude");
+
+const speedDisplay =
+document.getElementById("speed");
+
+let altitude = 0;
+
+let speed = 0;
+
+let altitudeTimer = null;
+
+let speedTimer = null;
+
+button.onclick = function(){
+
+button.disabled = true;
+
+status.innerText =
+"COUNTDOWN STARTED";
+
+let number = 3;
+
+countdown.innerText =
+number;
+
+let timer =
+setInterval(function(){
+
+number--;
+
+if(number > 0){
+
+countdown.innerText =
+number;
+
+}
+
+else{
+
+clearInterval(timer);
+
+countdown.innerText =
+"🚀";
+
+status.innerText =
+"LIFTOFF!";
+
+rocket.classList.remove("fly");
+
+void rocket.offsetWidth;
+
+rocket.classList.add("fly");
+
+altitude = 0;
+
+speed = 0;
+
+altitudeDisplay.innerText =
+altitude;
+
+speedDisplay.innerText =
+speed;
+
+altitudeTimer =
+setInterval(function(){
+
+altitude += 100;
+
+altitudeDisplay.innerText =
+altitude;
+
+},1000);
+
+speedTimer =
+setInterval(function(){
+
+speed += 5000;
+
+speedDisplay.innerText =
+speed.toLocaleString();
+
+},1000);
+
+}
+
+},1000);
+
+};
+
+</script>
+
+</body>
+</html>
