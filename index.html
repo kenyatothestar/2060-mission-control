@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>2060 Mission Control V2.3.4</title>
+<title>2060 Mission Control V2.3.3</title>
 
 <style>
 
@@ -43,13 +43,6 @@ font-size:70px;
 font-weight:bold;
 color:#00ff99;
 height:90px;
-}
-
-#missionTimer{
-font-size:18px;
-font-weight:bold;
-color:#38bdf8;
-margin-bottom:10px;
 }
 
 #space{
@@ -215,10 +208,6 @@ flex-direction:column;
 STANDBY
 </div>
 
-<div id="missionTimer">
-MISSION TIME: 00:00
-</div>
-
 <div id="countdown"></div>
 
 <div id="space">
@@ -342,9 +331,6 @@ document.getElementById("status");
 const countdown =
 document.getElementById("countdown");
 
-const missionTimer =
-document.getElementById("missionTimer");
-
 const log =
 document.getElementById("log");
 
@@ -373,4 +359,98 @@ let countTimer = null;
 
 let telemetryTimer = null;
 
-let missionTimer
+let seconds = 0;
+
+let altitudeValue = 0;
+
+let speedValue = 0;
+
+let fuelValue = 100;
+
+let signalValue = 100;
+
+let launched = false;
+
+
+function addLog(text){
+
+const line =
+document.createElement("div");
+
+line.className =
+"logline";
+
+line.textContent =
+"[" +
+new Date().toLocaleTimeString() +
+"] " +
+text;
+
+log.appendChild(line);
+
+log.scrollTop =
+log.scrollHeight;
+
+}
+
+
+function updateTelemetry(){
+
+altitude.textContent =
+Math.floor(altitudeValue);
+
+speed.textContent =
+Math.floor(speedValue);
+
+fuel.textContent =
+Math.max(0,fuelValue).toFixed(1);
+
+signal.textContent =
+Math.max(0,signalValue).toFixed(0);
+
+fuelBar.style.width =
+Math.max(0,fuelValue) + "%";
+
+signalBar.style.width =
+Math.max(0,signalValue) + "%";
+
+}
+
+
+button.onclick = function(){
+
+if(launched){
+return;
+}
+
+launched = true;
+
+button.disabled = true;
+
+status.textContent =
+"COUNTDOWN";
+
+status.style.color =
+"#ffd166";
+
+alert.textContent =
+"COUNTDOWN ACTIVE — LAUNCH SEQUENCE STARTED";
+
+addLog(
+"LAUNCH SEQUENCE STARTED"
+);
+
+let count = 3;
+
+countdown.textContent =
+count;
+
+
+countTimer =
+setInterval(function(){
+
+count--;
+
+if(count > 0){
+
+count
