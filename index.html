@@ -1,21 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>2060 Mission Control</title>
+
+<style>
+
+body{
+    margin:0;
+    background:#020617;
+    color:white;
+    font-family:Arial,sans-serif;
+    text-align:center;
+    padding:30px 15px;
+}
+
+h1{
+    font-size:26px;
+}
+
+#status{
+    font-size:20px;
+    font-weight:bold;
+    color:#00ff99;
+    margin:15px;
+}
+
+#countdown{
+    font-size:70px;
+    font-weight:bold;
+    color:#00ff99;
+    height:100px;
+}
+
+button{
+    background:#00d084;
+    color:#001b10;
+    border:0;
+    padding:18px 35px;
+    border-radius:10px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+button:disabled{
+    opacity:.5;
+}
+
+#space{
+    height:500px;
+    margin-top:20px;
+    position:relative;
+    overflow:hidden;
+    border:2px solid #334155;
+    border-radius:15px;
+    background:#030712;
+}
+
+#rocket{
+    position:absolute;
+    left:50%;
+    bottom:30px;
+    transform:translateX(-50%);
+    font-size:60px;
+}
+
+.fly{
+    animation:launch 5s linear forwards;
+}
+
+@keyframes launch{
+
+    from{
+        bottom:30px;
+        transform:translateX(-50%);
+    }
+
+    to{
+        bottom:430px;
+        transform:translateX(-50%);
+    }
+
+}
+
+#telemetry{
+    margin-top:20px;
+    padding:18px;
+    background:#081226;
+    border:1px solid #263858;
+    border-radius:12px;
+    font-size:22px;
+    color:#38bdf8;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h1>
+🚀 2060 MISSION CONTROL
+</h1>
+
+
+<div id="status">
+SYSTEM READY
+</div>
+
+
+<div id="countdown"></div>
+
+
+<button id="launchButton">
+🚀 LAUNCH
+</button>
+
+
+<div id="space">
+
+<div id="rocket">
+🚀
+</div>
+
+</div>
+
+
+<div id="telemetry">
+
+ALTITUDE:
+<span id="altitude">0</span>
+km
+
+</div>
+
+
+<script>
+
+
+const button =
+document.getElementById("launchButton");
+
+const countdown =
+document.getElementById("countdown");
+
+const rocket =
+document.getElementById("rocket");
+
+const status =
+document.getElementById("status");
+
+const altitudeDisplay =
+document.getElementById("altitude");
+
+
+let altitude = 0;
+
+let altitudeTimer = null;
+
+
+button.onclick = function(){
+
+button.disabled = true;
+
+status.innerText =
+"COUNTDOWN STARTED";
+
+
+let number = 3;
+
+countdown.innerText =
+number;
+
+
+let timer =
+setInterval(function(){
+
+number--;
+
+
+if(number > 0){
+
+countdown.innerText =
+number;
+
+}
+
+
 else{
 
 clearInterval(timer);
 
-countdown.innerText = "🚀";
 
-status.innerText = "LIFTOFF!";
+countdown.innerText =
+"🚀";
+
+
+status.innerText =
+"LIFTOFF!";
+
+
+rocket.classList.remove("fly");
+
+void rocket.offsetWidth;
 
 rocket.classList.add("fly");
 
-let altitude = 0;
 
-let altitudeTimer = setInterval(function(){
+altitude = 0;
+
+altitudeDisplay.innerText =
+altitude;
+
+
+altitudeTimer =
+setInterval(function(){
 
 altitude += 100;
 
-document.getElementById("altitude").innerText = altitude;
+altitudeDisplay.innerText =
+altitude;
 
 },1000);
 
 }
+
+},1000);
+
+};
+
+
+</script>
+
+
+</body>
+
+</html>
