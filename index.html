@@ -1,39 +1,92 @@
-.rocket{
-position:absolute;
-left:50%;
-bottom:70px;
-font-size:55px;
-z-index:5;
-transform:translateX(-50%);
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+    margin:0;
+    background:#020617;
+    color:white;
+    font-family:Arial;
+    text-align:center;
 }
 
-.rocket.fly{
-animation:rocketFlight 8s linear forwards;
+h1{
+    padding:20px;
 }
 
-@keyframes rocketFlight{
-0%{
-bottom:70px;
-transform:translateX(-50%) rotate(0deg);
+#launch{
+    padding:15px 30px;
+    font-size:18px;
+    background:#00d084;
+    border:0;
+    border-radius:10px;
 }
 
-25%{
-bottom:160px;
-transform:translateX(-50%) rotate(0deg);
+#space{
+    height:500px;
+    margin:20px;
+    background:#030712;
+    border:2px solid #334155;
+    border-radius:15px;
+    position:relative;
+    overflow:hidden;
 }
 
-50%{
-bottom:250px;
-transform:translateX(-50%) rotate(0deg);
+#rocket{
+    position:absolute;
+    left:50%;
+    bottom:30px;
+    transform:translateX(-50%);
+    font-size:60px;
 }
 
-75%{
-bottom:340px;
-transform:translateX(-50%) rotate(0deg);
+#rocket.fly{
+    animation:fly 5s linear forwards;
 }
 
-100%{
-bottom:390px;
-transform:translateX(-50%) rotate(0deg);
+@keyframes fly{
+    from{
+        bottom:30px;
+    }
+
+    to{
+        bottom:430px;
+    }
 }
-}
+</style>
+</head>
+
+<body>
+
+<h1>🚀 2060 ROCKET TEST</h1>
+
+<button id="launch">LAUNCH</button>
+
+<div id="space">
+
+<div id="rocket">🚀</div>
+
+</div>
+
+<script>
+
+const button=document.getElementById("launch");
+const rocket=document.getElementById("rocket");
+
+button.onclick=function(){
+
+rocket.classList.remove("fly");
+
+/* Force browser to restart animation */
+void rocket.offsetWidth;
+
+rocket.classList.add("fly");
+
+};
+
+</script>
+
+</body>
+</html>
