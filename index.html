@@ -1,32 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>2060 Mission Control</title>
 
 <style>
-
 body{
 margin:0;
 background:#020617;
 color:white;
-font-family:Arial,sans-serif;
+font-family:Arial;
 text-align:center;
 padding:30px 15px;
 }
 
-h1{
-font-size:26px;
-}
-
-#status{
+button{
+background:#00d084;
+border:0;
+padding:18px 35px;
+border-radius:10px;
 font-size:20px;
 font-weight:bold;
-color:#00ff99;
-margin:15px;
 }
 
 #countdown{
@@ -36,36 +31,9 @@ color:#00ff99;
 height:100px;
 }
 
-button{
-background:#00d084;
-color:#001b10;
-border:0;
-padding:18px 35px;
-border-radius:10px;
-font-size:20px;
-font-weight:bold;
-}
-
-button:disabled{
-opacity:.5;
-}
-
-#space{
-height:500px;
-margin-top:20px;
-position:relative;
-overflow:hidden;
-border:2px solid #334155;
-border-radius:15px;
-background:#030712;
-}
-
 #rocket{
-position:absolute;
-left:50%;
-bottom:30px;
-transform:translateX(-50%);
 font-size:60px;
+margin-top:150px;
 }
 
 .fly{
@@ -73,155 +41,27 @@ animation:launch 5s linear forwards;
 }
 
 @keyframes launch{
-
 from{
-bottom:30px;
-transform:translateX(-50%);
+transform:translateY(0);
 }
-
 to{
-bottom:430px;
-transform:translateX(-50%);
+transform:translateY(-400px);
 }
-
 }
-
-.telemetry{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:20px;
-}
-
-.card{
-padding:18px;
-background:#081226;
-border:1px solid #263858;
-border-radius:12px;
-}
-
-.card small{
-display:block;
-color:#94a3b8;
-margin-bottom:8px;
-}
-
-.card strong{
-font-size:24px;
-color:#38bdf8;
-}
-
-.log-panel{
-margin-top:20px;
-padding:18px;
-background:#081226;
-border:1px solid #263858;
-border-radius:12px;
-text-align:left;
-}
-
-.log-panel h2{
-margin-top:0;
-text-align:center;
-}
-
-#missionLog{
-height:180px;
-overflow-y:auto;
-background:#020617;
-border-radius:8px;
-padding:12px;
-font-family:monospace;
-font-size:14px;
-}
-
-.log-line{
-margin-bottom:8px;
-color:#9fffd3;
-}
-
-@media(max-width:500px){
-
-.telemetry{
-grid-template-columns:1fr;
-}
-
-}
-
 </style>
 </head>
 
 <body>
 
-<h1>
-🚀 2060 MISSION CONTROL
-</h1>
+<h1>🚀 2060 MISSION CONTROL</h1>
 
-<div id="status">
-SYSTEM READY
-</div>
+<p id="status">SYSTEM READY</p>
 
 <div id="countdown"></div>
 
-<button id="launchButton">
-🚀 LAUNCH
-</button>
+<button id="launchButton">🚀 LAUNCH</button>
 
-<div id="space">
-
-<div id="rocket">
-🚀
-</div>
-
-</div>
-
-<div class="telemetry">
-
-<div class="card">
-
-<small>
-ALTITUDE
-</small>
-
-<strong>
-<span id="altitude">0</span> km
-</strong>
-
-</div>
-
-<div class="card">
-
-<small>
-SPEED
-</small>
-
-<strong>
-<span id="speed">0</span> km/h
-</strong>
-
-</div>
-
-</div>
-
-<div class="log-panel">
-
-<h2>
-📝 MISSION LOG
-</h2>
-
-<div id="missionLog">
-
-<div class="log-line">
-SYSTEM INITIALIZED
-</div>
-
-<div class="log-line">
-VEHICLE READY
-</div>
-
-</div>
-
-</div>
+<div id="rocket">🚀</div>
 
 <script>
 
@@ -237,37 +77,6 @@ document.getElementById("rocket");
 const status =
 document.getElementById("status");
 
-const altitudeDisplay =
-document.getElementById("altitude");
-
-const speedDisplay =
-document.getElementById("speed");
-
-const missionLog =
-document.getElementById("missionLog");
-
-let altitude = 0;
-
-let speed = 0;
-
-function addLog(message){
-
-const line =
-document.createElement("div");
-
-line.className =
-"log-line";
-
-line.innerText =
-message;
-
-missionLog.appendChild(line);
-
-missionLog.scrollTop =
-missionLog.scrollHeight;
-
-}
-
 button.onclick = function(){
 
 button.disabled = true;
@@ -275,82 +84,27 @@ button.disabled = true;
 status.innerText =
 "COUNTDOWN STARTED";
 
-addLog(
-"LAUNCH SEQUENCE STARTED"
-);
-
 let number = 3;
 
-countdown.innerText =
-number;
+countdown.innerText = number;
 
-let timer =
-setInterval(function(){
+let timer = setInterval(function(){
 
 number--;
 
 if(number > 0){
 
-countdown.innerText =
-number;
+countdown.innerText = number;
 
-addLog(
-"T-" + number
-);
-
-}
-
-else{
+}else{
 
 clearInterval(timer);
 
-countdown.innerText =
-"🚀";
+countdown.innerText = "🚀";
 
-status.innerText =
-"LIFTOFF!";
-
-addLog(
-"ENGINE IGNITION"
-);
-
-addLog(
-"LIFTOFF CONFIRMED"
-);
+status.innerText = "LIFTOFF!";
 
 rocket.classList.add("fly");
-
-altitude = 0;
-
-speed = 0;
-
-altitudeDisplay.innerText =
-altitude;
-
-speedDisplay.innerText =
-speed;
-
-setInterval(function(){
-
-altitude += 100;
-
-altitudeDisplay.innerText =
-altitude;
-
-},1000);
-
-setInterval(function(){
-
-speed += 5000;
-
-speedDisplay.innerText =
-speed.toLocaleString();
-
-},1000);
-
-addLog(
-"ASCENT PHASE STARTED"
-);
 
 }
 
@@ -361,5 +115,4 @@ addLog(
 </script>
 
 </body>
-
 </html>
