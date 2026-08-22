@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>2060 Mission Control V2.3.7</title>
+<title>2060 Mission Control V2.3.8</title>
 
 <style>
 
@@ -147,6 +147,27 @@ button:disabled{
 }
 
 
+/* SUCCESS MESSAGE */
+
+#success{
+    display:none;
+    margin-top:20px;
+    padding:20px;
+    background:#06351f;
+    border:2px solid #00d084;
+    border-radius:12px;
+}
+
+#success h2{
+    color:#00ff99;
+    margin-top:0;
+}
+
+#success p{
+    color:#b7ffe0;
+}
+
+
 @media(max-width:500px){
 
     .telemetry{
@@ -236,6 +257,25 @@ km/h
 </div>
 
 
+<!-- SUCCESS -->
+
+<div id="success">
+
+<h2>
+🛰️ MISSION SUCCESS
+</h2>
+
+<p>
+ORBIT ACHIEVED
+</p>
+
+<p>
+2060 SPACECRAFT IS NOW IN ORBIT
+</p>
+
+</div>
+
+
 <!-- MISSION LOG -->
 
 <div class="log-panel">
@@ -283,6 +323,9 @@ document.getElementById("speed");
 const missionLog =
 document.getElementById("missionLog");
 
+const success =
+document.getElementById("success");
+
 
 let altitude = 0;
 
@@ -291,6 +334,8 @@ let speed = 0;
 let altitudeTimer = null;
 
 let speedTimer = null;
+
+let missionTimer = null;
 
 
 function addLog(message){
@@ -315,126 +360,4 @@ missionLog.scrollHeight;
 }
 
 
-button.onclick = function(){
-
-button.disabled = true;
-
-status.innerText =
-"COUNTDOWN STARTED";
-
-
-addLog(
-"LAUNCH SEQUENCE STARTED"
-);
-
-
-let number = 3;
-
-countdown.innerText =
-number;
-
-
-let timer =
-setInterval(function(){
-
-number--;
-
-
-if(number > 0){
-
-countdown.innerText =
-number;
-
-addLog(
-"T-" + number
-);
-
-}
-
-
-else{
-
-clearInterval(timer);
-
-
-countdown.innerText =
-"🚀";
-
-
-status.innerText =
-"LIFTOFF!";
-
-
-addLog(
-"ENGINE IGNITION"
-);
-
-
-addLog(
-"LIFTOFF CONFIRMED"
-);
-
-
-rocket.classList.remove("fly");
-
-void rocket.offsetWidth;
-
-rocket.classList.add("fly");
-
-
-altitude = 0;
-
-speed = 0;
-
-
-altitudeDisplay.innerText =
-altitude;
-
-speedDisplay.innerText =
-speed;
-
-
-addLog(
-"ASCENT PHASE STARTED"
-);
-
-
-/* ALTITUDE */
-
-altitudeTimer =
-setInterval(function(){
-
-altitude += 100;
-
-altitudeDisplay.innerText =
-altitude;
-
-},1000);
-
-
-/* SPEED */
-
-speedTimer =
-setInterval(function(){
-
-speed += 5000;
-
-speedDisplay.innerText =
-speed.toLocaleString();
-
-},1000);
-
-
-}
-
-},1000);
-
-};
-
-
-</script>
-
-
-</body>
-
-</html>
+button.onclick
