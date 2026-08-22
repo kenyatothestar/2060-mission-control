@@ -89,14 +89,37 @@ button:disabled{
 
 }
 
-#telemetry{
+.telemetry{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
     margin-top:20px;
+}
+
+.card{
     padding:18px;
     background:#081226;
     border:1px solid #263858;
     border-radius:12px;
-    font-size:22px;
+}
+
+.card small{
+    display:block;
+    color:#94a3b8;
+    margin-bottom:8px;
+}
+
+.card strong{
+    font-size:24px;
     color:#38bdf8;
+}
+
+@media(max-width:500px){
+
+.telemetry{
+    grid-template-columns:1fr;
+}
+
 }
 
 </style>
@@ -134,11 +157,34 @@ SYSTEM READY
 </div>
 
 
-<div id="telemetry">
+<div class="telemetry">
 
-ALTITUDE:
-<span id="altitude">0</span>
-km
+
+<div class="card">
+
+<small>
+ALTITUDE
+</small>
+
+<strong>
+<span id="altitude">0</span> km
+</strong>
+
+</div>
+
+
+<div class="card">
+
+<small>
+SPEED
+</small>
+
+<strong>
+<span id="speed">0</span> km/h
+</strong>
+
+</div>
+
 
 </div>
 
@@ -161,10 +207,17 @@ document.getElementById("status");
 const altitudeDisplay =
 document.getElementById("altitude");
 
+const speedDisplay =
+document.getElementById("speed");
+
 
 let altitude = 0;
 
+let speed = 0;
+
 let altitudeTimer = null;
+
+let speedTimer = null;
 
 
 button.onclick = function(){
@@ -215,11 +268,20 @@ void rocket.offsetWidth;
 rocket.classList.add("fly");
 
 
+/* RESET TELEMETRY */
+
 altitude = 0;
+
+speed = 0;
 
 altitudeDisplay.innerText =
 altitude;
 
+speedDisplay.innerText =
+speed;
+
+
+/* ALTITUDE */
 
 altitudeTimer =
 setInterval(function(){
@@ -228,6 +290,19 @@ altitude += 100;
 
 altitudeDisplay.innerText =
 altitude;
+
+},1000);
+
+
+/* SPEED */
+
+speedTimer =
+setInterval(function(){
+
+speed += 5000;
+
+speedDisplay.innerText =
+speed.toLocaleString();
 
 },1000);
 
