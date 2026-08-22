@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>2060 Mission Control V2.4.1</title>
+<title>2060 Mission Control V2.3.4</title>
 
 <style>
 
@@ -47,6 +43,13 @@ font-size:70px;
 font-weight:bold;
 color:#00ff99;
 height:90px;
+}
+
+#missionTimer{
+font-size:18px;
+font-weight:bold;
+color:#38bdf8;
+margin-bottom:10px;
 }
 
 #space{
@@ -168,34 +171,6 @@ border-left:5px solid #00d084;
 color:#9fffd3;
 }
 
-
-/* SYSTEM HEALTH */
-
-.systems{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-}
-
-.system{
-padding:15px;
-background:#020617;
-border:1px solid #263858;
-border-radius:10px;
-}
-
-.system-name{
-color:#94a3b8;
-font-size:13px;
-}
-
-.system-status{
-display:block;
-margin-top:8px;
-color:#00ff99;
-font-weight:bold;
-}
-
 #log{
 height:180px;
 overflow:auto;
@@ -217,10 +192,6 @@ color:#9fffd3;
 grid-template-columns:repeat(2,1fr);
 }
 
-.systems{
-grid-template-columns:1fr;
-}
-
 .controls{
 flex-direction:column;
 }
@@ -228,33 +199,27 @@ flex-direction:column;
 }
 
 </style>
-
 </head>
-
 
 <body>
 
-
 <header>
 
-<h1>
-🚀 2060 MISSION CONTROL
-</h1>
+<h1>🚀 2060 MISSION CONTROL</h1>
 
-<p>
-Aerospace Operations Dashboard
-</p>
+<p>Aerospace Operations Dashboard</p>
 
 </header>
-
 
 <div id="status">
 STANDBY
 </div>
 
+<div id="missionTimer">
+MISSION TIME: 00:00
+</div>
 
 <div id="countdown"></div>
-
 
 <div id="space">
 
@@ -263,7 +228,6 @@ STANDBY
 </div>
 
 </div>
-
 
 <div class="controls">
 
@@ -277,16 +241,11 @@ STANDBY
 
 </div>
 
-
-<!-- TELEMETRY -->
-
 <div class="telemetry">
 
 <div class="card">
 
-<small>
-ALTITUDE
-</small>
+<small>ALTITUDE</small>
 
 <strong>
 <span id="altitude">0</span> km
@@ -294,12 +253,9 @@ ALTITUDE
 
 </div>
 
-
 <div class="card">
 
-<small>
-SPEED
-</small>
+<small>SPEED</small>
 
 <strong>
 <span id="speed">0</span> km/h
@@ -307,12 +263,9 @@ SPEED
 
 </div>
 
-
 <div class="card">
 
-<small>
-FUEL
-</small>
+<small>FUEL</small>
 
 <strong>
 <span id="fuel">100</span>%
@@ -320,20 +273,15 @@ FUEL
 
 <div class="progress">
 
-<div id="fuelBar"
-class="bar">
-</div>
+<div id="fuelBar" class="bar"></div>
 
 </div>
 
 </div>
-
 
 <div class="card">
 
-<small>
-SIGNAL
-</small>
+<small>SIGNAL</small>
 
 <strong>
 <span id="signal">100</span>%
@@ -341,125 +289,27 @@ SIGNAL
 
 <div class="progress">
 
-<div id="signalBar"
-class="bar">
-</div>
+<div id="signalBar" class="bar"></div>
 
 </div>
 
 </div>
 
 </div>
-
-
-<!-- STATUS -->
 
 <div class="panel">
 
-<h3>
-📡 MISSION STATUS
-</h3>
+<h3>📡 MISSION STATUS</h3>
 
 <div id="alert">
-
 SYSTEM READY — ALL SYSTEMS NOMINAL
-
 </div>
 
 </div>
-
-
-<!-- SYSTEM HEALTH -->
 
 <div class="panel">
 
-<h3>
-🟢 SYSTEM HEALTH
-</h3>
-
-<div class="systems">
-
-
-<div class="system">
-
-<div class="system-name">
-🔥 PROPULSION
-</div>
-
-<span
-id="propulsion"
-class="system-status">
-
-● STANDBY
-
-</span>
-
-</div>
-
-
-<div class="system">
-
-<div class="system-name">
-🧭 NAVIGATION
-</div>
-
-<span
-id="navigation"
-class="system-status">
-
-● STANDBY
-
-</span>
-
-</div>
-
-
-<div class="system">
-
-<div class="system-name">
-📡 COMMUNICATION
-</div>
-
-<span
-id="communication"
-class="system-status">
-
-● STANDBY
-
-</span>
-
-</div>
-
-
-<div class="system">
-
-<div class="system-name">
-⚡ POWER
-</div>
-
-<span
-id="power"
-class="system-status">
-
-● NOMINAL
-
-</span>
-
-</div>
-
-
-</div>
-
-</div>
-
-
-<!-- LOG -->
-
-<div class="panel">
-
-<h3>
-📝 MISSION LOG
-</h3>
+<h3>📝 MISSION LOG</h3>
 
 <div id="log">
 
@@ -475,11 +325,7 @@ VEHICLE READY
 
 </div>
 
-
 <script>
-
-
-/* ELEMENTS */
 
 const button =
 document.getElementById("launch");
@@ -496,6 +342,9 @@ document.getElementById("status");
 const countdown =
 document.getElementById("countdown");
 
+const missionTimer =
+document.getElementById("missionTimer");
+
 const log =
 document.getElementById("log");
 
@@ -511,4 +360,17 @@ document.getElementById("fuel");
 const signal =
 document.getElementById("signal");
 
-const fuelBar
+const fuelBar =
+document.getElementById("fuelBar");
+
+const signalBar =
+document.getElementById("signalBar");
+
+const alert =
+document.getElementById("alert");
+
+let countTimer = null;
+
+let telemetryTimer = null;
+
+let missionTimer
