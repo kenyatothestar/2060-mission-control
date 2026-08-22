@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2060 Mission Control</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #050b14;
+  color: #eaf4ff;
+}
+
+.header {
+  padding: 20px;
+  background: #091525;
+  border-bottom: 1px solid #1e3b5c;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  color: #7fa9cf;
+  margin-top: 5px;
+}
+
+.container {
+  padding: 18px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.status {
+  background: #0c1c2d;
+  border: 1px solid #1c4165;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 18px;
+}
+
+.online {
+  color: #55e38a;
+  font-weight: bold;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  background: #0b1726;
+  border: 1px solid #1a3653;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.label {
+  color: #7897b5;
+  font-size: 13px;
+}
+
+.value {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.phase {
+  color: #63b3ff;
+}
+
+.panel {
+  margin-top: 18px;
+  background: #0b1726;
+  border: 1px solid #1a3653;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.bar {
+  height: 18px;
+  background: #18283a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  width: 78%;
+  background: #3da9ff;
+  transition: width 0.5s;
+}
+
+button {
+  background: #123b66;
+  color: white;
+  border: 0;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.footer {
+  text-align: center;
+  padding: 30px;
+  color: #67839d;
+  font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo">🚀 2060 MISSION CONTROL</div>
+  <div class="subtitle">2060 Aerospace Systems • Mission 2060-X1</div>
+</div>
+
+<div class="container">
+
+  <div class="status">
+    Mission Status:
+    <span class="online">● SIMULATION ACTIVE</span>
+    <br><br>
+    Telemetry:
+    <span class="online">CONNECTED</span>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="label">ALTITUDE</div>
+      <div class="value" id="altitude">18.4 km</div>
+    </div>
+
+    <div class="card">
+      <div class="label">VELOCITY</div>
+      <div class="value" id="velocity">1,240 m/s</div>
+    </div>
+
+    <div class="card">
+      <div class="label">TEMPERATURE</div>
+      <div class="value" id="temperature">31 °C</div>
+    </div>
+
+    <div class="card">
+      <div class="label">PROPELLANT</div>
+      <div class="value" id="fuel">78%</div>
+    </div>
+
+  </div>
+
+  <div class="panel">
+    <div class="label">FLIGHT PHASE</div>
+    <div class="value phase" id="phase">ASCENT</div>
+  </div>
+
+  <div class="panel">
+    <div class="label">PROPELLANT LEVEL</div>
+    <br>
+    <div class="bar">
+      <div class="fill" id="fuelbar"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="label">MISSION ALERT</div>
+    <div class="value" id="alert">SYSTEMS NOMINAL</div>
+    <button onclick="resetMission()">RESET SIMULATION</button>
+  </div>
+
+</div>
+
+<div class="footer">
+  2060 Aerospace Systems<br>
+  FROM KENYA TO THE STARS 🇰🇪🚀<br><br>
+  SOFTWARE SIMULATION — NOT REAL FLIGHT CONTROL
+</div>
+
+<script>
+
+let altitude = 18.4;
+let velocity = 1240;
+let temperature = 31;
+let fuel = 78;
+
+function updateMission() {
+
+  altitude += Math.random() * 0.5;
+  velocity += Math.random() * 10;
+  temperature += (Math.random() - 0.5);
+  fuel -= 0.05;
+
+  if (fuel < 0) fuel = 0;
+
+  document.getElementById("altitude").innerText =
+    altitude.toFixed(1) + " km";
+
+  document.getElementById("velocity").innerText =
+    Math.round(velocity).toLocaleString() + " m/s";
+
+  document.getElementById("temperature").innerText =
+    Math.round(temperature) + " °C";
+
+  document.getElementById("fuel").innerText =
+    Math.round(fuel) + "%";
+
+  document.getElementById("fuelbar").style.width =
+    fuel + "%";
+
+  if (altitude < 30) {
+    document.getElementById("phase").innerText = "ASCENT";
+  } else if (altitude < 60) {
+    document.getElementById("phase").innerText = "UPPER ASCENT";
+  } else {
+    document.getElementById("phase").innerText = "ORBIT INSERTION";
+  }
+
+}
+
+function resetMission() {
+  altitude = 18.4;
+  velocity = 1240;
+  temperature = 31;
+  fuel = 78;
+
+  document.getElementById("alert").innerText =
+    "SYSTEMS NOMINAL";
+}
+
+setInterval(updateMission, 1000);
+
+</script>
+
+</body>
+</html>
