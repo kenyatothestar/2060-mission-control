@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2060 Mission Control V1.7.1</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>2060 Mission Control V1.7.2</title>
 
 <style>
 *{
@@ -13,9 +13,9 @@
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
     background:#02060b;
     color:#eaf3ff;
+    font-family:Arial,Helvetica,sans-serif;
     min-height:100vh;
 }
 
@@ -40,8 +40,8 @@ header{
 
 .header-right{
     display:flex;
-    align-items:center;
     gap:12px;
+    align-items:center;
     font-size:10px;
 }
 
@@ -50,8 +50,8 @@ header{
 }
 
 .status{
-    padding:7px 12px;
     border:1px solid #34506c;
+    padding:7px 12px;
     border-radius:20px;
     color:#6cff9b;
     font-weight:bold;
@@ -93,15 +93,11 @@ header{
 button{
     border:0;
     border-radius:7px;
-    padding:11px 15px;
+    padding:12px 16px;
     color:white;
     font-size:11px;
     font-weight:bold;
     cursor:pointer;
-}
-
-button:active{
-    transform:scale(.97);
 }
 
 .launch{
@@ -118,6 +114,10 @@ button:active{
 
 .ai{
     background:#7147c7;
+}
+
+button:active{
+    transform:scale(.96);
 }
 
 .grid{
@@ -162,7 +162,7 @@ button:active{
 
 .progress div{
     height:100%;
-    transition:width .5s;
+    transition:width .4s;
 }
 
 .health{
@@ -238,6 +238,8 @@ button:active{
     margin-bottom:14px;
 }
 
+/* MAP */
+
 .map{
     height:380px;
     position:relative;
@@ -248,7 +250,6 @@ button:active{
     radial-gradient(circle at 50% 50%,#153b59 0%,#071522 40%,#02060b 75%);
 }
 
-/* Earth */
 .earth{
     position:absolute;
     width:110px;
@@ -311,7 +312,7 @@ button:active{
     height:14px;
     border-radius:50%;
     z-index:20;
-    transition:left .7s linear,top .7s linear;
+    transition:left .5s linear,top .5s linear;
 }
 
 .ship:before{
@@ -359,7 +360,6 @@ button:active{
     position:absolute;
     z-index:25;
     font-size:8px;
-    pointer-events:none;
 }
 
 .label0{
@@ -386,6 +386,8 @@ button:active{
     font-size:8px;
     color:#71869c;
 }
+
+/* TELEMETRY */
 
 .telemetry-row{
     display:flex;
@@ -417,6 +419,8 @@ button:active{
     gap:14px;
     margin-bottom:14px;
 }
+
+/* AI */
 
 .ai-panel{
     background:linear-gradient(135deg,#0e1020,#09111b);
@@ -451,15 +455,45 @@ button:active{
     line-height:1.5;
 }
 
+/* COUNTDOWN */
+
 .stage{
     text-align:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.countdown-label{
+    color:#71869b;
+    font-size:10px;
+    letter-spacing:2px;
+    margin-top:4px;
 }
 
 .countdown{
-    font-size:44px;
+    font-size:78px;
+    line-height:1;
     font-weight:bold;
     color:#6cff9b;
-    margin:8px 0;
+    margin:18px 0;
+    text-shadow:
+    0 0 10px rgba(108,255,155,.5),
+    0 0 30px rgba(108,255,155,.25);
+}
+
+.countdown.active{
+    animation:pulse .8s infinite alternate;
+}
+
+@keyframes pulse{
+    from{
+        transform:scale(1);
+        opacity:.75;
+    }
+    to{
+        transform:scale(1.12);
+        opacity:1;
+    }
 }
 
 .phase{
@@ -471,8 +505,10 @@ button:active{
 .stage-message{
     color:#71869b;
     font-size:10px;
-    margin-top:7px;
+    margin-top:8px;
 }
+
+/* ALERTS */
 
 .alerts{
     max-height:190px;
@@ -496,6 +532,8 @@ button:active{
     border-left-color:#ff5c69;
 }
 
+/* SYSTEM */
+
 .system-row{
     display:flex;
     justify-content:space-between;
@@ -503,6 +541,8 @@ button:active{
     padding:10px 0;
     font-size:11px;
 }
+
+/* LOG */
 
 .log{
     height:180px;
@@ -567,6 +607,10 @@ footer{
         width:310px;
         height:310px;
     }
+
+    .countdown{
+        font-size:65px;
+    }
 }
 </style>
 </head>
@@ -581,18 +625,23 @@ footer{
 
 <div class="header-right">
 <div class="link">● FLEET LINK</div>
+
 <div class="status" id="globalStatus">
 FLEET READY
 </div>
+
 </div>
 
 </header>
+
 
 <div class="container">
 
 <div class="hero">
 
-<h1>MULTI-MISSION COMMAND CENTER</h1>
+<h1>
+MULTI-MISSION COMMAND CENTER
+</h1>
 
 <p>
 2060 Aerospace Initiative • Autonomous Spacecraft Fleet Operations
@@ -600,19 +649,23 @@ FLEET READY
 
 <div class="controls">
 
-<button class="launch" onclick="launchSelected()">
+<button class="launch"
+onclick="launchSelected()">
 🚀 LAUNCH SELECTED
 </button>
 
-<button class="abort" onclick="abortSelected()">
+<button class="abort"
+onclick="abortSelected()">
 ⚠ ABORT
 </button>
 
-<button class="reset" onclick="resetFleet()">
+<button class="reset"
+onclick="resetFleet()">
 ↻ RESET
 </button>
 
-<button class="ai" onclick="runAI()">
+<button class="ai"
+onclick="runAI()">
 🧠 AI ANALYSIS
 </button>
 
@@ -655,10 +708,13 @@ SYSTEM STATUS
 </div>
 
 <div class="progress">
-<div class="health"
+
+<div
+class="health"
 id="healthBar"
 style="width:100%">
 </div>
+
 </div>
 
 </div>
@@ -679,10 +735,13 @@ AVERAGE RESERVE
 </div>
 
 <div class="progress">
-<div class="fuel"
+
+<div
+class="fuel"
 id="fuelBar"
 style="width:100%">
 </div>
+
 </div>
 
 </div>
@@ -694,11 +753,13 @@ style="width:100%">
 Selected Mission
 </div>
 
-<div class="value" id="selectedName">
+<div class="value"
+id="selectedName">
 ORION-01
 </div>
 
-<div class="unit" id="selectedType">
+<div class="unit"
+id="selectedType">
 EARTH ORBIT
 </div>
 
@@ -715,7 +776,9 @@ EARTH ORBIT
 
 <div class="fleet">
 
-<div class="mission selected"
+
+<div
+class="mission selected"
 id="mission0"
 onclick="selectMission(0)">
 
@@ -727,12 +790,14 @@ ORION-01
 EARTH ORBIT • LEO
 </div>
 
-<div class="mission-status"
+<div
+class="mission-status"
 id="status0">
 ● READY
 </div>
 
-<div class="mission-health"
+<div
+class="mission-health"
 id="missionHealth0">
 100%
 </div>
@@ -740,7 +805,8 @@ id="missionHealth0">
 </div>
 
 
-<div class="mission"
+<div
+class="mission"
 id="mission1"
 onclick="selectMission(1)">
 
@@ -752,12 +818,14 @@ LUNA-02
 LUNAR TRANSFER
 </div>
 
-<div class="mission-status"
+<div
+class="mission-status"
 id="status1">
 ● READY
 </div>
 
-<div class="mission-health"
+<div
+class="mission-health"
 id="missionHealth1">
 100%
 </div>
@@ -765,7 +833,8 @@ id="missionHealth1">
 </div>
 
 
-<div class="mission"
+<div
+class="mission"
 id="mission2"
 onclick="selectMission(2)">
 
@@ -777,12 +846,14 @@ MARS-03
 MARS TRANSIT
 </div>
 
-<div class="mission-status"
+<div
+class="mission-status"
 id="status2">
 ● READY
 </div>
 
-<div class="mission-health"
+<div
+class="mission-health"
 id="missionHealth2">
 100%
 </div>
@@ -796,6 +867,7 @@ id="missionHealth2">
 
 <div class="main">
 
+
 <div class="panel">
 
 <h3>
@@ -804,13 +876,36 @@ id="missionHealth2">
 
 <div class="map" id="map">
 
-<div class="grid-line horizontal" style="top:25%"></div>
-<div class="grid-line horizontal" style="top:50%"></div>
-<div class="grid-line horizontal" style="top:75%"></div>
+<div
+class="grid-line horizontal"
+style="top:25%">
+</div>
 
-<div class="grid-line vertical" style="left:25%"></div>
-<div class="grid-line vertical" style="left:50%"></div>
-<div class="grid-line vertical" style="left:75%"></div>
+<div
+class="grid-line horizontal"
+style="top:50%">
+</div>
+
+<div
+class="grid-line horizontal"
+style="top:75%">
+</div>
+
+<div
+class="grid-line vertical"
+style="left:25%">
+</div>
+
+<div
+class="grid-line vertical"
+style="left:50%">
+</div>
+
+<div
+class="grid-line vertical"
+style="left:75%">
+</div>
+
 
 <div class="orbit orbit1"></div>
 <div class="orbit orbit2"></div>
@@ -818,21 +913,41 @@ id="missionHealth2">
 
 <div class="earth"></div>
 
-<div class="ship ship0" id="ship0"></div>
-<div class="ship ship1" id="ship1"></div>
-<div class="ship ship2" id="ship2"></div>
 
-<div class="ship-label label0" id="label0">
+<div
+class="ship ship0"
+id="ship0">
+</div>
+
+<div
+class="ship ship1"
+id="ship1">
+</div>
+
+<div
+class="ship ship2"
+id="ship2">
+</div>
+
+
+<div
+class="ship-label label0"
+id="label0">
 ORION-01
 </div>
 
-<div class="ship-label label1" id="label1">
+<div
+class="ship-label label1"
+id="label1">
 LUNA-02
 </div>
 
-<div class="ship-label label2" id="label2">
+<div
+class="ship-label label2"
+id="label2">
 MARS-03
 </div>
+
 
 <div class="map-info">
 LIVE TELEMETRY • SIMULATION MODE
@@ -912,6 +1027,7 @@ GROUND
 
 <div class="two">
 
+
 <div class="panel ai-panel">
 
 <div class="ai-badge">
@@ -928,7 +1044,9 @@ AUTONOMOUS
 Fleet Recommendation
 </div>
 
-<div class="ai-text" id="aiDecision">
+<div
+class="ai-text"
+id="aiDecision">
 Fleet stable. Select a spacecraft and launch when ready.
 </div>
 
@@ -940,7 +1058,9 @@ Fleet stable. Select a spacecraft and launch when ready.
 Current Priority
 </div>
 
-<div class="ai-text" id="priority">
+<div
+class="ai-text"
+id="priority">
 ORION-01 — LOW PRIORITY
 </div>
 
@@ -952,20 +1072,27 @@ ORION-01 — LOW PRIORITY
 <div class="panel stage">
 
 <h3>
-MISSION PHASE
+🚀 LAUNCH SEQUENCE
 </h3>
 
-<div class="countdown"
-id="countdown">
-10
+<div class="countdown-label">
+COUNTDOWN
 </div>
 
-<div class="phase"
+<div
+class="countdown"
+id="countdown">
+READY
+</div>
+
+<div
+class="phase"
 id="phase">
 READY
 </div>
 
-<div class="stage-message"
+<div
+class="stage-message"
 id="stageMessage">
 Selected spacecraft awaiting launch command.
 </div>
@@ -977,13 +1104,15 @@ Selected spacecraft awaiting launch command.
 
 <div class="two">
 
+
 <div class="panel">
 
 <h3>
 🚨 FLEET ALERTS
 </h3>
 
-<div class="alerts"
+<div
+class="alerts"
 id="alerts">
 
 <div class="alert">
@@ -1006,38 +1135,63 @@ SYSTEM — Three spacecraft ready.
 </h3>
 
 <div class="system-row">
-<span>Flight Network</span>
+
+<span>
+Flight Network
+</span>
+
 <strong class="online">
 ONLINE
 </strong>
+
 </div>
 
 <div class="system-row">
-<span>AI Director</span>
+
+<span>
+AI Director
+</span>
+
 <strong class="online">
 ACTIVE
 </strong>
+
 </div>
 
 <div class="system-row">
-<span>Navigation</span>
+
+<span>
+Navigation
+</span>
+
 <strong class="online">
 ONLINE
 </strong>
+
 </div>
 
 <div class="system-row">
-<span>Deep Space Link</span>
+
+<span>
+Deep Space Link
+</span>
+
 <strong class="online">
 ONLINE
 </strong>
+
 </div>
 
 <div class="system-row">
-<span>Safety System</span>
+
+<span>
+Safety System
+</span>
+
 <strong class="online">
 ARMED
 </strong>
+
 </div>
 
 </div>
@@ -1051,12 +1205,13 @@ ARMED
 📋 MISSION LOG
 </h3>
 
-<div class="log"
+<div
+class="log"
 id="log">
 
 <div class="log-entry">
 <span>[SYSTEM]</span>
-Mission Control V1.7.1 initialized.
+Mission Control V1.7.2 initialized.
 </div>
 
 <div class="log-entry">
@@ -1077,346 +1232,364 @@ ORION-01, LUNA-02 and MARS-03 ready.
 
 
 <footer>
-2060 Aerospace Initiative • Mission Control Prototype V1.7.1
+2060 Aerospace Initiative • Mission Control Prototype V1.7.2
 </footer>
 
 
 <script>
 
-/* =========================
+/* ==============================
    MISSION DATA
-========================= */
+============================== */
 
 const missions = [
 
 {
-    name:"ORION-01",
-    type:"EARTH ORBIT",
-    phase:"GROUND",
-    altitude:0,
-    speed:0,
-    fuel:100,
-    health:100,
-    signal:100,
-    latitude:-1.292,
-    longitude:36.822,
-    heading:90,
-    running:false,
-    aborted:false,
-    time:0,
-    angle:0,
-    orbitRadius:95
+name:"ORION-01",
+type:"EARTH ORBIT",
+phase:"GROUND",
+altitude:0,
+speed:0,
+fuel:100,
+health:100,
+signal:100,
+latitude:-1.292,
+longitude:36.822,
+heading:90,
+running:false,
+aborted:false,
+time:0,
+angle:0,
+orbitRadius:95
 },
 
 {
-    name:"LUNA-02",
-    type:"LUNAR TRANSFER",
-    phase:"GROUND",
-    altitude:0,
-    speed:0,
-    fuel:100,
-    health:100,
-    signal:100,
-    latitude:0,
-    longitude:45,
-    heading:75,
-    running:false,
-    aborted:false,
-    time:0,
-    angle:120,
-    orbitRadius:145
+name:"LUNA-02",
+type:"LUNAR TRANSFER",
+phase:"GROUND",
+altitude:0,
+speed:0,
+fuel:100,
+health:100,
+signal:100,
+latitude:0,
+longitude:45,
+heading:75,
+running:false,
+aborted:false,
+time:0,
+angle:2.1,
+orbitRadius:145
 },
 
 {
-    name:"MARS-03",
-    type:"MARS TRANSIT",
-    phase:"GROUND",
-    altitude:0,
-    speed:0,
-    fuel:100,
-    health:100,
-    signal:100,
-    latitude:10,
-    longitude:70,
-    heading:60,
-    running:false,
-    aborted:false,
-    time:0,
-    angle:240,
-    orbitRadius:195
+name:"MARS-03",
+type:"MARS TRANSIT",
+phase:"GROUND",
+altitude:0,
+speed:0,
+fuel:100,
+health:100,
+signal:100,
+latitude:10,
+longitude:70,
+heading:60,
+running:false,
+aborted:false,
+time:0,
+angle:4.2,
+orbitRadius:195
 }
 
 ];
 
-let selected = 0;
+let selected=0;
 
-let countdownTimer = null;
+let countdownTimer=null;
 
-let simulationTimer = null;
+let simulationTimer=null;
 
 
-/* =========================
+/* ==============================
    ELEMENTS
-========================= */
+============================== */
 
-const globalStatus =
+const globalStatus=
 document.getElementById("globalStatus");
 
-const countdown =
+const countdown=
 document.getElementById("countdown");
 
-const phase =
+const phase=
 document.getElementById("phase");
 
-const stageMessage =
+const stageMessage=
 document.getElementById("stageMessage");
 
-const log =
+const log=
 document.getElementById("log");
 
-const alerts =
+const alerts=
 document.getElementById("alerts");
 
 
-/* =========================
+/* ==============================
    LOG
-========================= */
+============================== */
 
 function addLog(text,type="SYSTEM"){
 
-    const item =
-    document.createElement("div");
+const item=document.createElement("div");
 
-    item.className =
-    "log-entry";
+item.className="log-entry";
 
-    item.innerHTML =
-    `<span>[${type}]</span>
-    ${new Date().toLocaleTimeString()} — ${text}`;
+item.innerHTML=
+`<span>[${type}]</span>
+${new Date().toLocaleTimeString()} — ${text}`;
 
-    log.appendChild(item);
+log.appendChild(item);
 
-    log.scrollTop =
-    log.scrollHeight;
+log.scrollTop=log.scrollHeight;
+
 }
 
 
-/* =========================
-   ALERT
-========================= */
+/* ==============================
+   ALERTS
+============================== */
 
 function addAlert(text,type=""){
 
-    const item =
-    document.createElement("div");
+const item=document.createElement("div");
 
-    item.className =
-    "alert "+type;
+item.className="alert "+type;
 
-    item.textContent =
-    text;
+item.textContent=text;
 
-    alerts.prepend(item);
+alerts.prepend(item);
 
-    while(alerts.children.length>7){
+while(alerts.children.length>7){
 
-        alerts.removeChild(
-            alerts.lastChild
-        );
-    }
+alerts.removeChild(
+alerts.lastChild
+);
+
+}
+
 }
 
 
-/* =========================
+/* ==============================
    SELECT MISSION
-========================= */
+============================== */
 
 function selectMission(index){
 
-    selected = index;
+selected=index;
 
-    for(let i=0;i<3;i++){
+for(let i=0;i<3;i++){
 
-        document
-        .getElementById("mission"+i)
-        .classList.remove("selected");
-    }
+document
+.getElementById("mission"+i)
+.classList.remove("selected");
 
-    document
-    .getElementById("mission"+index)
-    .classList.add("selected");
+}
 
-    updateSelected();
+document
+.getElementById("mission"+index)
+.classList.add("selected");
 
-    addLog(
-        "Command focus switched to "+
-        missions[index].name,
-        "COMMAND"
-    );
+updateSelected();
+
+addLog(
+"Command focus switched to "+
+missions[index].name,
+"COMMAND"
+);
+
 }
 
 
-/* =========================
+/* ==============================
    UPDATE SELECTED
-========================= */
+============================== */
 
 function updateSelected(){
 
-    const m =
-    missions[selected];
+const m=missions[selected];
 
-    document.getElementById(
-        "selectedName"
-    ).textContent = m.name;
+document.getElementById("selectedName")
+.textContent=m.name;
 
-    document.getElementById(
-        "selectedType"
-    ).textContent = m.type;
+document.getElementById("selectedType")
+.textContent=m.type;
 
-    document.getElementById(
-        "latitude"
-    ).textContent =
-    m.latitude.toFixed(3)+"°";
+document.getElementById("latitude")
+.textContent=
+m.latitude.toFixed(3)+"°";
 
-    document.getElementById(
-        "longitude"
-    ).textContent =
-    m.longitude.toFixed(3)+"°";
+document.getElementById("longitude")
+.textContent=
+m.longitude.toFixed(3)+"°";
 
-    document.getElementById(
-        "altitude"
-    ).textContent =
-    Math.round(m.altitude)+" KM";
+document.getElementById("altitude")
+.textContent=
+Math.round(m.altitude)+" KM";
 
-    document.getElementById(
-        "speed"
-    ).textContent =
-    m.speed.toFixed(2)+" KM/S";
+document.getElementById("speed")
+.textContent=
+m.speed.toFixed(2)+" KM/S";
 
-    document.getElementById(
-        "heading"
-    ).textContent =
-    Math.round(m.heading)+"°";
+document.getElementById("heading")
+.textContent=
+Math.round(m.heading)+"°";
 
-    document.getElementById(
-        "fuel"
-    ).textContent =
-    m.fuel.toFixed(1)+"%";
+document.getElementById("fuel")
+.textContent=
+m.fuel.toFixed(1)+"%";
 
-    document.getElementById(
-        "signal"
-    ).textContent =
-    Math.round(m.signal)+"%";
+document.getElementById("signal")
+.textContent=
+Math.round(m.signal)+"%";
 
-    document.getElementById(
-        "telemetryPhase"
-    ).textContent =
-    m.phase;
+document.getElementById("telemetryPhase")
+.textContent=m.phase;
 
-    phase.textContent =
-    m.phase;
+phase.textContent=m.phase;
 
-    if(m.running){
+if(m.running){
 
-        stageMessage.textContent =
-        m.name+
-        " autonomous flight operations active.";
+stageMessage.textContent=
+m.name+
+" autonomous flight operations active.";
 
-    }else if(m.aborted){
+}else if(m.aborted){
 
-        stageMessage.textContent =
-        m.name+
-        " mission aborted.";
+stageMessage.textContent=
+m.name+
+" mission aborted.";
 
-    }else{
+}else{
 
-        stageMessage.textContent =
-        m.name+
-        " awaiting launch command.";
-    }
+stageMessage.textContent=
+m.name+
+" awaiting launch command.";
+
+}
+
 }
 
 
-/* =========================
+/* ==============================
    UPDATE CARDS
-========================= */
+============================== */
 
 function updateCards(){
 
-    missions.forEach((m,i)=>{
+missions.forEach((m,i)=>{
 
-        const status =
-        document.getElementById(
-            "status"+i
-        );
+const status=
+document.getElementById(
+"status"+i
+);
 
-        const health =
-        document.getElementById(
-            "missionHealth"+i
-        );
+const health=
+document.getElementById(
+"missionHealth"+i
+);
 
-        health.textContent =
-        Math.round(m.health)+"%";
+health.textContent=
+Math.round(m.health)+"%";
 
-        if(m.aborted){
+if(m.aborted){
 
-            status.textContent =
-            "● ABORTED";
+status.textContent="● ABORTED";
 
-            status.className =
-            "mission-status danger";
+status.className=
+"mission-status danger";
 
-        }else if(m.running){
+}else if(m.running){
 
-            status.textContent =
-            "● "+m.phase;
+status.textContent=
+"● "+m.phase;
 
-            status.className =
-            "mission-status online";
+status.className=
+"mission-status online";
 
-        }else{
+}else{
 
-            status.textContent =
-            "● READY";
+status.textContent="● READY";
 
-            status.className =
-            "mission-status online";
-        }
+status.className=
+"mission-status online";
 
-    });
+}
 
-    const active =
-    missions.filter(
-        m=>m.running
-    ).length;
+});
 
-    document.getElementById(
-        "active"
-    ).textContent =
-    active;
 
-    const fuel =
-    missions.reduce(
-        (a,m)=>a+m.fuel,
-        0
-    )/3;
+const active=
+missions.filter(
+m=>m.running
+).length;
 
-    const health =
-    missions.reduce(
-        (a,m)=>a+m.health,
-        0
-    )/3;
+document.getElementById(
+"active"
+).textContent=active;
 
-    document.getElementById(
-        "fleetFuel"
-    ).textContent =
-    Math.round(fuel)+"%";
 
-    document.getElementById(
-        "fleetHealth"
-    ).textContent =
-    Math.round(health)+"%";
+const avgFuel=
+missions.reduce(
+(a,m)=>a+m.fuel,
+0
+)/3;
 
-    document.getElementById(
-        "fuelBar"
-    ).style.w
+const avgHealth=
+missions.reduce(
+(a,m)=>a+m.health,
+0
+)/3;
+
+document.getElementById(
+"fleetFuel"
+).textContent=
+Math.round(avgFuel)+"%";
+
+document.getElementById(
+"fleetHealth"
+).textContent=
+Math.round(avgHealth)+"%";
+
+document.getElementById(
+"fuelBar"
+).style.width=
+avgFuel+"%";
+
+document.getElementById(
+"healthBar"
+).style.width=
+avgHealth+"%";
+
+}
+
+
+/* ==============================
+   SPACECRAFT MOVEMENT
+============================== */
+
+function updateSpacecraftPosition(){
+
+const map=
+document.getElementById("map");
+
+const width=map.clientWidth;
+
+const height=map.clientHeight;
+
+if(width<=0||height<=0){
+return;
+}
+
+const centerX=width/2;
+
+const 
