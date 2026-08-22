@@ -3,555 +3,523 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2060 Mission Control V1.6</title>
+<title>2060 Mission Control V1.7</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #03070c;
-    color: #e8f1ff;
-    min-height: 100vh;
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#03070c;
+    color:#e8f1ff;
+    min-height:100vh;
 }
 
-header {
-    background: #08101a;
-    border-bottom: 1px solid #223449;
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 20;
+header{
+    background:#08101a;
+    border-bottom:1px solid #223449;
+    padding:15px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.logo h1 {
-    font-size: 21px;
-    letter-spacing: 2px;
+.logo h1{
+    font-size:21px;
+    letter-spacing:2px;
 }
 
-.logo span {
-    color: #4da3ff;
+.logo span{
+    color:#4da3ff;
 }
 
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.header-right{
+    display:flex;
+    gap:10px;
+    align-items:center;
 }
 
-.signal {
-    color: #6cff9b;
-    font-size: 11px;
+.signal{
+    color:#6cff9b;
+    font-size:11px;
 }
 
-.status {
-    padding: 7px 13px;
-    border: 1px solid #31506f;
-    border-radius: 20px;
-    color: #6cff9b;
-    font-size: 11px;
-    font-weight: bold;
+.status{
+    border:1px solid #31506f;
+    border-radius:20px;
+    padding:7px 13px;
+    color:#6cff9b;
+    font-size:11px;
+    font-weight:bold;
 }
 
-.container {
-    max-width: 1250px;
-    margin: auto;
-    padding: 18px;
+.container{
+    max-width:1300px;
+    margin:auto;
+    padding:18px;
 }
 
-.hero {
+.hero{
     background:
-        radial-gradient(circle at 80% 20%, #123051 0%, transparent 35%),
-        linear-gradient(135deg, #0a1522, #050b12);
-    border: 1px solid #20354b;
-    border-radius: 14px;
-    padding: 22px;
-    margin-bottom: 16px;
+    radial-gradient(circle at 80% 20%,#123051 0%,transparent 35%),
+    linear-gradient(135deg,#0a1522,#050b12);
+    border:1px solid #20354b;
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:15px;
 }
 
-.hero h2 {
-    font-size: 27px;
-    margin-bottom: 7px;
+.hero h2{
+    font-size:27px;
+    margin-bottom:7px;
 }
 
-.hero p {
-    color: #8fa2b8;
-    font-size: 13px;
+.hero p{
+    color:#8fa2b8;
+    font-size:13px;
 }
 
-.controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    margin-top: 18px;
+.controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-top:17px;
 }
 
-button {
-    border: none;
-    padding: 11px 16px;
-    border-radius: 7px;
-    cursor: pointer;
-    color: white;
-    font-weight: bold;
-    font-size: 12px;
+button{
+    border:none;
+    padding:11px 16px;
+    border-radius:7px;
+    cursor:pointer;
+    color:white;
+    font-weight:bold;
+    font-size:12px;
 }
 
-button:hover {
-    opacity: .82;
+button:hover{
+    opacity:.82;
 }
 
-.launch-btn {
-    background: #168c4a;
+.launch-btn{
+    background:#168c4a;
 }
 
-.abort-btn {
-    background: #b32632;
+.abort-btn{
+    background:#b32632;
 }
 
-.reset-btn {
-    background: #39485a;
+.reset-btn{
+    background:#39485a;
 }
 
-.ai-btn {
-    background: #6c3fd1;
+.ai-btn{
+    background:#7047c8;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 14px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:14px;
 }
 
-.card {
-    background: #09111b;
-    border: 1px solid #1d3044;
-    border-radius: 10px;
-    padding: 16px;
+.card{
+    background:#09111b;
+    border:1px solid #1d3044;
+    border-radius:10px;
+    padding:16px;
 }
 
-.card-title {
-    color: #71869d;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
+.card-title{
+    color:#71869d;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:8px;
 }
 
-.value {
-    font-size: 25px;
-    font-weight: bold;
+.value{
+    font-size:25px;
+    font-weight:bold;
 }
 
-.unit {
-    color: #65798f;
-    font-size: 10px;
+.unit{
+    color:#65798f;
+    font-size:10px;
 }
 
-.progress {
-    height: 7px;
-    width: 100%;
-    margin-top: 10px;
-    background: #172332;
-    border-radius: 20px;
-    overflow: hidden;
+.progress{
+    width:100%;
+    height:7px;
+    background:#172332;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:10px;
 }
 
-.progress-bar {
-    height: 100%;
-    transition: width .4s ease;
+.progress-bar{
+    height:100%;
+    transition:width .4s ease;
 }
 
-.altitude-bar {
-    background: #4da3ff;
+.health-bar{
+    background:#6cff9b;
 }
 
-.speed-bar {
-    background: #b66cff;
+.fuel-bar{
+    background:#ffc857;
 }
 
-.fuel-bar {
-    background: #ffc857;
+.main-grid{
+    display:grid;
+    grid-template-columns:1.35fr .65fr;
+    gap:14px;
+    margin-bottom:14px;
 }
 
-.health-bar {
-    background: #6cff9b;
+.panel{
+    background:#09111b;
+    border:1px solid #1d3044;
+    border-radius:12px;
+    padding:17px;
 }
 
-.main-grid {
-    display: grid;
-    grid-template-columns: 1.4fr .8fr;
-    gap: 14px;
-    margin-bottom: 14px;
+.panel h3{
+    font-size:14px;
+    margin-bottom:13px;
 }
 
-.panel {
-    background: #09111b;
-    border: 1px solid #1d3044;
-    border-radius: 12px;
-    padding: 17px;
-}
-
-.panel h3 {
-    font-size: 14px;
-    margin-bottom: 13px;
-    letter-spacing: .5px;
-}
-
-.map {
-    height: 350px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 9px;
+.map{
+    height:360px;
+    position:relative;
+    overflow:hidden;
+    border-radius:9px;
     background:
-        radial-gradient(circle at 50% 50%, #173b59 0%, #071522 45%, #02060b 75%);
-    border: 1px solid #21384e;
+    radial-gradient(circle at 50% 50%,#173b59 0%,#071522 45%,#02060b 75%);
+    border:1px solid #21384e;
 }
 
-.map:before {
-    content: "";
-    position: absolute;
-    width: 430px;
-    height: 430px;
-    border-radius: 50%;
-    border: 1px solid #25445e;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+.map:before{
+    content:"";
+    position:absolute;
+    width:430px;
+    height:430px;
+    border-radius:50%;
+    border:1px solid #25445e;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
 }
 
-.map:after {
-    content: "";
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    border: 1px dashed #2d516e;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+.map:after{
+    content:"";
+    position:absolute;
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    border:1px dashed #2d516e;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
 }
 
-.grid-line {
-    position: absolute;
-    background: rgba(77,163,255,.12);
+.grid-line{
+    position:absolute;
+    background:rgba(77,163,255,.12);
 }
 
-.grid-horizontal {
-    width: 100%;
-    height: 1px;
-    left: 0;
+.horizontal{
+    width:100%;
+    height:1px;
 }
 
-.grid-vertical {
-    height: 100%;
-    width: 1px;
-    top: 0;
+.vertical{
+    height:100%;
+    width:1px;
 }
 
-#spacecraft {
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    background: #6cff9b;
-    border-radius: 50%;
-    box-shadow: 0 0 18px #6cff9b;
-    left: 50%;
-    top: 58%;
-    z-index: 5;
-    transition: left .8s ease, top .8s ease;
+.spacecraft{
+    position:absolute;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    z-index:10;
+    transition:all .8s ease;
 }
 
-#spacecraft:after {
-    content: "";
-    position: absolute;
-    width: 28px;
-    height: 28px;
-    border: 1px solid #6cff9b;
-    border-radius: 50%;
-    left: -8px;
-    top: -8px;
-    opacity: .45;
+.spacecraft:after{
+    content:"";
+    position:absolute;
+    width:26px;
+    height:26px;
+    border:1px solid currentColor;
+    border-radius:50%;
+    left:-7px;
+    top:-7px;
+    opacity:.45;
 }
 
-.map-label {
-    position: absolute;
-    font-size: 9px;
-    color: #668099;
-    z-index: 4;
+.mission-a{
+    background:#6cff9b;
+    color:#6cff9b;
+    box-shadow:0 0 18px #6cff9b;
 }
 
-.north {
-    top: 8px;
-    left: 50%;
+.mission-b{
+    background:#4da3ff;
+    color:#4da3ff;
+    box-shadow:0 0 18px #4da3ff;
 }
 
-.east {
-    right: 9px;
-    top: 50%;
+.mission-c{
+    background:#b66cff;
+    color:#b66cff;
+    box-shadow:0 0 18px #b66cff;
 }
 
-.south {
-    bottom: 8px;
-    left: 50%;
+.map-label{
+    position:absolute;
+    color:#668099;
+    font-size:9px;
+    z-index:4;
 }
 
-.west {
-    left: 9px;
-    top: 50%;
+.telemetry-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid #172635;
+    font-size:12px;
 }
 
-.kenya {
-    position: absolute;
-    left: 47%;
-    top: 58%;
-    color: #ffc857;
-    font-size: 9px;
-    z-index: 4;
+.telemetry-row span{
+    color:#71869d;
 }
 
-.telemetry-row {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #172635;
-    padding: 10px 0;
-    font-size: 12px;
+.online{
+    color:#6cff9b;
 }
 
-.telemetry-row span:first-child {
-    color: #71869d;
+.warning{
+    color:#ffc857;
 }
 
-.telemetry-row strong {
-    color: #eaf3ff;
+.danger{
+    color:#ff5c69;
 }
 
-.two-column {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 14px;
+.fleet{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:14px;
 }
 
-.stage-box {
-    text-align: center;
-    padding: 16px;
+.mission-card{
+    background:#080f18;
+    border:1px solid #1d3044;
+    border-radius:10px;
+    padding:15px;
+    cursor:pointer;
+    transition:.2s;
 }
 
-.countdown {
-    font-size: 45px;
-    color: #6cff9b;
-    font-weight: bold;
-    margin: 10px;
+.mission-card:hover{
+    border-color:#4da3ff;
+    transform:translateY(-2px);
 }
 
-.stage {
-    font-size: 28px;
-    color: #4da3ff;
-    font-weight: bold;
+.mission-card.selected{
+    border-color:#6cff9b;
+    box-shadow:0 0 15px rgba(108,255,155,.08);
 }
 
-.stage-message {
-    color: #7f94aa;
-    font-size: 12px;
-    margin-top: 7px;
+.mission-name{
+    font-weight:bold;
+    font-size:15px;
 }
 
-.ai-panel {
-    border: 1px solid #5536a1;
-    background:
-        radial-gradient(circle at 90% 10%, #25164c 0%, transparent 35%),
-        #0a0c17;
+.mission-type{
+    color:#71869d;
+    font-size:10px;
+    margin-top:4px;
 }
 
-.ai-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.mission-status{
+    margin-top:12px;
+    font-size:10px;
+    font-weight:bold;
 }
 
-.ai-badge {
-    background: #6c3fd1;
-    padding: 5px 9px;
-    border-radius: 15px;
-    font-size: 9px;
-    font-weight: bold;
+.mission-health{
+    margin-top:8px;
+    font-size:21px;
 }
 
-.ai-decision {
-    margin-top: 10px;
-    background: #060a12;
-    border-radius: 8px;
-    padding: 14px;
-    border-left: 3px solid #6c3fd1;
+.two-column{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-bottom:14px;
 }
 
-.ai-decision-title {
-    color: #c7aaff;
-    font-size: 10px;
-    text-transform: uppercase;
-    margin-bottom: 7px;
+.ai-panel{
+    background:linear-gradient(135deg,#0d1020,#0a111c);
+    border:1px solid #6543a7;
 }
 
-.ai-decision-text {
-    font-size: 13px;
-    line-height: 1.5;
+.ai-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.health {
-    margin-top: 15px;
+.ai-badge{
+    background:#7047c8;
+    border-radius:20px;
+    padding:5px 9px;
+    font-size:9px;
+    font-weight:bold;
 }
 
-.health-header {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    margin-bottom: 7px;
+.ai-decision{
+    background:#060a11;
+    border:1px solid #24334a;
+    border-radius:8px;
+    padding:13px;
+    margin-top:10px;
 }
 
-.health-number {
-    color: #6cff9b;
-    font-weight: bold;
+.ai-title{
+    color:#a987ff;
+    font-size:10px;
+    text-transform:uppercase;
+    margin-bottom:7px;
 }
 
-.chart {
-    height: 180px;
-    background: #050b12;
-    border-radius: 8px;
-    border: 1px solid #172738;
-    position: relative;
-    overflow: hidden;
+.ai-text{
+    font-size:13px;
+    line-height:1.5;
 }
 
-.chart-grid {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image:
-        linear-gradient(#142231 1px, transparent 1px),
-        linear-gradient(90deg, #142231 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: .7;
+.log{
+    height:190px;
+    overflow-y:auto;
+    background:#04090e;
+    border-radius:7px;
+    padding:10px;
+    font-family:monospace;
+    font-size:10px;
 }
 
-canvas {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+.log-entry{
+    padding:5px 0;
+    border-bottom:1px solid #101b26;
+    color:#8ea3b9;
 }
 
-.alerts {
-    max-height: 190px;
-    overflow-y: auto;
+.log-entry span{
+    color:#4da3ff;
 }
 
-.alert {
-    padding: 9px;
-    margin-bottom: 7px;
-    background: #0d1722;
-    border-left: 3px solid #4da3ff;
-    border-radius: 4px;
-    font-size: 11px;
+.alerts{
+    max-height:190px;
+    overflow-y:auto;
 }
 
-.alert.warning {
-    border-left-color: #ffc857;
+.alert{
+    padding:9px;
+    margin-bottom:7px;
+    background:#0d1722;
+    border-left:3px solid #4da3ff;
+    border-radius:4px;
+    font-size:11px;
 }
 
-.alert.danger {
-    border-left-color: #ff5c69;
+.alert.warning{
+    border-left-color:#ffc857;
 }
 
-.alert.ai {
-    border-left-color: #9b6cff;
+.alert.danger{
+    border-left-color:#ff5c69;
 }
 
-.system-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 11px 0;
-    border-bottom: 1px solid #172635;
-    font-size: 12px;
+.stage{
+    text-align:center;
 }
 
-.online {
-    color: #6cff9b;
+.countdown{
+    font-size:44px;
+    color:#6cff9b;
+    font-weight:bold;
+    margin:8px;
 }
 
-.warning {
-    color: #ffc857;
+.phase{
+    font-size:28px;
+    color:#4da3ff;
+    font-weight:bold;
 }
 
-.danger {
-    color: #ff5c69;
+.stage-message{
+    color:#7f94aa;
+    font-size:12px;
+    margin-top:7px;
 }
 
-.ai-color {
-    color: #b99aff;
+.system-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid #172635;
+    font-size:12px;
 }
 
-.log {
-    height: 190px;
-    overflow-y: auto;
-    background: #04090e;
-    border-radius: 7px;
-    padding: 10px;
-    font-family: monospace;
-    font-size: 10px;
+footer{
+    text-align:center;
+    color:#52667c;
+    font-size:10px;
+    padding:22px;
 }
 
-.log-entry {
-    padding: 5px 0;
-    border-bottom: 1px solid #101b26;
-    color: #8ea3b9;
-}
+@media(max-width:850px){
 
-.log-entry span {
-    color: #4da3ff;
-}
-
-footer {
-    text-align: center;
-    color: #52667c;
-    font-size: 10px;
-    padding: 22px;
-}
-
-@media(max-width:850px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
+    .grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
     .main-grid,
-    .two-column {
-        grid-template-columns: 1fr;
+    .two-column{
+        grid-template-columns:1fr;
+    }
+
+    .fleet{
+        grid-template-columns:1fr;
     }
 }
 
-@media(max-width:500px) {
-    header {
-        align-items: flex-start;
-        gap: 10px;
-        flex-direction: column;
+@media(max-width:500px){
+
+    header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
     }
 
-    .grid {
-        grid-template-columns: 1fr 1fr;
+    .grid{
+        grid-template-columns:1fr 1fr;
     }
 
-    .hero h2 {
-        font-size: 21px;
+    .hero h2{
+        font-size:21px;
     }
 
-    .map {
-        height: 300px;
+    .map{
+        height:290px;
     }
 }
 </style>
@@ -561,19 +529,16 @@ footer {
 
 <header>
 
-    <div class="logo">
-        <h1>2060 <span>MISSION CONTROL</span></h1>
-    </div>
+<div class="logo">
+<h1>2060 <span>MISSION CONTROL</span></h1>
+</div>
 
-    <div class="header-right">
-        <div class="signal">
-            ● AI LINK ACTIVE
-        </div>
-
-        <div class="status" id="globalStatus">
-            SYSTEM READY
-        </div>
-    </div>
+<div class="header-right">
+<div class="signal">● FLEET LINK 100%</div>
+<div class="status" id="globalStatus">
+FLEET READY
+</div>
+</div>
 
 </header>
 
@@ -581,200 +546,345 @@ footer {
 
 <section class="hero">
 
-    <h2>AUTONOMOUS ORBITAL MISSION</h2>
+<h2>MULTI-MISSION COMMAND CENTER</h2>
 
-    <p>
-        Kenya Aerospace Command • Mission Intelligence System V1.6
-    </p>
+<p>
+2060 Aerospace Command • Autonomous Fleet Operations
+</p>
 
-    <div class="controls">
+<div class="controls">
 
-        <button class="launch-btn" onclick="startMission()">
-            🚀 START LAUNCH
-        </button>
+<button class="launch-btn" onclick="launchSelected()">
+🚀 LAUNCH SELECTED
+</button>
 
-        <button class="abort-btn" onclick="abortMission()">
-            ⚠ ABORT
-        </button>
+<button class="abort-btn" onclick="abortSelected()">
+⚠ ABORT SELECTED
+</button>
 
-        <button class="ai-btn" onclick="runAIAnalysis()">
-            🧠 RUN AI ANALYSIS
-        </button>
+<button class="reset-btn" onclick="resetFleet()">
+↻ RESET FLEET
+</button>
 
-        <button class="reset-btn" onclick="resetMission()">
-            ↻ RESET
-        </button>
+<button class="ai-btn" onclick="runFleetAI()">
+🧠 AI FLEET ANALYSIS
+</button>
 
-    </div>
+</div>
 
 </section>
 
 <div class="grid">
 
-    <div class="card">
-        <div class="card-title">Mission Time</div>
-        <div class="value" id="missionTime">00:00</div>
-        <div class="unit">MM : SS</div>
-    </div>
+<div class="card">
+<div class="card-title">Active Missions</div>
+<div class="value" id="activeMissions">0</div>
+<div class="unit">SPACECRAFT</div>
+</div>
 
-    <div class="card">
-        <div class="card-title">Altitude</div>
-        <div class="value">
-            <span id="altitude">0</span>
-        </div>
-        <div class="unit">KM</div>
+<div class="card">
+<div class="card-title">Fleet Health</div>
+<div class="value" id="fleetHealth">100%</div>
+<div class="unit">AI ASSESSMENT</div>
 
-        <div class="progress">
-            <div class="progress-bar altitude-bar"
-                 id="altitudeBar"
-                 style="width:0%">
-            </div>
-        </div>
-    </div>
+<div class="progress">
+<div class="progress-bar health-bar"
+id="fleetHealthBar"
+style="width:100%">
+</div>
+</div>
+</div>
 
-    <div class="card">
-        <div class="card-title">Velocity</div>
-        <div class="value">
-            <span id="speed">0.00</span>
-        </div>
-        <div class="unit">KM/S</div>
+<div class="card">
+<div class="card-title">Fleet Fuel</div>
+<div class="value" id="fleetFuel">100%</div>
+<div class="unit">AVERAGE</div>
 
-        <div class="progress">
-            <div class="progress-bar speed-bar"
-                 id="speedBar"
-                 style="width:0%">
-            </div>
-        </div>
-    </div>
+<div class="progress">
+<div class="progress-bar fuel-bar"
+id="fleetFuelBar"
+style="width:100%">
+</div>
+</div>
+</div>
 
-    <div class="card">
-        <div class="card-title">Mission Health</div>
-        <div class="value">
-            <span id="healthValue">100</span>
-            <span class="unit">%</span>
-        </div>
-
-        <div class="progress">
-            <div class="progress-bar health-bar"
-                 id="healthBar"
-                 style="width:100%">
-            </div>
-        </div>
-    </div>
+<div class="card">
+<div class="card-title">Selected Mission</div>
+<div class="value" id="selectedName">ORION-01</div>
+<div class="unit" id="selectedType">
+EARTH ORBIT
+</div>
+</div>
 
 </div>
+
+<section class="panel">
+
+<h3>🛰️ FLEET COMMAND — SELECT SPACECRAFT</h3>
+
+<div class="fleet">
+
+<div class="mission-card selected"
+id="card0"
+onclick="selectMission(0)">
+
+<div class="mission-name">
+ORION-01
+</div>
+
+<div class="mission-type">
+EARTH ORBIT • LEO
+</div>
+
+<div class="mission-status online"
+id="status0">
+READY
+</div>
+
+<div class="mission-health"
+id="health0">
+100%
+</div>
+
+</div>
+
+<div class="mission-card"
+id="card1"
+onclick="selectMission(1)">
+
+<div class="mission-name">
+LUNA-02
+</div>
+
+<div class="mission-type">
+LUNAR TRANSFER
+</div>
+
+<div class="mission-status online"
+id="status1">
+READY
+</div>
+
+<div class="mission-health"
+id="health1">
+100%
+</div>
+
+</div>
+
+<div class="mission-card"
+id="card2"
+onclick="selectMission(2)">
+
+<div class="mission-name">
+MARS-03
+</div>
+
+<div class="mission-type">
+MARS TRANSIT
+</div>
+
+<div class="mission-status online"
+id="status2">
+READY
+</div>
+
+<div class="mission-health"
+id="health2">
+100%
+</div>
+
+</div>
+
+</div>
+
+</section>
 
 <div class="main-grid">
 
 <section class="panel">
 
-    <h3>🌍 LIVE MISSION MAP</h3>
+<h3>🌍 MULTI-SPACECRAFT TRACKING</h3>
 
-    <div class="map">
+<div class="map">
 
-        <div class="grid-line grid-horizontal"
-             style="top:25%">
-        </div>
+<div class="grid-line horizontal" style="top:25%"></div>
+<div class="grid-line horizontal" style="top:50%"></div>
+<div class="grid-line horizontal" style="top:75%"></div>
 
-        <div class="grid-line grid-horizontal"
-             style="top:50%">
-        </div>
+<div class="grid-line vertical" style="left:25%"></div>
+<div class="grid-line vertical" style="left:50%"></div>
+<div class="grid-line vertical" style="left:75%"></div>
 
-        <div class="grid-line grid-horizontal"
-             style="top:75%">
-        </div>
+<div class="map-label"
+style="top:8px;left:50%">
+N
+</div>
 
-        <div class="grid-line grid-vertical"
-             style="left:25%">
-        </div>
+<div class="map-label"
+style="right:8px;top:50%">
+E
+</div>
 
-        <div class="grid-line grid-vertical"
-             style="left:50%">
-        </div>
+<div class="map-label"
+style="bottom:8px;left:50%">
+S
+</div>
 
-        <div class="grid-line grid-vertical"
-             style="left:75%">
-        </div>
+<div class="map-label"
+style="left:8px;top:50%">
+W
+</div>
 
-        <div class="map-label north">N</div>
-        <div class="map-label east">E</div>
-        <div class="map-label south">S</div>
-        <div class="map-label west">W</div>
+<div class="spacecraft mission-a"
+id="ship0"
+style="left:48%;top:58%">
+</div>
 
-        <div class="kenya">KENYA</div>
+<div class="spacecraft mission-b"
+id="ship1"
+style="left:62%;top:45%">
+</div>
 
-        <div id="spacecraft"></div>
+<div class="spacecraft mission-c"
+id="ship2"
+style="left:35%;top:30%">
+</div>
 
-    </div>
+</div>
 
 </section>
+
+<section class="panel">
+
+<h3>📡 SELECTED TELEMETRY</h3>
+
+<div class="telemetry-row">
+<span>Latitude</span>
+<strong id="latitude">
+-1.2921°
+</strong>
+</div>
+
+<div class="telemetry-row">
+<span>Longitude</span>
+<strong id="longitude">
+36.8219°
+</strong>
+</div>
+
+<div class="telemetry-row">
+<span>Altitude</span>
+<strong id="telemetryAltitude">
+0 KM
+</strong>
+</div>
+
+<div class="telemetry-row">
+<span>Velocity</span>
+<strong id="telemetrySpeed">
+0 KM/S
+</strong>
+</div>
+
+<div class="telemetry-row">
+<span>Heading</span>
+<strong id="heading">
+090°
+</strong>
+</div>
+
+<div class="telemetry-row">
+<span>Fuel</span>
+<strong id="telemetryFuel">
+100%
+</strong>
+</div>
+
+<div class="telemetry-row">
+<span>Signal</span>
+<strong id="signal">
+100%
+</strong>
+</div>
+
+<div class="telemetry-row">
+<span>Mission Phase</span>
+<strong id="telemetryPhase">
+GROUND
+</strong>
+</div>
+
+</section>
+
+</div>
+
+<div class="two-column">
 
 <section class="panel ai-panel">
 
-    <div class="ai-header">
+<div class="ai-header">
 
-        <h3>🧠 MISSION INTELLIGENCE</h3>
+<h3>🧠 AI FLEET DIRECTOR</h3>
 
-        <div class="ai-badge">
-            AUTONOMOUS AI
-        </div>
+<div class="ai-badge">
+AUTONOMOUS
+</div>
 
-    </div>
+</div>
 
-    <div class="ai-decision">
+<div class="ai-decision">
 
-        <div class="ai-decision-title">
-            Current AI Decision
-        </div>
+<div class="ai-title">
+Priority Recommendation
+</div>
 
-        <div class="ai-decision-text"
-             id="aiDecision">
+<div class="ai-text"
+id="aiDecision">
 
-            Awaiting mission telemetry.
-            AI system is standing by.
+Fleet is stable. Select a spacecraft and launch when ready.
 
-        </div>
+</div>
 
-    </div>
+</div>
 
-    <div class="health">
+<div class="ai-decision">
 
-        <div class="health-header">
+<div class="ai-title">
+Current Priority
+</div>
 
-            <span>MISSION HEALTH</span>
+<div class="ai-text"
+id="aiPriority">
 
-            <span class="health-number"
-                  id="healthLabel">
-                100%
-            </span>
+ORION-01 — LOW PRIORITY
 
-        </div>
+</div>
 
-        <div class="progress">
+</div>
 
-            <div class="progress-bar health-bar"
-                 id="healthBarLarge"
-                 style="width:100%">
-            </div>
+</section>
 
-        </div>
+<section class="panel stage">
 
-    </div>
+<h3>SELECTED MISSION PHASE</h3>
 
-    <div class="telemetry-row">
-        <span>AI Mode</span>
-        <strong class="ai-color"
-                id="aiMode">
-            STANDBY
-        </strong>
-    </div>
+<div class="countdown"
+id="countdown">
+10
+</div>
 
-    <div class="telemetry-row">
-        <span>Anomalies</span>
-        <strong id="anomalyCount">
-            0
-        </strong>
-    </div>
+<div class="phase"
+id="phase">
+READY
+</div>
+
+<div class="stage-message"
+id="stageMessage">
+
+Selected spacecraft awaiting launch command.
+
+</div>
 
 </section>
 
@@ -784,116 +894,61 @@ footer {
 
 <section class="panel">
 
-    <h3>📡 LIVE TELEMETRY</h3>
+<h3>🚨 FLEET INTELLIGENCE ALERTS</h3>
 
-    <div class="telemetry-row">
-        <span>Latitude</span>
-        <strong id="latitude">
-            -1.2921°
-        </strong>
-    </div>
+<div class="alerts"
+id="alerts">
 
-    <div class="telemetry-row">
-        <span>Longitude</span>
-        <strong id="longitude">
-            36.8219°
-        </strong>
-    </div>
+<div class="alert">
+AI — Fleet intelligence online.
+</div>
 
-    <div class="telemetry-row">
-        <span>Heading</span>
-        <strong id="heading">
-            090°
-        </strong>
-    </div>
-
-    <div class="telemetry-row">
-        <span>Orbital Phase</span>
-        <strong id="orbitalPhase">
-            GROUND
-        </strong>
-    </div>
-
-    <div class="telemetry-row">
-        <span>Signal</span>
-        <strong id="signalValue">
-            98%
-        </strong>
-    </div>
-
-    <div class="telemetry-row">
-        <span>Temperature</span>
-        <strong id="temperature">
-            24°C
-        </strong>
-    </div>
-
-    <div class="telemetry-row">
-        <span>Mission State</span>
-        <strong id="telemetryState">
-            STANDBY
-        </strong>
-    </div>
-
-</section>
-
-<section class="panel stage-box">
-
-    <h3>MISSION PHASE</h3>
-
-    <div class="countdown"
-         id="countdown">
-        10
-    </div>
-
-    <div class="stage"
-         id="missionStage">
-        READY
-    </div>
-
-    <div class="stage-message"
-         id="missionMessage">
-
-        Vehicle standing by for launch sequence.
-
-    </div>
-
-</section>
+<div class="alert">
+SYSTEM — Three spacecraft available.
+</div>
 
 </div>
 
-<div class="two-column">
-
-<section class="panel">
-
-    <h3>📈 TELEMETRY GRAPH</h3>
-
-    <div class="chart">
-
-        <div class="chart-grid"></div>
-
-        <canvas id="telemetryChart"></canvas>
-
-    </div>
-
 </section>
 
 <section class="panel">
 
-    <h3>🚨 AI ANOMALY MONITOR</h3>
+<h3>⚙️ FLEET SYSTEM STATUS</h3>
 
-    <div class="alerts"
-         id="alerts">
+<div class="system-row">
+<span>Flight Network</span>
+<strong class="online">
+ONLINE
+</strong>
+</div>
 
-        <div class="alert ai">
-            AI — System initialized. No anomalies detected.
-        </div>
+<div class="system-row">
+<span>AI Fleet Director</span>
+<strong class="online">
+ACTIVE
+</strong>
+</div>
 
-        <div class="alert">
-            SYSTEM — Telemetry link established.
-        </div>
+<div class="system-row">
+<span>Navigation Network</span>
+<strong class="online">
+ONLINE
+</strong>
+</div>
 
-    </div>
+<div class="system-row">
+<span>Deep Space Link</span>
+<strong class="online">
+ONLINE
+</strong>
+</div>
+
+<div class="system-row">
+<span>Autonomous Safety</span>
+<strong class="online">
+ARMED
+</strong>
+</div>
 
 </section>
 
@@ -901,274 +956,4 @@ footer {
 
 <section class="panel">
 
-    <h3>🛰️ SYSTEM STATUS</h3>
-
-    <div class="system-row">
-        <span>Flight Computer</span>
-        <strong class="online"
-                id="computerStatus">
-            ONLINE
-        </strong>
-    </div>
-
-    <div class="system-row">
-        <span>Navigation</span>
-        <strong class="online"
-                id="navigationStatus">
-            ONLINE
-        </strong>
-    </div>
-
-    <div class="system-row">
-        <span>Communications</span>
-        <strong class="online">
-            ONLINE
-        </strong>
-    </div>
-
-    <div class="system-row">
-        <span>Propulsion</span>
-        <strong class="online"
-                id="propulsionStatus">
-            STANDBY
-        </strong>
-    </div>
-
-    <div class="system-row">
-        <span>AI Mission Director</span>
-        <strong class="ai-color"
-                id="aiSystemStatus">
-            STANDBY
-        </strong>
-    </div>
-
-    <div class="system-row">
-        <span>Life Support</span>
-        <strong class="online">
-            ONLINE
-        </strong>
-    </div>
-
-</section>
-
-<br>
-
-<section class="panel">
-
-    <h3>📋 AI DECISION LOG</h3>
-
-    <div class="log"
-         id="missionLog">
-
-        <div class="log-entry">
-            <span>[AI]</span>
-            Mission Intelligence initialized.
-        </div>
-
-        <div class="log-entry">
-            <span>[SYSTEM]</span>
-            Telemetry link established.
-        </div>
-
-        <div class="log-entry">
-            <span>[READY]</span>
-            Awaiting mission command.
-        </div>
-
-    </div>
-
-</section>
-
-</div>
-
-<footer>
-    2060 Aerospace Initiative • Mission Control Prototype V1.6
-</footer>
-
-<script>
-
-let missionRunning = false;
-let missionAborted = false;
-
-let countdownValue = 10;
-let missionSeconds = 0;
-
-let altitude = 0;
-let speed = 0;
-let fuel = 100;
-
-let latitude = -1.2921;
-let longitude = 36.8219;
-let heading = 90;
-
-let signal = 98;
-let temperature = 24;
-
-let health = 100;
-let anomalyCount = 0;
-
-let missionInterval = null;
-let countdownInterval = null;
-
-let altitudeHistory = [];
-let speedHistory = [];
-
-let lastFuelWarning = false;
-let lastSignalWarning = false;
-let lastTemperatureWarning = false;
-
-const missionTimeEl =
-    document.getElementById("missionTime");
-
-const altitudeEl =
-    document.getElementById("altitude");
-
-const speedEl =
-    document.getElementById("speed");
-
-const altitudeBar =
-    document.getElementById("altitudeBar");
-
-const speedBar =
-    document.getElementById("speedBar");
-
-const countdownEl =
-    document.getElementById("countdown");
-
-const missionStageEl =
-    document.getElementById("missionStage");
-
-const missionMessageEl =
-    document.getElementById("missionMessage");
-
-const globalStatus =
-    document.getElementById("globalStatus");
-
-const propulsionStatus =
-    document.getElementById("propulsionStatus");
-
-const spacecraft =
-    document.getElementById("spacecraft");
-
-const missionLog =
-    document.getElementById("missionLog");
-
-const alerts =
-    document.getElementById("alerts");
-
-const canvas =
-    document.getElementById("telemetryChart");
-
-const ctx =
-    canvas.getContext("2d");
-
-function addLog(message, type="AI") {
-
-    const entry =
-        document.createElement("div");
-
-    entry.className =
-        "log-entry";
-
-    const time =
-        new Date().toLocaleTimeString();
-
-    entry.innerHTML =
-        `<span>[${type}]</span> ${time} — ${message}`;
-
-    missionLog.appendChild(entry);
-
-    missionLog.scrollTop =
-        missionLog.scrollHeight;
-}
-
-function addAlert(message, type="ai") {
-
-    const alert =
-        document.createElement("div");
-
-    alert.className =
-        "alert " + type;
-
-    alert.textContent =
-        message;
-
-    alerts.prepend(alert);
-
-    if (alerts.children.length > 8) {
-        alerts.removeChild(
-            alerts.lastChild
-        );
-    }
-}
-
-function updateHealth() {
-
-    health = 100;
-
-    if (fuel < 50) {
-        health -= 8;
-    }
-
-    if (fuel < 25) {
-        health -= 15;
-    }
-
-    if (signal < 95) {
-        health -= 8;
-    }
-
-    if (temperature > 30) {
-        health -= 10;
-    }
-
-    if (speed > 7.8) {
-        health -= 10;
-    }
-
-    health =
-        Math.max(
-            0,
-            Math.min(100, health)
-        );
-
-    document.getElementById(
-        "healthValue"
-    ).textContent =
-        Math.round(health);
-
-    document.getElementById(
-        "healthLabel"
-    ).textContent =
-        Math.round(health) + "%";
-
-    document.getElementById(
-        "healthBar"
-    ).style.width =
-        health + "%";
-
-    document.getElementById(
-        "healthBarLarge"
-    ).style.width =
-        health + "%";
-
-    if (health >= 70) {
-
-        document.getElementById(
-            "healthBar"
-        ).style.background =
-            "#6cff9b";
-
-        document.getElementById(
-            "healthBarLarge"
-        ).style.background =
-            "#6cff9b";
-
-    } else if (health >= 40) {
-
-        document.getElementById(
-            "healthBar"
-        ).style.background =
-            "#ffc857";
-
-       
+<h3>📋 F
