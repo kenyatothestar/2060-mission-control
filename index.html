@@ -1,104 +1,1189 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>2060 Mission Control V2.3.1</title>
 
 <style>
+
+*{
+box-sizing:border-box;
+}
+
 body{
 margin:0;
 background:#020617;
 color:white;
-font-family:Arial;
-text-align:center;
+font-family:Arial,sans-serif;
 }
 
-button{
-padding:15px 30px;
-font-size:18px;
-font-weight:bold;
-background:#00d084;
-border:0;
-border-radius:10px;
+header{
+padding:20px;
+text-align:center;
+background:#081226;
+border-bottom:1px solid #263858;
+}
+
+header h1{
+margin:0;
+font-size:24px;
+}
+
+header p{
+color:#94a3b8;
+margin:8px 0 0;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:15px;
+}
+
+.status{
+background:#081226;
+border:1px solid #263858;
+border-radius:12px;
+padding:15px;
+text-align:center;
+margin-bottom:15px;
 }
 
 #status{
-margin:20px;
-font-size:20px;
 color:#00ff99;
+font-weight:bold;
 }
 
+/* SPACE */
+
 #space{
-height:500px;
-margin:20px;
-border:2px solid #334155;
-border-radius:15px;
+height:450px;
+margin-bottom:15px;
 position:relative;
 overflow:hidden;
+background:#01040b;
+border:1px solid #263858;
+border-radius:15px;
 }
+
+.stars{
+position:absolute;
+inset:0;
+
+background-image:
+radial-gradient(#fff 1px,transparent 1px),
+radial-gradient(#fff 1px,transparent 1px);
+
+background-size:
+80px 80px,
+130px 130px;
+
+opacity:.4;
+}
+
+.earth{
+position:absolute;
+
+width:240px;
+height:240px;
+
+left:50%;
+bottom:-130px;
+
+transform:translateX(-50%);
+
+border-radius:50%;
+
+background:
+radial-gradient(
+circle at 35% 30%,
+#60a5fa,
+#2563eb 50%,
+#061631 75%
+);
+
+box-shadow:
+0 0 80px #1264d8;
+}
+
+.orbit{
+position:absolute;
+
+width:350px;
+height:180px;
+
+left:50%;
+top:100px;
+
+transform:translateX(-50%);
+
+border:2px dashed #48658f;
+
+border-radius:50%;
+}
+
+/* ROCKET */
 
 #rocket{
 position:absolute;
+
 left:50%;
+
 bottom:30px;
+
 transform:translateX(-50%);
+
 font-size:60px;
+
+z-index:10;
 }
 
 #rocket.fly{
-animation:fly 5s linear forwards;
+
+animation:
+rocketFlight 8s linear forwards;
+
 }
 
-@keyframes fly{
-from{
+@keyframes rocketFlight{
+
+0%{
 bottom:30px;
 }
 
-to{
-bottom:430px;
-}
+20%{
+bottom:90px;
 }
 
-#log{
-margin:20px;
-padding:15px;
-background:#081226;
-border-radius:10px;
-text-align:left;
+40%{
+bottom:170px;
 }
+
+60%{
+bottom:250px;
+}
+
+80%{
+bottom:330px;
+}
+
+100%{
+bottom:390px;
+}
+
+}
+
+#flame{
+display:none;
+
+font-size:28px;
+
+text-align:center;
+}
+
+/* COUNTDOWN */
+
+#countdown{
+
+display:none;
+
+position:absolute;
+
+top:120px;
+
+left:0;
+right:0;
+
+text-align:center;
+
+font-size:90px;
+
+font-weight:bold;
+
+color:#00ff99;
+
+z-index:20;
+
+}
+
+/* BUTTONS */
+
+.controls{
+
+display:flex;
+
+gap:10px;
+
+margin-bottom:15px;
+}
+
+button{
+
+flex:1;
+
+padding:15px;
+
+border:0;
+
+border-radius:10px;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+#launch{
+
+background:#00d084;
+
+color:#001b10;
+
+}
+
+#abort{
+
+background:#ef4444;
+
+color:white;
+
+}
+
+#reset{
+
+background:#334155;
+
+color:white;
+
+}
+
+button:disabled{
+
+opacity:.4;
+
+}
+
+/* TELEMETRY */
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(4,1fr);
+
+gap:10px;
+
+margin-bottom:15px;
+
+}
+
+.card{
+
+background:#081226;
+
+border:1px solid #263858;
+
+border-radius:12px;
+
+padding:15px;
+
+}
+
+.card small{
+
+color:#94a3b8;
+
+}
+
+.card strong{
+
+display:block;
+
+font-size:21px;
+
+margin-top:8px;
+
+}
+
+.progress{
+
+height:8px;
+
+background:#1e293b;
+
+border-radius:10px;
+
+overflow:hidden;
+
+margin-top:10px;
+
+}
+
+.bar{
+
+height:100%;
+
+width:100%;
+
+background:#00d084;
+
+transition:width .5s;
+
+}
+
+/* PANELS */
+
+.panel{
+
+background:#081226;
+
+border:1px solid #263858;
+
+border-radius:12px;
+
+padding:15px;
+
+margin-bottom:15px;
+
+}
+
+.panel h3{
+
+margin-top:0;
+
+}
+
+/* ALERT */
+
+.alert{
+
+padding:15px;
+
+background:#020617;
+
+border-left:5px solid #00d084;
+
+border-radius:8px;
+
+}
+
+#alertTitle{
+
+font-weight:bold;
+
+color:#00ff99;
+
+}
+
+#alertMessage{
+
+margin-top:6px;
+
+color:#cbd5e1;
+
+}
+
+/* SYSTEMS */
+
+.systems{
+
+display:grid;
+
+grid-template-columns:
+repeat(4,1fr);
+
+gap:10px;
+
+}
+
+.system{
+
+background:#020617;
+
+border:1px solid #263858;
+
+border-radius:8px;
+
+padding:14px;
+
+}
+
+.systemName{
+
+font-size:12px;
+
+color:#94a3b8;
+
+}
+
+.systemStatus{
+
+display:block;
+
+margin-top:8px;
+
+color:#00ff99;
+
+font-weight:bold;
+
+}
+
+/* TIMELINE */
+
+.timeline{
+
+max-height:250px;
+
+overflow:auto;
+
+}
+
+.event{
+
+background:#020617;
+
+border-left:3px solid #00d084;
+
+border-radius:5px;
+
+padding:10px;
+
+margin-bottom:10px;
+
+}
+
+.eventTime{
+
+font-size:11px;
+
+color:#64748b;
+
+}
+
+.eventTitle{
+
+font-weight:bold;
+
+margin-top:3px;
+
+}
+
+.eventText{
+
+font-size:13px;
+
+color:#cbd5e1;
+
+margin-top:4px;
+
+}
+
+/* LOG */
+
+.log{
+
+height:170px;
+
+overflow:auto;
+
+background:#020617;
+
+border-radius:8px;
+
+padding:10px;
+
+font-family:monospace;
+
+font-size:12px;
+
+}
+
+.logline{
+
+margin-bottom:7px;
+
+color:#9fffd3;
+
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+.grid{
+
+grid-template-columns:
+repeat(2,1fr);
+
+}
+
+.systems{
+
+grid-template-columns:
+repeat(2,1fr);
+
+}
+
+.controls{
+
+flex-direction:column;
+
+}
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<h1>🚀 2060 MISSION CONTROL</h1>
 
-<div id="status">STANDBY</div>
+<header>
 
-<button id="launch">🚀 LAUNCH</button>
+<h1>
+🚀 2060 MISSION CONTROL
+</h1>
+
+<p>
+Aerospace Operations Dashboard • V2.3.1
+</p>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- STATUS -->
+
+<div class="status">
+
+MISSION STATUS:
+
+<span id="status">
+STANDBY
+</span>
+
+</div>
+
+
+<!-- SPACE -->
 
 <div id="space">
 
-<div id="rocket">🚀</div>
+<div class="stars"></div>
+
+<div id="countdown">
+3
+</div>
+
+<div class="orbit"></div>
+
+
+<div id="rocket">
+
+🚀
+
+<div id="flame">
+🔥
+</div>
 
 </div>
 
-<div id="log">
-MISSION READY
+
+<div class="earth"></div>
+
 </div>
+
+
+<!-- BUTTONS -->
+
+<div class="controls">
+
+<button id="launch">
+🚀 LAUNCH
+</button>
+
+<button id="abort" disabled>
+⛔ ABORT
+</button>
+
+<button id="reset">
+↻ RESET
+</button>
+
+</div>
+
+
+<!-- TELEMETRY -->
+
+<div class="grid">
+
+
+<div class="card">
+
+<small>
+ALTITUDE
+</small>
+
+<strong>
+
+<span id="altitude">
+0
+</span>
+
+km
+
+</strong>
+
+</div>
+
+
+<div class="card">
+
+<small>
+SPEED
+</small>
+
+<strong>
+
+<span id="speed">
+0
+</span>
+
+km/h
+
+</strong>
+
+</div>
+
+
+<div class="card">
+
+<small>
+FUEL
+</small>
+
+<strong>
+
+<span id="fuel">
+100
+</span>
+
+%
+
+</strong>
+
+<div class="progress">
+
+<div
+id="fuelBar"
+class="bar">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<small>
+SIGNAL
+</small>
+
+<strong>
+
+<span id="signal">
+100
+</span>
+
+%
+
+</strong>
+
+<div class="progress">
+
+<div
+id="signalBar"
+class="bar">
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ALERT -->
+
+<div class="panel">
+
+<h3>
+🚨 MISSION ALERT
+</h3>
+
+<div class="alert">
+
+<div id="alertTitle">
+SYSTEM NOMINAL
+</div>
+
+<div id="alertMessage">
+
+All mission systems are ready.
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- SYSTEM HEALTH -->
+
+<div class="panel">
+
+<h3>
+🟢 SYSTEM HEALTH
+</h3>
+
+<div class="systems">
+
+
+<div class="system">
+
+<div class="systemName">
+PROPULSION
+</div>
+
+<span
+id="propulsion"
+class="systemStatus">
+
+● NOMINAL
+
+</span>
+
+</div>
+
+
+<div class="system">
+
+<div class="systemName">
+NAVIGATION
+</div>
+
+<span
+id="navigation"
+class="systemStatus">
+
+● NOMINAL
+
+</span>
+
+</div>
+
+
+<div class="system">
+
+<div class="systemName">
+COMMUNICATION
+</div>
+
+<span
+id="communication"
+class="systemStatus">
+
+● NOMINAL
+
+</span>
+
+</div>
+
+
+<div class="system">
+
+<div class="systemName">
+POWER
+</div>
+
+<span
+id="power"
+class="systemStatus">
+
+● NOMINAL
+
+</span>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- TIMELINE -->
+
+<div class="panel">
+
+<h3>
+⏱ MISSION EVENT TIMELINE
+</h3>
+
+<div
+id="timeline"
+class="timeline">
+</div>
+
+</div>
+
+
+<!-- LOG -->
+
+<div class="panel">
+
+<h3>
+📝 MISSION LOG
+</h3>
+
+<div
+id="log"
+class="log">
+</div>
+
+</div>
+
+
+</div>
+
 
 <script>
 
-const button = document.getElementById("launch");
-const rocket = document.getElementById("rocket");
-const status = document.getElementById("status");
-const log = document.getElementById("log");
+/* ELEMENTS */
 
-button.addEventListener("click", function(){
+const launchButton =
+document.getElementById("launch");
 
-status.textContent = "🚀 LIFTOFF";
+const abortButton =
+document.getElementById("abort");
 
-log.innerHTML += "<br>ENGINE IGNITION";
-log.innerHTML += "<br>ROCKET LAUNCHED";
+const resetButton =
+document.getElementById("reset");
+
+const rocket =
+document.getElementById("rocket");
+
+const flame =
+document.getElementById("flame");
+
+const countdown =
+document.getElementById("countdown");
+
+const status =
+document.getElementById("status");
+
+const altitude =
+document.getElementById("altitude");
+
+const speed =
+document.getElementById("speed");
+
+const fuel =
+document.getElementById("fuel");
+
+const signal =
+document.getElementById("signal");
+
+const fuelBar =
+document.getElementById("fuelBar");
+
+const signalBar =
+document.getElementById("signalBar");
+
+const alertTitle =
+document.getElementById("alertTitle");
+
+const alertMessage =
+document.getElementById("alertMessage");
+
+const timeline =
+document.getElementById("timeline");
+
+const log =
+document.getElementById("log");
+
+const propulsion =
+document.getElementById("propulsion");
+
+const navigation =
+document.getElementById("navigation");
+
+const communication =
+document.getElementById("communication");
+
+const power =
+document.getElementById("power");
+
+
+/* VARIABLES */
+
+let countdownTimer = null;
+
+let telemetryTimer = null;
+
+let running = false;
+
+let seconds = 0;
+
+let altitudeValue = 0;
+
+let speedValue = 0;
+
+let fuelValue = 100;
+
+let signalValue = 100;
+
+
+/* LOG */
+
+function addLog(message){
+
+const item =
+document.createElement("div");
+
+item.className =
+"logline";
+
+item.textContent =
+"[" +
+new Date().toLocaleTimeString() +
+"] " +
+message;
+
+log.appendChild(item);
+
+log.scrollTop =
+log.scrollHeight;
+
+}
+
+
+/* EVENT */
+
+function addEvent(title,text){
+
+const item =
+document.createElement("div");
+
+item.className =
+"event";
+
+item.innerHTML =
+
+"<div class='eventTime'>" +
+new Date().toLocaleTimeString() +
+"</div>" +
+
+"<div class='eventTitle'>" +
+title +
+"</div>" +
+
+"<div class='eventText'>" +
+text +
+"</div>";
+
+timeline.prepend(item);
+
+}
+
+
+/* ALERT */
+
+function alertMission(title,message){
+
+alertTitle.textContent =
+title;
+
+alertMessage.textContent =
+message;
+
+}
+
+
+/* TELEMETRY */
+
+function updateTelemetry(){
+
+altitude.textContent =
+Math.floor(altitudeValue);
+
+speed.textContent =
+Math.floor(speedValue);
+
+fuel.textContent =
+Math.max(
+0,
+fuelValue
+).toFixed(1);
+
+signal.textContent =
+Math.max(
+0,
+signalValue
+).toFixed(0);
+
+fuelBar.style.width =
+Math.max(
+0,
+fuelValue
+) + "%";
+
+signalBar.style.width =
+Math.max(
+0,
+signalValue
+) + "%";
+
+}
+
+
+/* LAUNCH */
+
+function launch(){
+
+if(running){
+
+return;
+
+}
+
+running = true;
+
+launchButton.disabled =
+true;
+
+abortButton.disabled =
+false;
+
+status.textContent =
+"COUNTDOWN";
+
+status.style.color =
+"#ffd166";
+
+alertMission(
+"COUNTDOWN ACTIVE",
+"Launch sequence initiated."
+);
+
+addLog(
+"LAUNCH SEQUENCE STARTED"
+);
+
+addEvent(
+"COUNTDOWN",
+"Mission Control has started the launch sequence."
+);
+
+countdown.style.display =
+"block";
+
+let number = 3;
+
+countdown.textContent =
+number;
+
+
+/* COUNTDOWN */
+
+countdownTimer =
+setInterval(function(){
+
+number--;
+
+if(number > 0){
+
+countdown.textContent =
+number;
+
+addLog(
+"T-" + number
+);
+
+}
+
+else{
+
+clearInterval(
+countdownTimer
+);
+
+countdown.style.display =
+"none";
+
+liftoff();
+
+}
+
+},1000);
+
+}
+
+
+/* LIFTOFF */
+
+function liftoff(){
+
+status.textContent =
+"LIFTOFF";
+
+status.style.color =
+"#00ff99";
+
+flame.style.display =
+"block";
+
+alertMission(
+"🚀 ENGINE IGNITION",
+"Propulsion system is active. Vehicle is lifting off."
+);
+
+addLog(
+"ENGINE IGNITION"
+);
+
+addLog(
+"THRUST NOMINAL"
+);
+
+addLog(
+"🚀 LIFTOFF CONFIRMED"
+);
+
+addEvent(
+"LIFTOFF",
+"Rocket has successfully left the launch platform."
+);
+
+
+/*
+THIS IS THE SAME
+WORKING ANIMATION
+*/
 
 rocket.classList.remove("fly");
 
@@ -106,9 +1191,347 @@ void rocket.offsetWidth;
 
 rocket.classList.add("fly");
 
-});
 
-</script>
+/* TELEMETRY */
 
-</body>
-</html>
+telemetryTimer =
+setInterval(function(){
+
+seconds++;
+
+altitudeValue +=
+120 + seconds * 10;
+
+speedValue +=
+6000;
+
+fuelValue -=
+1.5;
+
+signalValue =
+Math.max(
+70,
+100 - seconds * 0.8
+);
+
+updateTelemetry();
+
+
+/* 4 SECONDS */
+
+if(seconds === 4){
+
+status.textContent =
+"ASCENT";
+
+alertMission(
+"ASCENT NOMINAL",
+"Vehicle is climbing normally."
+);
+
+propulsion.textContent =
+"● THRUST ACTIVE";
+
+addLog(
+"ASCENT PHASE"
+);
+
+addEvent(
+"ASCENT",
+"Vehicle entered the primary ascent phase."
+);
+
+}
+
+
+/* 7 SECONDS */
+
+if(seconds === 7){
+
+navigation.textContent =
+"● TRACKING";
+
+alertMission(
+"NAVIGATION LOCK",
+"Flight computer has confirmed the planned trajectory."
+);
+
+addLog(
+"NAVIGATION LOCKED"
+);
+
+addEvent(
+"NAVIGATION",
+"Navigation system has locked the flight path."
+);
+
+}
+
+
+/* 9 SECONDS */
+
+if(seconds === 9){
+
+communication.textContent =
+"● LINKED";
+
+alertMission(
+"COMMUNICATION LINK",
+"Mission Control telemetry link established."
+);
+
+addLog(
+"GROUND COMMUNICATION LINK ESTABLISHED"
+);
+
+addEvent(
+"COMMUNICATION",
+"Telemetry link established with Mission Control."
+);
+
+}
+
+
+/* 11 SECONDS */
+
+if(seconds === 11){
+
+power.textContent =
+"● NOMINAL";
+
+alertMission(
+"POWER SYSTEM NOMINAL",
+"Spacecraft power systems are operating normally."
+);
+
+addLog(
+"POWER SYSTEM CHECK COMPLETE"
+);
+
+}
+
+
+/* LOW FUEL */
+
+if(
+fuelValue < 30 &&
+fuelValue > 20
+){
+
+alertMission(
+"⚠ FUEL WARNING",
+"Fuel level has reached the warning threshold."
+);
+
+addLog(
+"FUEL WARNING"
+);
+
+}
+
+
+/* SIGNAL */
+
+if(
+signalValue < 80
+){
+
+communication.textContent =
+"● WEAK";
+
+alertMission(
+"⚠ SIGNAL REDUCED",
+"Communication signal is below nominal level."
+);
+
+addLog(
+"COMMUNICATION SIGNAL REDUCED"
+);
+
+}
+
+
+/* ORBIT */
+
+if(seconds >= 16){
+
+enterOrbit();
+
+}
+
+},1000);
+
+}
+
+
+/* ORBIT */
+
+function enterOrbit(){
+
+clearInterval(
+telemetryTimer
+);
+
+running = false;
+
+status.textContent =
+"ORBIT";
+
+status.style.color =
+"#00ff99";
+
+flame.style.display =
+"none";
+
+propulsion.textContent =
+"● NOMINAL";
+
+navigation.textContent =
+"● ORBITAL";
+
+communication.textContent =
+"● LINKED";
+
+power.textContent =
+"● NOMINAL";
+
+alertMission(
+"🛰 ORBIT ACHIEVED",
+"Spacecraft has successfully entered simulated orbit."
+);
+
+addLog(
+"ORBITAL INSERTION SUCCESSFUL"
+);
+
+addLog(
+"SPACECRAFT ESTABLISHED IN ORBIT"
+);
+
+addLog(
+"MISSION OBJECTIVE ACHIEVED"
+);
+
+addEvent(
+"ORBIT ACHIEVED",
+"Spacecraft successfully entered simulated orbit."
+);
+
+addEvent(
+"MISSION SUCCESS",
+"Primary mission objective completed."
+);
+
+abortButton.disabled =
+true;
+
+}
+
+
+/* ABORT */
+
+function abortMission(){
+
+clearInterval(
+countdownTimer
+);
+
+clearInterval(
+telemetryTimer
+);
+
+running = false;
+
+countdown.style.display =
+"none";
+
+flame.style.display =
+"none";
+
+rocket.classList.remove("fly");
+
+status.textContent =
+"ABORTED";
+
+status.style.color =
+"#ff4444";
+
+alertMission(
+"⚠ EMERGENCY ABORT",
+"Mission sequence has been terminated."
+);
+
+propulsion.textContent =
+"● OFFLINE";
+
+navigation.textContent =
+"● SAFE";
+
+communication.textContent =
+"● STANDBY";
+
+addLog(
+"⚠ MISSION ABORTED"
+);
+
+addEvent(
+"MISSION ABORT",
+"Mission was terminated by Mission Control."
+);
+
+launchButton.disabled =
+true;
+
+abortButton.disabled =
+true;
+
+}
+
+
+/* RESET */
+
+function resetMission(){
+
+clearInterval(
+countdownTimer
+);
+
+clearInterval(
+telemetryTimer
+);
+
+running = false;
+
+seconds = 0;
+
+altitudeValue = 0;
+
+speedValue = 0;
+
+fuelValue = 100;
+
+signalValue = 100;
+
+rocket.classList.remove("fly");
+
+flame.style.display =
+"none";
+
+countdown.style.display =
+"none";
+
+status.textContent =
+"STANDBY";
+
+status.style.color =
+"#00ff99";
+
+alertMission(
+"SYSTEM NOMINAL",
+"All mission systems are ready for launch."
+);
+
+propulsion.textContent =
+"● NOMINAL";
+
+navigation
