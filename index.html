@@ -2,712 +2,264 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>2060 Mission Control V1.8.1</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
+*{box-sizing:border-box}
 body{
-    background:#02060b;
-    color:#eaf3ff;
-    font-family:Arial,Helvetica,sans-serif;
-    min-height:100vh;
+margin:0;
+background:#02060b;
+color:#eaf3ff;
+font-family:Arial,sans-serif;
 }
-
 header{
-    background:#07101a;
-    border-bottom:1px solid #24384d;
-    padding:15px 18px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+padding:15px;
+background:#07111c;
+border-bottom:1px solid #263b50;
+display:flex;
+justify-content:space-between;
+}
+.logo{font-weight:bold;letter-spacing:2px}
+.logo span{color:#4da3ff}
+.status{color:#6cff9b}
+
+.container{max-width:1200px;margin:auto;padding:15px}
+
+.hero,.panel,.card{
+background:#09131e;
+border:1px solid #20354a;
+border-radius:10px;
+padding:15px;
 }
 
-.logo{
-    font-size:20px;
-    font-weight:bold;
-    letter-spacing:2px;
-}
-
-.logo span{
-    color:#4da3ff;
-}
-
-.header-right{
-    display:flex;
-    gap:12px;
-    align-items:center;
-    font-size:10px;
-}
-
-.link{
-    color:#6cff9b;
-}
-
-.status{
-    border:1px solid #34506c;
-    padding:7px 12px;
-    border-radius:20px;
-    color:#6cff9b;
-    font-weight:bold;
-}
-
-.container{
-    max-width:1350px;
-    margin:auto;
-    padding:18px;
-}
-
-.hero{
-    background:
-    radial-gradient(circle at 80% 20%,#153553,transparent 38%),
-    linear-gradient(135deg,#0b1724,#050b12);
-    border:1px solid #21374c;
-    border-radius:14px;
-    padding:22px;
-    margin-bottom:14px;
-}
-
-.hero h1{
-    font-size:27px;
-    margin-bottom:7px;
-}
-
-.hero p{
-    color:#879bb0;
-    font-size:12px;
-}
-
-.controls{
-    display:flex;
-    flex-wrap:wrap;
-    gap:9px;
-    margin-top:17px;
-}
+.hero{margin-bottom:15px}
+.hero h1{margin:0 0 8px}
+.hero p{color:#8295a8;font-size:12px}
 
 button{
-    border:0;
-    border-radius:7px;
-    padding:12px 16px;
-    color:white;
-    font-size:11px;
-    font-weight:bold;
-    cursor:pointer;
+padding:12px 16px;
+border:0;
+border-radius:7px;
+color:white;
+font-weight:bold;
+margin:5px;
+cursor:pointer;
 }
-
-button:active{
-    transform:scale(.96);
-}
-
-.launch{
-    background:#168c4a;
-}
-
-.abort{
-    background:#b52a36;
-}
-
-.reset{
-    background:#3b4b5e;
-}
-
-.ai{
-    background:#7147c7;
-}
+.launch{background:#168c4a}
+.abort{background:#b52a36}
+.reset{background:#405267}
+.ai{background:#7147c7}
 
 .grid{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:12px;
-    margin-bottom:14px;
-}
-
-.card{
-    background:#09121c;
-    border:1px solid #1d3043;
-    border-radius:10px;
-    padding:15px;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:10px;
+margin-bottom:15px;
 }
 
 .card-title{
-    color:#6e849b;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    font-size:9px;
-    margin-bottom:8px;
+font-size:9px;
+color:#71869b;
+text-transform:uppercase;
 }
-
-.value{
-    font-size:23px;
-    font-weight:bold;
-}
-
-.unit{
-    color:#65798d;
-    font-size:9px;
-}
-
-.progress{
-    height:6px;
-    background:#172331;
-    border-radius:10px;
-    margin-top:10px;
-    overflow:hidden;
-}
-
-.progress div{
-    height:100%;
-    transition:width .4s;
-}
-
-.health{
-    background:#6cff9b;
-}
-
-.fuel{
-    background:#ffc857;
-}
-
-.panel{
-    background:#09121c;
-    border:1px solid #1d3043;
-    border-radius:11px;
-    padding:16px;
-}
-
-.panel h3{
-    font-size:13px;
-    margin-bottom:13px;
-}
+.value{font-size:23px;font-weight:bold;margin-top:7px}
 
 .fleet{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-bottom:14px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-top:10px;
 }
 
 .mission{
-    background:#070e16;
-    border:1px solid #1b2d40;
-    border-radius:9px;
-    padding:15px;
-    cursor:pointer;
+background:#050b11;
+border:1px solid #1e3448;
+padding:15px;
+border-radius:8px;
+cursor:pointer;
 }
-
-.mission:hover{
-    border-color:#4da3ff;
-}
-
-.mission.selected{
-    border-color:#6cff9b;
-    box-shadow:0 0 15px rgba(108,255,155,.1);
-}
-
-.mission-name{
-    font-size:15px;
-    font-weight:bold;
-}
-
-.mission-type{
-    color:#71869b;
-    font-size:9px;
-    margin-top:4px;
-}
-
-.mission-status{
-    margin-top:11px;
-    font-size:9px;
-    color:#6cff9b;
-}
-
-.mission-health{
-    margin-top:11px;
-    font-size:20px;
-}
+.mission.selected{border-color:#6cff9b}
 
 .main{
-    display:grid;
-    grid-template-columns:1.35fr .65fr;
-    gap:14px;
-    margin-bottom:14px;
+display:grid;
+grid-template-columns:1.4fr .6fr;
+gap:15px;
+margin-top:15px;
 }
 
 .map{
-    height:390px;
-    position:relative;
-    overflow:hidden;
-    border-radius:9px;
-    border:1px solid #20394f;
-    background:
-    radial-gradient(circle at 50% 50%,#153b59 0%,#071522 40%,#02060b 75%);
+height:390px;
+position:relative;
+overflow:hidden;
+background:radial-gradient(circle,#123754,#03080d 70%);
+border-radius:8px;
 }
 
 .earth{
-    position:absolute;
-    width:110px;
-    height:110px;
-    border-radius:50%;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    background:
-    radial-gradient(circle at 35% 30%,#3b91bd,#0b3150 55%,#061421);
-    box-shadow:
-    0 0 25px rgba(77,163,255,.45),
-    inset -15px -10px 25px rgba(0,0,0,.5);
-    z-index:2;
+position:absolute;
+width:100px;
+height:100px;
+border-radius:50%;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+background:radial-gradient(circle at 35% 30%,#4c9ac2,#092943);
+box-shadow:0 0 30px #17618e;
 }
 
 .orbit{
-    position:absolute;
-    border:1px solid rgba(77,163,255,.35);
-    border-radius:50%;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+border:1px solid #285574;
+border-radius:50%;
 }
 
-.orbit1{
-    width:190px;
-    height:190px;
-}
-
-.orbit2{
-    width:290px;
-    height:290px;
-}
-
-.orbit3{
-    width:390px;
-    height:390px;
-    border-style:dashed;
-}
-
-.grid-line{
-    position:absolute;
-    background:rgba(77,163,255,.10);
-}
-
-.horizontal{
-    width:100%;
-    height:1px;
-}
-
-.vertical{
-    width:1px;
-    height:100%;
-}
+.o1{width:180px;height:180px}
+.o2{width:280px;height:280px}
+.o3{width:370px;height:370px}
 
 .ship{
-    position:absolute;
-    width:14px;
-    height:14px;
-    border-radius:50%;
-    z-index:20;
-    transition:left .5s linear,top .5s linear;
+position:absolute;
+width:14px;
+height:14px;
+border-radius:50%;
+z-index:5;
+transition:left .5s linear,top .5s linear;
+}
+.s0{background:#6cff9b;box-shadow:0 0 20px #6cff9b}
+.s1{background:#4da3ff;box-shadow:0 0 20px #4da3ff}
+.s2{background:#b66cff;box-shadow:0 0 20px #b66cff}
+
+.label{
+position:absolute;
+font-size:9px;
+z-index:6;
 }
 
-.ship:before{
-    content:"";
-    position:absolute;
-    width:30px;
-    height:30px;
-    border:1px solid currentColor;
-    border-radius:50%;
-    left:-8px;
-    top:-8px;
-    opacity:.45;
+.telemetry div{
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid #182936;
+font-size:11px;
 }
+.telemetry span{color:#71869b}
 
-.ship:after{
-    content:"";
-    position:absolute;
-    width:5px;
-    height:5px;
-    border-radius:50%;
-    background:white;
-    left:4px;
-    top:4px;
-}
-
-.ship0{
-    background:#6cff9b;
-    color:#6cff9b;
-    box-shadow:0 0 18px #6cff9b;
-}
-
-.ship1{
-    background:#4da3ff;
-    color:#4da3ff;
-    box-shadow:0 0 18px #4da3ff;
-}
-
-.ship2{
-    background:#b66cff;
-    color:#b66cff;
-    box-shadow:0 0 18px #b66cff;
-}
-
-.ship-label{
-    position:absolute;
-    z-index:25;
-    font-size:8px;
-}
-
-.label0{
-    color:#6cff9b;
-}
-
-.label1{
-    color:#4da3ff;
-}
-
-.label2{
-    color:#b66cff;
-}
-
-.map-info{
-    position:absolute;
-    left:10px;
-    bottom:10px;
-    z-index:30;
-    background:rgba(2,7,12,.75);
-    padding:8px;
-    border:1px solid #20384e;
-    border-radius:5px;
-    font-size:8px;
-    color:#71869c;
-}
-
-.telemetry-row{
-    display:flex;
-    justify-content:space-between;
-    border-bottom:1px solid #182836;
-    padding:10px 0;
-    font-size:11px;
-}
-
-.telemetry-row span{
-    color:#71869b;
-}
-
-.online{
-    color:#6cff9b;
-}
-
-.warning{
-    color:#ffc857;
-}
-
-.danger{
-    color:#ff5c69;
-}
-
-.two{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-    margin-bottom:14px;
-}
-
-.ai-panel{
-    background:linear-gradient(135deg,#0e1020,#09111b);
-    border-color:#6546a1;
-}
-
-.ai-badge{
-    float:right;
-    background:#7047c8;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:8px;
-}
-
-.ai-box{
-    background:#050a10;
-    border:1px solid #24334a;
-    border-radius:7px;
-    padding:12px;
-    margin-top:10px;
-}
-
-.ai-title{
-    color:#a887ff;
-    text-transform:uppercase;
-    font-size:9px;
-    margin-bottom:6px;
-}
-
-.ai-text{
-    font-size:12px;
-    line-height:1.5;
-}
-
-.stage{
-    text-align:center;
-    position:relative;
-    overflow:hidden;
-}
-
-.countdown-label{
-    color:#71869b;
-    font-size:10px;
-    letter-spacing:2px;
-    margin-top:4px;
+.launch-panel{
+margin-top:15px;
+text-align:center;
 }
 
 .countdown{
-    font-size:76px;
-    line-height:1;
-    font-weight:bold;
-    color:#6cff9b;
-    margin:18px 0;
-    text-shadow:
-    0 0 10px rgba(108,255,155,.5),
-    0 0 30px rgba(108,255,155,.25);
-    min-height:80px;
+font-size:75px;
+font-weight:bold;
+color:#6cff9b;
+min-height:90px;
+padding:15px;
+text-shadow:0 0 25px #6cff9b;
 }
 
-.countdown.active{
-    animation:pulse .8s infinite alternate;
+.countdown.pulse{
+animation:pulse .5s infinite alternate;
 }
-
 @keyframes pulse{
-    from{
-        transform:scale(1);
-        opacity:.75;
-    }
-    to{
-        transform:scale(1.12);
-        opacity:1;
-    }
+from{transform:scale(1)}
+to{transform:scale(1.12)}
 }
 
 .phase{
-    font-size:24px;
-    color:#4da3ff;
-    font-weight:bold;
-}
-
-.stage-message{
-    color:#71869b;
-    font-size:10px;
-    margin-top:8px;
+font-size:25px;
+font-weight:bold;
+color:#4da3ff;
 }
 
 .timeline{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    position:relative;
-    margin-top:20px;
+display:flex;
+justify-content:space-between;
+margin-top:25px;
+}
+.step{
+width:18%;
+font-size:8px;
+color:#71869b;
+}
+.dot{
+margin:auto;
+width:25px;
+height:25px;
+border:2px solid #344c63;
+border-radius:50%;
+padding-top:4px;
+}
+.step.active .dot{
+border-color:#4da3ff;
+color:#4da3ff;
+}
+.step.done .dot{
+border-color:#6cff9b;
+color:#6cff9b;
 }
 
-.timeline:before{
-    content:"";
-    position:absolute;
-    top:15px;
-    left:7%;
-    right:7%;
-    height:2px;
-    background:#24384d;
+.two{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:15px;
 }
 
-.timeline-step{
-    position:relative;
-    z-index:2;
-    width:20%;
-    text-align:center;
+.progress{
+height:7px;
+background:#172331;
+border-radius:10px;
+overflow:hidden;
+margin-top:8px;
 }
-
-.timeline-dot{
-    width:30px;
-    height:30px;
-    border-radius:50%;
-    border:2px solid #344c63;
-    background:#07101a;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:11px;
-    color:#71869b;
-}
-
-.timeline-step.active .timeline-dot{
-    border-color:#4da3ff;
-    color:#4da3ff;
-    box-shadow:0 0 15px rgba(77,163,255,.35);
-}
-
-.timeline-step.complete .timeline-dot{
-    border-color:#6cff9b;
-    background:#12321f;
-    color:#6cff9b;
-}
-
-.timeline-name{
-    font-size:8px;
-    color:#71869b;
-    margin-top:8px;
-}
-
-.timeline-time{
-    font-size:8px;
-    color:#4da3ff;
-    margin-top:4px;
-}
-
-.thrust-box{
-    margin-top:15px;
-}
-
-.thrust-value{
-    display:flex;
-    justify-content:space-between;
-    font-size:10px;
-    color:#71869b;
-}
-
-.thrust-bar{
-    height:10px;
-    background:#172331;
-    border-radius:10px;
-    overflow:hidden;
-    margin-top:7px;
-}
-
-.thrust-bar div{
-    height:100%;
-    width:0%;
-    background:#ff7b45;
-    transition:width .4s;
-    box-shadow:0 0 12px rgba(255,123,69,.5);
-}
-
-.mission-clock{
-    font-family:monospace;
-    font-size:30px;
-    color:#6cff9b;
-    letter-spacing:2px;
-    margin:8px 0;
-}
-
-.alerts{
-    max-height:190px;
-    overflow-y:auto;
-}
-
-.alert{
-    padding:9px;
-    margin-bottom:7px;
-    background:#0d1823;
-    border-left:3px solid #4da3ff;
-    border-radius:4px;
-    font-size:10px;
-}
-
-.alert.warning{
-    border-left-color:#ffc857;
-}
-
-.alert.danger{
-    border-left-color:#ff5c69;
-}
-
-.system-row{
-    display:flex;
-    justify-content:space-between;
-    padding:10px 0;
-    border-bottom:1px solid #182836;
-    font-size:11px;
-}
-
-.system-row span{
-    color:#71869b;
-}
+.bar{height:100%;width:0;transition:width .5s}
+.green{background:#6cff9b}
+.orange{background:#ff914d}
 
 .log{
-    height:180px;
-    overflow-y:auto;
-    background:#04090e;
-    padding:10px;
-    border-radius:7px;
-    font-family:monospace;
-    font-size:9px;
+height:170px;
+overflow:auto;
+background:#03080d;
+padding:10px;
+font-family:monospace;
+font-size:9px;
 }
-
-.log-entry{
-    padding:5px 0;
-    border-bottom:1px solid #101b25;
-    color:#879bb0;
+.log div{
+padding:5px;
+border-bottom:1px solid #101b25;
 }
+.log span{color:#4da3ff}
 
-.log-entry span{
-    color:#4da3ff;
+.ai-box{
+background:#050b12;
+padding:12px;
+border:1px solid #293950;
+border-radius:7px;
+margin-top:10px;
+font-size:11px;
 }
 
 footer{
-    text-align:center;
-    color:#4e6379;
-    font-size:9px;
-    padding:22px;
-}
-
-@media(max-width:1050px){
-    .grid{
-        grid-template-columns:repeat(3,1fr);
-    }
+text-align:center;
+padding:20px;
+font-size:9px;
+color:#52677c;
 }
 
 @media(max-width:850px){
-    .grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .main,
-    .two{
-        grid-template-columns:1fr;
-    }
-
-    .fleet{
-        grid-template-columns:1fr;
-    }
+.grid{grid-template-columns:repeat(2,1fr)}
+.main,.two{grid-template-columns:1fr}
+.fleet{grid-template-columns:1fr}
 }
 
 @media(max-width:500px){
-    header{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:9px;
-    }
-
-    .hero h1{
-        font-size:21px;
-    }
-
-    .map{
-        height:310px;
-    }
-
-    .orbit3{
-        width:310px;
-        height:310px;
-    }
-
-    .countdown{
-        font-size:62px;
-    }
-
-    .timeline-name{
-        font-size:7px;
-    }
+.countdown{font-size:60px}
+.map{height:320px}
 }
 </style>
 </head>
@@ -715,52 +267,31 @@ footer{
 <body>
 
 <header>
-
-<div class="logo">
-2060 <span>MISSION CONTROL</span>
-</div>
-
-<div class="header-right">
-<div class="link">● FLEET LINK</div>
-
-<div class="status" id="globalStatus">
-FLEET READY
-</div>
-</div>
-
+<div class="logo">2060 <span>MISSION CONTROL</span></div>
+<div class="status" id="globalStatus">FLEET READY</div>
 </header>
-
 
 <div class="container">
 
 <div class="hero">
-
 <h1>MULTI-MISSION COMMAND CENTER</h1>
+<p>2060 Aerospace Initiative • Autonomous Spacecraft Fleet Simulation</p>
 
-<p>
-2060 Aerospace Initiative • Autonomous Spacecraft Fleet Operations
-</p>
-
-<div class="controls">
-
-<button class="launch" id="launchButton">
+<button class="launch" id="launchBtn">
 🚀 LAUNCH SELECTED
 </button>
 
-<button class="abort" id="abortButton">
+<button class="abort" id="abortBtn">
 ⚠ ABORT
 </button>
 
-<button class="reset" id="resetButton">
+<button class="reset" id="resetBtn">
 ↻ RESET
 </button>
 
-<button class="ai" id="aiButton">
+<button class="ai" id="aiBtn">
 🧠 AI ANALYSIS
 </button>
-
-</div>
-
 </div>
 
 
@@ -769,37 +300,32 @@ FLEET READY
 <div class="card">
 <div class="card-title">Active Missions</div>
 <div class="value" id="active">0</div>
-<div class="unit">SPACECRAFT</div>
 </div>
 
 <div class="card">
 <div class="card-title">Fleet Health</div>
-<div class="value" id="fleetHealth">100%</div>
-<div class="unit">SYSTEM STATUS</div>
+<div class="value" id="health">100%</div>
 <div class="progress">
-<div class="health" id="healthBar" style="width:100%"></div>
+<div class="bar green" id="healthBar"></div>
 </div>
 </div>
 
 <div class="card">
 <div class="card-title">Fleet Fuel</div>
 <div class="value" id="fleetFuel">100%</div>
-<div class="unit">AVERAGE RESERVE</div>
 <div class="progress">
-<div class="fuel" id="fuelBar" style="width:100%"></div>
+<div class="bar orange" id="fuelBar"></div>
 </div>
 </div>
 
 <div class="card">
-<div class="card-title">Mission Time</div>
-<div class="mission-clock" id="missionClock">00:00</div>
-<div class="unit">ELAPSED</div>
+<div class="card-title">Mission Clock</div>
+<div class="value" id="clock">00:00</div>
 </div>
 
 <div class="card">
-<div class="card-title">Selected Mission</div>
-<div class="value" id="selectedName">ORION-01</div>
-<div class="unit" id="selectedType">EARTH ORBIT</div>
+<div class="card-title">Selected</div>
+<div class="value" id="selected">ORION-01</div>
 </div>
 
 </div>
@@ -807,17 +333,784 @@ FLEET READY
 
 <div class="panel">
 
-<h3>🛰️ FLEET COMMAND</h3>
+<h3>🛰️ SPACECRAFT FLEET</h3>
 
 <div class="fleet">
 
-<div class="mission selected" id="mission0">
-<div class="mission-name">ORION-01</div>
-<div class="mission-type">EARTH ORBIT • LEO</div>
-<div class="mission-status" id="status0">● READY</div>
-<div class="mission-health" id="missionHealth0">100%</div>
+<div class="mission selected" id="m0">
+<b>ORION-01</b>
+<br>
+<small>EARTH ORBIT</small>
+<div id="st0">● READY</div>
 </div>
 
-<div class="mission" id="mission1">
-<div class="mission-name">LUNA-02</div>
-<div class="mission-type">LUNAR TRANSFER</div>
+<div class="mission" id="m1">
+<b>LUNA-02</b>
+<br>
+<small>LUNAR TRANSFER</small>
+<div id="st1">● READY</div>
+</div>
+
+<div class="mission" id="m2">
+<b>MARS-03</b>
+<br>
+<small>MARS TRANSIT</small>
+<div id="st2">● READY</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="main">
+
+<div class="panel">
+
+<h3>🌍 LIVE SPACECRAFT TRACKING</h3>
+
+<div class="map" id="map">
+
+<div class="orbit o1"></div>
+<div class="orbit o2"></div>
+<div class="orbit o3"></div>
+
+<div class="earth"></div>
+
+<div class="ship s0" id="ship0"></div>
+<div class="ship s1" id="ship1"></div>
+<div class="ship s2" id="ship2"></div>
+
+<div class="label" id="label0">ORION-01</div>
+<div class="label" id="label1">LUNA-02</div>
+<div class="label" id="label2">MARS-03</div>
+
+</div>
+</div>
+
+
+<div class="panel telemetry">
+
+<h3>📡 TELEMETRY</h3>
+
+<div><span>Altitude</span><b id="altitude">0 KM</b></div>
+<div><span>Velocity</span><b id="speed">0.00 KM/S</b></div>
+<div><span>Fuel</span><b id="fuel">100%</b></div>
+<div><span>Thrust</span><b id="thrust">0%</b></div>
+<div><span>Signal</span><b id="signal">100%</b></div>
+<div><span>Heading</span><b id="heading">090°</b></div>
+<div><span>Phase</span><b id="telemetryPhase">GROUND</b></div>
+
+<h4>ENGINE THRUST</h4>
+<div class="progress">
+<div class="bar orange" id="thrustBar"></div>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="panel launch-panel">
+
+<h3>🚀 LAUNCH SEQUENCE</h3>
+
+<div class="countdown" id="countdown">
+READY
+</div>
+
+<div class="phase" id="phase">
+READY
+</div>
+
+<p id="message">
+Spacecraft awaiting launch command.
+</p>
+
+<div class="timeline">
+
+<div class="step" id="step0">
+<div class="dot">1</div>
+LAUNCH
+</div>
+
+<div class="step" id="step1">
+<div class="dot">2</div>
+ASCENT
+</div>
+
+<div class="step" id="step2">
+<div class="dot">3</div>
+INSERTION
+</div>
+
+<div class="step" id="step3">
+<div class="dot">4</div>
+ORBIT
+</div>
+
+<div class="step" id="step4">
+<div class="dot">5</div>
+MISSION
+</div>
+
+</div>
+
+</div>
+
+
+<div class="two">
+
+<div class="panel">
+
+<h3>🧠 AI FLIGHT DIRECTOR</h3>
+
+<div class="ai-box" id="aiDecision">
+Fleet stable. Awaiting launch command.
+</div>
+
+<div class="ai-box" id="director">
+Standing by.
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<h3>📋 MISSION LOG</h3>
+
+<div class="log" id="log">
+
+<div>
+<span>[SYSTEM]</span>
+Mission Control V1.8.1 online.
+</div>
+
+<div>
+<span>[NETWORK]</span>
+Fleet connection established.
+</div>
+
+<div>
+<span>[READY]</span>
+All spacecraft ready.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+2060 Aerospace Initiative • Mission Control V1.8.1
+</footer>
+
+
+<script>
+
+const missions=[
+{
+name:"ORION-01",
+fuel:100,
+alt:0,
+speed:0,
+thrust:0,
+signal:100,
+heading:90,
+phase:"GROUND",
+running:false,
+counting:false,
+aborted:false,
+time:0,
+angle:0,
+radius:90
+},
+{
+name:"LUNA-02",
+fuel:100,
+alt:0,
+speed:0,
+thrust:0,
+signal:100,
+heading:75,
+phase:"GROUND",
+running:false,
+counting:false,
+aborted:false,
+time:0,
+angle:2,
+radius:140
+},
+{
+name:"MARS-03",
+fuel:100,
+alt:0,
+speed:0,
+thrust:0,
+signal:100,
+heading:60,
+phase:"GROUND",
+running:false,
+counting:false,
+aborted:false,
+time:0,
+angle:4,
+radius:185
+}
+];
+
+let selected=0;
+let timer=null;
+let count=0;
+
+
+/* SELECT SPACECRAFT */
+
+document.getElementById("m0").onclick=()=>select(0);
+document.getElementById("m1").onclick=()=>select(1);
+document.getElementById("m2").onclick=()=>select(2);
+
+function select(i){
+
+selected=i;
+
+for(let x=0;x<3;x++){
+document.getElementById("m"+x)
+.classList.remove("selected");
+}
+
+document.getElementById("m"+i)
+.classList.add("selected");
+
+document.getElementById("selected")
+.textContent=missions[i].name;
+
+update();
+
+}
+
+
+/* LAUNCH */
+
+document.getElementById("launchBtn")
+.onclick=launch;
+
+function launch(){
+
+const m=missions[selected];
+
+if(m.running){
+writeLog(m.name+" is already flying.");
+return;
+}
+
+if(m.counting){
+return;
+}
+
+if(m.aborted){
+writeLog("Reset spacecraft before relaunch.");
+return;
+}
+
+m.counting=true;
+m.phase="COUNTDOWN";
+
+count=5;
+
+document.getElementById("countdown")
+.textContent=count;
+
+document.getElementById("countdown")
+.classList.add("pulse");
+
+document.getElementById("phase")
+.textContent="COUNTDOWN";
+
+document.getElementById("message")
+.textContent=
+m.name+" launch sequence initiated.";
+
+document.getElementById("globalStatus")
+.textContent="COUNTDOWN";
+
+writeLog(m.name+" T-5 seconds.");
+
+update();
+
+timer=setInterval(()=>{
+
+count--;
+
+if(count>0){
+
+document.getElementById("countdown")
+.textContent=count;
+
+writeLog(m.name+" T-"+count+" seconds.");
+
+}else{
+
+clearInterval(timer);
+timer=null;
+
+m.counting=false;
+
+document.getElementById("countdown")
+.classList.remove("pulse");
+
+document.getElementById("countdown")
+textContent="LIFTOFF!";
+
+document.getElementById("phase")
+textContent="LIFTOFF";
+
+writeLog(m.name+" LIFTOFF CONFIRMED.");
+
+setTimeout(liftoff,700);
+
+}
+
+},1000);
+
+}
+
+
+/* LIFTOFF */
+
+function liftoff(){
+
+const m=missions[selected];
+
+m.running=true;
+m.phase="ASCENT";
+m.time=0;
+m.alt=0;
+m.speed=0;
+m.thrust=100;
+
+document.getElementById("countdown")
+textContent="🚀";
+
+document.getElementById("phase")
+textContent="ASCENT";
+
+document.getElementById("message")
+textContent=
+m.name+" has cleared the launch platform.";
+
+document.getElementById("globalStatus")
+textContent="MISSION ACTIVE";
+
+document.getElementById("director")
+textContent=
+"Flight Director: Liftoff confirmed. Monitoring trajectory.";
+
+writeLog(m.name+" ascent phase active.");
+
+update();
+
+}
+
+
+/* ABORT */
+
+document.getElementById("abortBtn")
+.onclick=abort;
+
+function abort(){
+
+const m=missions[selected];
+
+if(m.counting){
+
+clearInterval(timer);
+timer=null;
+
+m.counting=false;
+m.aborted=true;
+m.phase="ABORTED";
+
+document.getElementById("countdown")
+.classList.remove("pulse");
+
+document.getElementById("countdown")
+textContent="ABORT";
+
+document.getElementById("phase")
+textContent="ABORTED";
+
+writeLog(m.name+" launch aborted.");
+
+update();
+return;
+}
+
+if(m.running){
+
+m.running=false;
+m.aborted=true;
+m.phase="ABORTED";
+m.thrust=0;
+
+document.getElementById("countdown")
+textContent="ABORT";
+
+document.getElementById("phase")
+textContent="ABORTED";
+
+document.getElementById("globalStatus")
+textContent="MISSION ABORTED";
+
+writeLog(m.name+" emergency abort executed.");
+
+update();
+
+}
+
+}
+
+
+/* RESET */
+
+document.getElementById("resetBtn")
+.onclick=reset;
+
+function reset(){
+
+clearInterval(timer);
+timer=null;
+
+missions.forEach(m=>{
+
+m.fuel=100;
+m.alt=0;
+m.speed=0;
+m.thrust=0;
+m.signal=100;
+m.phase="GROUND";
+m.running=false;
+m.counting=false;
+m.aborted=false;
+m.time=0;
+
+});
+
+document.getElementById("countdown")
+textContent="READY";
+
+document.getElementById("phase")
+textContent="READY";
+
+document.getElementById("message")
+textContent=
+"Spacecraft awaiting launch command.";
+
+document.getElementById("globalStatus")
+textContent="FLEET READY";
+
+document.getElementById("director")
+textContent=
+"Standing by for launch command.";
+
+writeLog("Fleet reset.");
+
+update();
+
+}
+
+
+/* AI */
+
+document.getElementById("aiBtn")
+.onclick=()=>{
+
+const active=
+missions.find(m=>m.running);
+
+let text;
+
+if(active){
+
+text=
+active.name+
+" trajectory is being monitored. Flight conditions nominal.";
+
+}else{
+
+text=
+"Fleet stable. Select a spacecraft and launch when ready.";
+
+}
+
+document.getElementById("aiDecision")
+textContent=text;
+
+writeLog("AI flight analysis completed.");
+
+};
+
+
+/* SIMULATION */
+
+setInterval(()=>{
+
+missions.forEach(m=>{
+
+if(!m.running)return;
+
+m.time++;
+
+m.alt+=8+Math.random()*4;
+
+m.speed=Math.min(
+7.8,
+m.speed+.10+Math.random()*.04
+);
+
+m.fuel=Math.max(
+3,
+m.fuel-.15
+);
+
+m.thrust=
+m.alt<80?100:
+m.alt<180?65:
+m.alt<250?35:10;
+
+m.signal=96+Math.random()*4;
+
+m.heading+=
+(Math.random()-.5)*1;
+
+m.angle+=.05;
+
+if(m.alt<80){
+m.phase="ASCENT";
+}
+else if(m.alt<180){
+m.phase="UPPER ASCENT";
+}
+else if(m.alt<250){
+m.phase="ORBIT INSERTION";
+}
+else if(m.alt<450){
+m.phase="ORBIT";
+}
+else{
+m.phase="MISSION";
+}
+
+});
+
+update();
+
+},1000);
+
+
+/* UPDATE */
+
+function update(){
+
+const m=missions[selected];
+
+document.getElementById("altitude")
+textContent=Math.round(m.alt)+" KM";
+
+document.getElementById("speed")
+textContent=m.speed.toFixed(2)+" KM/S";
+
+document.getElementById("fuel")
+textContent=m.fuel.toFixed(1)+"%";
+
+document.getElementById("thrust")
+textContent=Math.round(m.thrust)+"%";
+
+document.getElementById("signal")
+textContent=Math.round(m.signal)+"%";
+
+document.getElementById("heading")
+textContent=Math.round(m.heading)+"°";
+
+document.getElementById("telemetryPhase")
+textContent=m.phase;
+
+document.getElementById("thrustBar")
+style.width=m.thrust+"%";
+
+document.getElementById("fuelBar")
+style.width=m.fuel+"%";
+
+let active=0;
+let totalFuel=0;
+
+missions.forEach((m,i)=>{
+
+if(m.running)active++;
+
+totalFuel+=m.fuel;
+
+document.getElementById("st"+i)
+textContent=
+m.aborted?"● ABORTED":
+m.counting?"● COUNTDOWN":
+m.running?"● "+m.phase:
+"● READY";
+
+});
+
+document.getElementById("active")
+textContent=active;
+
+document.getElementById("fleetFuel")
+textContent=
+Math.round(totalFuel/3)+"%";
+
+document.getElementById("health")
+textContent="100%";
+
+document.getElementById("healthBar")
+style.width="100%";
+
+const minutes=Math.floor(m.time/60);
+const seconds=m.time%60;
+
+document.getElementById("clock")
+textContent=
+String(minutes).padStart(2,"0")+
+":"+
+String(seconds).padStart(2,"0");
+
+updateTimeline();
+moveShips();
+
+}
+
+
+/* TIMELINE */
+
+function updateTimeline(){
+
+const m=missions[selected];
+
+let step=0;
+
+if(m.phase==="ASCENT"||
+m.phase==="UPPER ASCENT")step=1;
+
+if(m.phase==="ORBIT INSERTION")step=2;
+if(m.phase==="ORBIT")step=3;
+if(m.phase==="MISSION")step=4;
+
+for(let i=0;i<5;i++){
+
+const el=document.getElementById("step"+i);
+
+el.classList.remove("active","done");
+
+if(i<step)el.classList.add("done");
+if(i===step)el.classList.add("active");
+
+}
+
+}
+
+
+/* MOVE SPACECRAFT */
+
+function moveShips(){
+
+const map=document.getElementById("map");
+
+const cx=map.clientWidth/2;
+const cy=map.clientHeight/2;
+
+missions.forEach((m,i)=>{
+
+let x;
+let y;
+
+if(m.running){
+
+const scale=
+Math.min(
+map.clientWidth/390,
+map.clientHeight/390
+);
+
+const r=m.radius*scale;
+
+x=cx+Math.cos(m.angle)*r;
+y=cy+Math.sin(m.angle)*r*.65;
+
+}else{
+
+if(i===0){
+x=cx-70;
+y=cy-80;
+}
+else if(i===1){
+x=cx+80;
+y=cy-20;
+}
+else{
+x=cx-90;
+y=cy+75;
+}
+
+}
+
+document.getElementById("ship"+i)
+style.left=(x-7)+"px";
+
+document.getElementById("ship"+i)
+style.top=(y-7)+"px";
+
+document.getElementById("label"+i)
+style.left=(x+12)+"px";
+
+document.getElementById("label"+i)
+style.top=(y-5)+"px";
+
+});
+
+}
+
+
+/* LOG */
+
+function writeLog(text){
+
+const log=document.getElementById("log");
+
+const line=document.createElement("div");
+
+line.innerHTML=
+"<span>["+new Date()
+.toLocaleTimeString()+"]</span> "
++text;
+
+log.appendChild(line);
+
+log.scrollTop=log.scrollHeight;
+
+}
+
+
+/* START */
+
+update();
+moveShips();
+
+window.addEventListener(
+"resize",
+moveShips
+);
+
+</script>
+
+</body>
+    </html>
