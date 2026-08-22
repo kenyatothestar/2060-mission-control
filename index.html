@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2060 Mission Control V1.8</title>
+<title>2060 Mission Control V1.8.1</title>
 
 <style>
 *{
@@ -171,10 +171,6 @@ button:active{
 
 .fuel{
     background:#ffc857;
-}
-
-.thrust{
-    background:#ff7b45;
 }
 
 .panel{
@@ -453,8 +449,6 @@ button:active{
     line-height:1.5;
 }
 
-/* COUNTDOWN */
-
 .stage{
     text-align:center;
     position:relative;
@@ -506,8 +500,6 @@ button:active{
     font-size:10px;
     margin-top:8px;
 }
-
-/* MISSION TIMELINE */
 
 .timeline{
     display:flex;
@@ -572,8 +564,6 @@ button:active{
     margin-top:4px;
 }
 
-/* THRUST */
-
 .thrust-box{
     margin-top:15px;
 }
@@ -601,8 +591,6 @@ button:active{
     box-shadow:0 0 12px rgba(255,123,69,.5);
 }
 
-/* MISSION TIMER */
-
 .mission-clock{
     font-family:monospace;
     font-size:30px;
@@ -610,8 +598,6 @@ button:active{
     letter-spacing:2px;
     margin:8px 0;
 }
-
-/* ALERTS */
 
 .alerts{
     max-height:190px;
@@ -635,7 +621,17 @@ button:active{
     border-left-color:#ff5c69;
 }
 
-/* LOG */
+.system-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid #182836;
+    font-size:11px;
+}
+
+.system-row span{
+    color:#71869b;
+}
 
 .log{
     height:180px;
@@ -665,15 +661,12 @@ footer{
 }
 
 @media(max-width:1050px){
-
     .grid{
         grid-template-columns:repeat(3,1fr);
     }
-
 }
 
 @media(max-width:850px){
-
     .grid{
         grid-template-columns:repeat(2,1fr);
     }
@@ -686,11 +679,9 @@ footer{
     .fleet{
         grid-template-columns:1fr;
     }
-
 }
 
 @media(max-width:500px){
-
     header{
         flex-direction:column;
         align-items:flex-start;
@@ -717,7 +708,6 @@ footer{
     .timeline-name{
         font-size:7px;
     }
-
 }
 </style>
 </head>
@@ -731,15 +721,11 @@ footer{
 </div>
 
 <div class="header-right">
-
-<div class="link">
-● FLEET LINK
-</div>
+<div class="link">● FLEET LINK</div>
 
 <div class="status" id="globalStatus">
 FLEET READY
 </div>
-
 </div>
 
 </header>
@@ -747,13 +733,9 @@ FLEET READY
 
 <div class="container">
 
-<!-- HERO -->
-
 <div class="hero">
 
-<h1>
-MULTI-MISSION COMMAND CENTER
-</h1>
+<h1>MULTI-MISSION COMMAND CENTER</h1>
 
 <p>
 2060 Aerospace Initiative • Autonomous Spacecraft Fleet Operations
@@ -761,23 +743,19 @@ MULTI-MISSION COMMAND CENTER
 
 <div class="controls">
 
-<button class="launch"
-onclick="launchSelected()">
+<button class="launch" id="launchButton">
 🚀 LAUNCH SELECTED
 </button>
 
-<button class="abort"
-onclick="abortSelected()">
+<button class="abort" id="abortButton">
 ⚠ ABORT
 </button>
 
-<button class="reset"
-onclick="resetFleet()">
+<button class="reset" id="resetButton">
 ↻ RESET
 </button>
 
-<button class="ai"
-onclick="runAI()">
+<button class="ai" id="aiButton">
 🧠 AI ANALYSIS
 </button>
 
@@ -786,854 +764,60 @@ onclick="runAI()">
 </div>
 
 
-<!-- TOP METRICS -->
-
 <div class="grid">
 
 <div class="card">
-
-<div class="card-title">
-Active Missions
+<div class="card-title">Active Missions</div>
+<div class="value" id="active">0</div>
+<div class="unit">SPACECRAFT</div>
 </div>
-
-<div class="value" id="active">
-0
-</div>
-
-<div class="unit">
-SPACECRAFT
-</div>
-
-</div>
-
 
 <div class="card">
-
-<div class="card-title">
-Fleet Health
-</div>
-
-<div class="value" id="fleetHealth">
-100%
-</div>
-
-<div class="unit">
-SYSTEM STATUS
-</div>
-
+<div class="card-title">Fleet Health</div>
+<div class="value" id="fleetHealth">100%</div>
+<div class="unit">SYSTEM STATUS</div>
 <div class="progress">
-<div class="health"
-id="healthBar"
-style="width:100%">
+<div class="health" id="healthBar" style="width:100%"></div>
 </div>
 </div>
-
-</div>
-
 
 <div class="card">
-
-<div class="card-title">
-Fleet Fuel
-</div>
-
-<div class="value" id="fleetFuel">
-100%
-</div>
-
-<div class="unit">
-AVERAGE RESERVE
-</div>
-
+<div class="card-title">Fleet Fuel</div>
+<div class="value" id="fleetFuel">100%</div>
+<div class="unit">AVERAGE RESERVE</div>
 <div class="progress">
-<div class="fuel"
-id="fuelBar"
-style="width:100%">
+<div class="fuel" id="fuelBar" style="width:100%"></div>
 </div>
 </div>
-
-</div>
-
 
 <div class="card">
-
-<div class="card-title">
-Mission Time
+<div class="card-title">Mission Time</div>
+<div class="mission-clock" id="missionClock">00:00</div>
+<div class="unit">ELAPSED</div>
 </div>
-
-<div class="mission-clock"
-id="missionClock">
-00:00
-</div>
-
-<div class="unit">
-ELAPSED
-</div>
-
-</div>
-
 
 <div class="card">
-
-<div class="card-title">
-Selected Mission
-</div>
-
-<div class="value"
-id="selectedName">
-ORION-01
-</div>
-
-<div class="unit"
-id="selectedType">
-EARTH ORBIT
+<div class="card-title">Selected Mission</div>
+<div class="value" id="selectedName">ORION-01</div>
+<div class="unit" id="selectedType">EARTH ORBIT</div>
 </div>
 
 </div>
 
-</div>
-
-
-<!-- FLEET -->
 
 <div class="panel">
 
-<h3>
-🛰️ FLEET COMMAND
-</h3>
+<h3>🛰️ FLEET COMMAND</h3>
 
 <div class="fleet">
 
-
-<div
-class="mission selected"
-id="mission0"
-onclick="selectMission(0)">
-
-<div class="mission-name">
-ORION-01
-</div>
-
-<div class="mission-type">
-EARTH ORBIT • LEO
-</div>
-
-<div
-class="mission-status"
-id="status0">
-● READY
-</div>
-
-<div
-class="mission-health"
-id="missionHealth0">
-100%
-</div>
-
-</div>
-
-
-<div
-class="mission"
-id="mission1"
-onclick="selectMission(1)">
-
-<div class="mission-name">
-LUNA-02
-</div>
-
-<div class="mission-type">
-LUNAR TRANSFER
-</div>
-
-<div
-class="mission-status"
-id="status1">
-● READY
-</div>
-
-<div
-class="mission-health"
-id="missionHealth1">
-100%
-</div>
-
-</div>
-
-
-<div
-class="mission"
-id="mission2"
-onclick="selectMission(2)">
-
-<div class="mission-name">
-MARS-03
-</div>
-
-<div class="mission-type">
-MARS TRANSIT
-</div>
-
-<div
-class="mission-status"
-id="status2">
-● READY
-</div>
-
-<div
-class="mission-health"
-id="missionHealth2">
-100%
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- MAP + TELEMETRY -->
-
-<div class="main">
-
-
-<div class="panel">
-
-<h3>
-🌍 LIVE SPACECRAFT TRACKING
-</h3>
-
-<div class="map" id="map">
-
-<div
-class="grid-line horizontal"
-style="top:25%">
-</div>
-
-<div
-class="grid-line horizontal"
-style="top:50%">
-</div>
-
-<div
-class="grid-line horizontal"
-style="top:75%">
-</div>
-
-<div
-class="grid-line vertical"
-style="left:25%">
-</div>
-
-<div
-class="grid-line vertical"
-style="left:50%">
-</div>
-
-<div
-class="grid-line vertical"
-style="left:75%">
-</div>
-
-<div class="orbit orbit1"></div>
-<div class="orbit orbit2"></div>
-<div class="orbit orbit3"></div>
-
-<div class="earth"></div>
-
-<div
-class="ship ship0"
-id="ship0">
-</div>
-
-<div
-class="ship ship1"
-id="ship1">
-</div>
-
-<div
-class="ship ship2"
-id="ship2">
-</div>
-
-<div
-class="ship-label label0"
-id="label0">
-ORION-01
-</div>
-
-<div
-class="ship-label label1"
-id="label1">
-LUNA-02
-</div>
-
-<div
-class="ship-label label2"
-id="label2">
-MARS-03
-</div>
-
-<div class="map-info">
-LIVE TELEMETRY • SIMULATION MODE
-</div>
-
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<h3>
-📡 SELECTED TELEMETRY
-</h3>
-
-<div class="telemetry-row">
-<span>Latitude</span>
-<strong id="latitude">
--1.292°
-</strong>
-</div>
-
-<div class="telemetry-row">
-<span>Longitude</span>
-<strong id="longitude">
-36.822°
-</strong>
-</div>
-
-<div class="telemetry-row">
-<span>Altitude</span>
-<strong id="altitude">
-0 KM
-</strong>
-</div>
-
-<div class="telemetry-row">
-<span>Velocity</span>
-<strong id="speed">
-0.00 KM/S
-</strong>
-</div>
-
-<div class="telemetry-row">
-<span>Heading</span>
-<strong id="heading">
-090°
-</strong>
-</div>
-
-<div class="telemetry-row">
-<span>Fuel</span>
-<strong id="fuel">
-100%
-</strong>
-</div>
-
-<div class="telemetry-row">
-<span>Signal</span>
-<strong id="signal">
-100%
-</strong>
-</div>
-
-<div class="telemetry-row">
-<span>Thrust</span>
-<strong id="thrustValue">
-0%
-</strong>
-</div>
-
-<div class="telemetry-row">
-<span>Phase</span>
-<strong id="telemetryPhase">
-GROUND
-</strong>
-</div>
-
-<div class="thrust-box">
-
-<div class="thrust-value">
-
-<span>
-ENGINE THRUST
-</span>
-
-<strong id="thrustPercent">
-0%
-</strong>
-
-</div>
-
-<div class="thrust-bar">
-
-<div id="thrustBar"></div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- LAUNCH SEQUENCE + AI -->
-
-<div class="two">
-
-
-<div class="panel stage">
-
-<h3>
-🚀 LAUNCH SEQUENCE
-</h3>
-
-<div class="countdown-label">
-COUNTDOWN
-</div>
-
-<div
-class="countdown"
-id="countdown">
-READY
-</div>
-
-<div
-class="phase"
-id="phase">
-READY
-</div>
-
-<div
-class="stage-message"
-id="stageMessage">
-Selected spacecraft awaiting launch command.
-</div>
-
-
-<!-- TIMELINE -->
-
-<div class="timeline">
-
-<div
-class="timeline-step"
-id="step0">
-
-<div class="timeline-dot">
-1
-</div>
-
-<div class="timeline-name">
-LAUNCH
-</div>
-
-<div
-class="timeline-time"
-id="time0">
-—
-</div>
-
-</div>
-
-
-<div
-class="timeline-step"
-id="step1">
-
-<div class="timeline-dot">
-2
-</div>
-
-<div class="timeline-name">
-ASCENT
-</div>
-
-<div
-class="timeline-time"
-id="time1">
-—
-</div>
-
-</div>
-
-
-<div
-class="timeline-step"
-id="step2">
-
-<div class="timeline-dot">
-3
-</div>
-
-<div class="timeline-name">
-INSERTION
-</div>
-
-<div
-class="timeline-time"
-id="time2">
-—
-</div>
-
-</div>
-
-
-<div
-class="timeline-step"
-id="step3">
-
-<div class="timeline-dot">
-4
-</div>
-
-<div class="timeline-name">
-ORBIT
-</div>
-
-<div
-class="timeline-time"
-id="time3">
-—
-</div>
-
-</div>
-
-
-<div
-class="timeline-step"
-id="step4">
-
-<div class="timeline-dot">
-5
-</div>
-
-<div class="timeline-name">
-MISSION
-</div>
-
-<div
-class="timeline-time"
-id="time4">
-—
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="panel ai-panel">
-
-<div class="ai-badge">
-AUTONOMOUS
-</div>
-
-<h3>
-🧠 AI FLEET DIRECTOR
-</h3>
-
-<div class="ai-box">
-
-<div class="ai-title">
-Fleet Recommendation
-</div>
-
-<div
-class="ai-text"
-id="aiDecision">
-Fleet stable. Select a spacecraft and launch when ready.
-</div>
-
-</div>
-
-<div class="ai-box">
-
-<div class="ai-title">
-Current Priority
-</div>
-
-<div
-class="ai-text"
-id="priority">
-ORION-01 — LOW PRIORITY
-</div>
-
-</div>
-
-<div class="ai-box">
-
-<div class="ai-title">
-Flight Director
-</div>
-
-<div
-class="ai-text"
-id="flightDirector">
-Standing by for launch command.
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ALERTS + SYSTEM -->
-
-<div class="two">
-
-
-<div class="panel">
-
-<h3>
-🚨 FLEET ALERTS
-</h3>
-
-<div
-class="alerts"
-id="alerts">
-
-<div class="alert">
-SYSTEM — Fleet intelligence online.
-</div>
-
-<div class="alert">
-SYSTEM — Three spacecraft ready.
-</div>
-
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<h3>
-⚙️ SYSTEM STATUS
-</h3>
-
-<div class="system-row">
-
-<span>
-Flight Network
-</span>
-
-<strong class="online">
-ONLINE
-</strong>
-
-</div>
-
-<div class="system-row">
-
-<span>
-AI Director
-</span>
-
-<strong class="online">
-ACTIVE
-</strong>
-
-</div>
-
-<div class="system-row">
-
-<span>
-Navigation
-</span>
-
-<strong class="online">
-ONLINE
-</strong>
-
-</div>
-
-<div class="system-row">
-
-<span>
-Deep Space Link
-</span>
-
-<strong class="online">
-ONLINE
-</strong>
-
-</div>
-
-<div class="system-row">
-
-<span>
-Safety System
-</span>
-
-<strong class="online">
-ARMED
-</strong>
-
-</div>
-
-<div class="system-row">
-
-<span>
-Telemetry
-</span>
-
-<strong class="online">
-LIVE
-</strong>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- LOG -->
-
-<div class="panel">
-
-<h3>
-📋 MISSION LOG
-</h3>
-
-<div
-class="log"
-id="log">
-
-<div class="log-entry">
-<span>[SYSTEM]</span>
-Mission Control V1.8 initialized.
-</div>
-
-<div class="log-entry">
-<span>[NETWORK]</span>
-Fleet communication link established.
-</div>
-
-<div class="log-entry">
-<span>[READY]</span>
-ORION-01, LUNA-02 and MARS-03 ready.
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<footer>
-2060 Aerospace Initiative • Mission Control Prototype V1.8
-</footer>
-
-
-<script>
-
-/* ==========================================
-   MISSION DATA
-========================================== */
-
-const missions = [
-
-{
-name:"ORION-01",
-type:"EARTH ORBIT",
-phase:"GROUND",
-altitude:0,
-speed:0,
-fuel:100,
-health:100,
-signal:100,
-latitude:-1.292,
-longitude:36.822,
-heading:90,
-thrust:0,
-running:false,
-aborted:false,
-time:0,
-angle:0,
-orbitRadius:95
-},
-
-{
-name:"LUNA-02",
-type:"LUNAR TRANSFER",
-phase:"GROUND",
-altitude:0,
-speed:0,
-fuel:100,
-health:100,
-signal:100,
-latitude:0,
-longitude:45,
-heading:75,
-thrust:0,
-running:false,
-aborted:false,
-time:0,
-angle:2.1,
-orbitRadius:145
-},
-
-{
-name:"MARS-03",
-type:"MARS TRANSIT",
-phase:"GROUND",
-altitude:0,
-speed:0,
-fuel:100,
-health:100,
-signal:100,
-latitude:10,
-longitude:70,
-heading:60,
-thrust:0,
-running:false,
-aborted:false,
-time:0,
-angle:4.2,
-orbitRadius:195
-}
-
-];
-
-let selected=0;
-
-let countdownTimer=null;
-
-
-/* ==========================================
-   ELEMENTS
-========================================== */
-
-const globalStatus=
-document.getElementById("globalStatus");
-
-const countdown=
-document.getElementById("countdown");
-
-const phase=
-document.getElementById("phase");
-
-const stageMessage=
-document.getElementById("stageMessage");
-
-const log=
-document.getElementById("log");
-
-const alerts=
-document.getElementById("alerts");
-
-
-/* ==========================================
-   LOG
-========================================== */
-
-function addLog(tex
+<div class="mission selected" id="mission0">
+<div class="mission-name">ORION-01</div>
+<div class="mission-type">EARTH ORBIT • LEO</div>
+<div class="mission-status" id="status0">● READY</div>
+<div class="mission-health" id="missionHealth0">100%</div>
+</div>
+
+<div class="mission" id="mission1">
+<div class="mission-name">LUNA-02</div>
+<div class="mission-type">LUNAR TRANSFER</div>
