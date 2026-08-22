@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>2060 Mission Control V2.3.3</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>2060 Mission Control V2.4.1</title>
 
 <style>
 
@@ -165,6 +168,34 @@ border-left:5px solid #00d084;
 color:#9fffd3;
 }
 
+
+/* SYSTEM HEALTH */
+
+.systems{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.system{
+padding:15px;
+background:#020617;
+border:1px solid #263858;
+border-radius:10px;
+}
+
+.system-name{
+color:#94a3b8;
+font-size:13px;
+}
+
+.system-status{
+display:block;
+margin-top:8px;
+color:#00ff99;
+font-weight:bold;
+}
+
 #log{
 height:180px;
 overflow:auto;
@@ -186,6 +217,10 @@ color:#9fffd3;
 grid-template-columns:repeat(2,1fr);
 }
 
+.systems{
+grid-template-columns:1fr;
+}
+
 .controls{
 flex-direction:column;
 }
@@ -196,21 +231,30 @@ flex-direction:column;
 
 </head>
 
+
 <body>
+
 
 <header>
 
-<h1>🚀 2060 MISSION CONTROL</h1>
+<h1>
+🚀 2060 MISSION CONTROL
+</h1>
 
-<p>Aerospace Operations Dashboard</p>
+<p>
+Aerospace Operations Dashboard
+</p>
 
 </header>
+
 
 <div id="status">
 STANDBY
 </div>
 
+
 <div id="countdown"></div>
+
 
 <div id="space">
 
@@ -219,6 +263,7 @@ STANDBY
 </div>
 
 </div>
+
 
 <div class="controls">
 
@@ -232,11 +277,16 @@ STANDBY
 
 </div>
 
+
+<!-- TELEMETRY -->
+
 <div class="telemetry">
 
 <div class="card">
 
-<small>ALTITUDE</small>
+<small>
+ALTITUDE
+</small>
 
 <strong>
 <span id="altitude">0</span> km
@@ -244,9 +294,12 @@ STANDBY
 
 </div>
 
+
 <div class="card">
 
-<small>SPEED</small>
+<small>
+SPEED
+</small>
 
 <strong>
 <span id="speed">0</span> km/h
@@ -254,9 +307,12 @@ STANDBY
 
 </div>
 
+
 <div class="card">
 
-<small>FUEL</small>
+<small>
+FUEL
+</small>
 
 <strong>
 <span id="fuel">100</span>%
@@ -264,8 +320,7 @@ STANDBY
 
 <div class="progress">
 
-<div
-id="fuelBar"
+<div id="fuelBar"
 class="bar">
 </div>
 
@@ -273,9 +328,12 @@ class="bar">
 
 </div>
 
+
 <div class="card">
 
-<small>SIGNAL</small>
+<small>
+SIGNAL
+</small>
 
 <strong>
 <span id="signal">100</span>%
@@ -283,8 +341,7 @@ class="bar">
 
 <div class="progress">
 
-<div
-id="signalBar"
+<div id="signalBar"
 class="bar">
 </div>
 
@@ -294,19 +351,115 @@ class="bar">
 
 </div>
 
+
+<!-- STATUS -->
+
 <div class="panel">
 
-<h3>📡 MISSION STATUS</h3>
+<h3>
+📡 MISSION STATUS
+</h3>
 
 <div id="alert">
+
 SYSTEM READY — ALL SYSTEMS NOMINAL
+
 </div>
 
 </div>
+
+
+<!-- SYSTEM HEALTH -->
 
 <div class="panel">
 
-<h3>📝 MISSION LOG</h3>
+<h3>
+🟢 SYSTEM HEALTH
+</h3>
+
+<div class="systems">
+
+
+<div class="system">
+
+<div class="system-name">
+🔥 PROPULSION
+</div>
+
+<span
+id="propulsion"
+class="system-status">
+
+● STANDBY
+
+</span>
+
+</div>
+
+
+<div class="system">
+
+<div class="system-name">
+🧭 NAVIGATION
+</div>
+
+<span
+id="navigation"
+class="system-status">
+
+● STANDBY
+
+</span>
+
+</div>
+
+
+<div class="system">
+
+<div class="system-name">
+📡 COMMUNICATION
+</div>
+
+<span
+id="communication"
+class="system-status">
+
+● STANDBY
+
+</span>
+
+</div>
+
+
+<div class="system">
+
+<div class="system-name">
+⚡ POWER
+</div>
+
+<span
+id="power"
+class="system-status">
+
+● NOMINAL
+
+</span>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- LOG -->
+
+<div class="panel">
+
+<h3>
+📝 MISSION LOG
+</h3>
 
 <div id="log">
 
@@ -322,7 +475,11 @@ VEHICLE READY
 
 </div>
 
+
 <script>
+
+
+/* ELEMENTS */
 
 const button =
 document.getElementById("launch");
@@ -354,328 +511,4 @@ document.getElementById("fuel");
 const signal =
 document.getElementById("signal");
 
-const fuelBar =
-document.getElementById("fuelBar");
-
-const signalBar =
-document.getElementById("signalBar");
-
-const alert =
-document.getElementById("alert");
-
-let countTimer = null;
-
-let telemetryTimer = null;
-
-let seconds = 0;
-
-let altitudeValue = 0;
-
-let speedValue = 0;
-
-let fuelValue = 100;
-
-let signalValue = 100;
-
-let launched = false;
-
-
-function addLog(text){
-
-const line =
-document.createElement("div");
-
-line.className =
-"logline";
-
-line.textContent =
-"[" +
-new Date().toLocaleTimeString() +
-"] " +
-text;
-
-log.appendChild(line);
-
-log.scrollTop =
-log.scrollHeight;
-
-}
-
-
-function updateTelemetry(){
-
-altitude.textContent =
-Math.floor(altitudeValue);
-
-speed.textContent =
-Math.floor(speedValue);
-
-fuel.textContent =
-Math.max(0,fuelValue).toFixed(1);
-
-signal.textContent =
-Math.max(0,signalValue).toFixed(0);
-
-fuelBar.style.width =
-Math.max(0,fuelValue) + "%";
-
-signalBar.style.width =
-Math.max(0,signalValue) + "%";
-
-}
-
-
-button.onclick = function(){
-
-if(launched){
-return;
-}
-
-launched = true;
-
-button.disabled = true;
-
-status.textContent =
-"COUNTDOWN";
-
-status.style.color =
-"#ffd166";
-
-alert.textContent =
-"COUNTDOWN ACTIVE — LAUNCH SEQUENCE STARTED";
-
-addLog(
-"LAUNCH SEQUENCE STARTED"
-);
-
-let count = 3;
-
-countdown.textContent =
-count;
-
-
-countTimer =
-setInterval(function(){
-
-count--;
-
-if(count > 0){
-
-countdown.textContent =
-count;
-
-addLog(
-"T-" + count
-);
-
-}else{
-
-clearInterval(countTimer);
-
-countdown.textContent =
-"🚀";
-
-status.textContent =
-"LIFTOFF";
-
-status.style.color =
-"#00ff99";
-
-alert.textContent =
-"ENGINE IGNITION — LIFTOFF CONFIRMED";
-
-addLog(
-"ENGINE IGNITION"
-);
-
-addLog(
-"🚀 LIFTOFF CONFIRMED"
-);
-
-
-rocket.classList.remove("fly");
-
-void rocket.offsetWidth;
-
-rocket.classList.add("fly");
-
-
-startTelemetry();
-
-}
-
-},1000);
-
-};
-
-
-function startTelemetry(){
-
-telemetryTimer =
-setInterval(function(){
-
-seconds++;
-
-altitudeValue +=
-120 + seconds * 15;
-
-speedValue +=
-6500;
-
-fuelValue -=
-1.8;
-
-signalValue =
-Math.max(
-70,
-100 - seconds * 1.2
-);
-
-updateTelemetry();
-
-
-if(seconds === 3){
-
-status.textContent =
-"ASCENT";
-
-alert.textContent =
-"ASCENT NOMINAL — VEHICLE CLIMBING";
-
-addLog(
-"ASCENT PHASE CONFIRMED"
-);
-
-}
-
-
-if(seconds === 5){
-
-alert.textContent =
-"NAVIGATION LOCKED — TRAJECTORY NOMINAL";
-
-addLog(
-"NAVIGATION LOCKED"
-);
-
-}
-
-
-if(seconds === 7){
-
-alert.textContent =
-"COMMUNICATION LINK ESTABLISHED";
-
-addLog(
-"GROUND STATION LINK ESTABLISHED"
-);
-
-}
-
-
-if(seconds === 9){
-
-alert.textContent =
-"POWER SYSTEM NOMINAL";
-
-addLog(
-"POWER SYSTEM CHECK COMPLETE"
-);
-
-}
-
-
-if(fuelValue < 40){
-
-alert.textContent =
-"⚠ FUEL WARNING — LEVEL APPROACHING THRESHOLD";
-
-}
-
-
-if(signalValue < 85){
-
-alert.textContent =
-"⚠ SIGNAL REDUCED — TELEMETRY ACTIVE";
-
-}
-
-
-if(seconds >= 16){
-
-clearInterval(telemetryTimer);
-
-status.textContent =
-"ORBIT";
-
-status.style.color =
-"#00ff99";
-
-alert.textContent =
-"🛰 ORBIT ACHIEVED — MISSION SUCCESS";
-
-addLog(
-"ORBITAL INSERTION SUCCESSFUL"
-);
-
-addLog(
-"SPACECRAFT ESTABLISHED IN ORBIT"
-);
-
-addLog(
-"MISSION OBJECTIVE ACHIEVED"
-);
-
-}
-
-},1000);
-
-}
-
-
-reset.onclick = function(){
-
-clearInterval(countTimer);
-
-clearInterval(telemetryTimer);
-
-launched = false;
-
-seconds = 0;
-
-altitudeValue = 0;
-
-speedValue = 0;
-
-fuelValue = 100;
-
-signalValue = 100;
-
-rocket.classList.remove("fly");
-
-button.disabled = false;
-
-status.textContent =
-"STANDBY";
-
-status.style.color =
-"#00ff99";
-
-countdown.textContent =
-"";
-
-alert.textContent =
-"SYSTEM READY — ALL SYSTEMS NOMINAL";
-
-log.innerHTML =
-"<div class='logline'>SYSTEM INITIALIZED</div>" +
-"<div class='logline'>VEHICLE READY</div>";
-
-updateTelemetry();
-
-};
-
-</script>
-
-</body>
-    </html>
+const fuelBar
