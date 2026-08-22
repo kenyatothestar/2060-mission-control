@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>2060 Mission Control</title>
 
 <style>
+
 body{
 margin:0;
 background:#020617;
 color:white;
-font-family:Arial;
+font-family:Arial,sans-serif;
 text-align:center;
 padding:30px 15px;
 }
 
-button{
-background:#00d084;
-border:0;
-padding:18px 35px;
-border-radius:10px;
+h1{
+font-size:26px;
+}
+
+#status{
 font-size:20px;
 font-weight:bold;
+color:#00ff99;
+margin:15px;
 }
 
 #countdown{
@@ -29,6 +36,20 @@ font-size:70px;
 font-weight:bold;
 color:#00ff99;
 height:100px;
+}
+
+button{
+background:#00d084;
+color:#001b10;
+border:0;
+padding:18px 35px;
+border-radius:10px;
+font-size:20px;
+font-weight:bold;
+}
+
+button:disabled{
+opacity:.5;
 }
 
 #rocket{
@@ -41,29 +62,65 @@ animation:launch 5s linear forwards;
 }
 
 @keyframes launch{
+
 from{
 transform:translateY(0);
 }
+
 to{
 transform:translateY(-400px);
 }
+
 }
+
+#altitude{
+margin-top:30px;
+padding:18px;
+background:#081226;
+border:1px solid #263858;
+border-radius:12px;
+font-size:22px;
+color:#38bdf8;
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<h1>🚀 2060 MISSION CONTROL</h1>
 
-<p id="status">SYSTEM READY</p>
+<h1>
+🚀 2060 MISSION CONTROL
+</h1>
+
+
+<p id="status">
+SYSTEM READY
+</p>
+
 
 <div id="countdown"></div>
 
-<button id="launchButton">🚀 LAUNCH</button>
 
-<div id="rocket">🚀</div>
+<button id="launchButton">
+🚀 LAUNCH
+</button>
+
+
+<div id="rocket">
+🚀
+</div>
+
+
+<div id="altitude">
+ALTITUDE: 0 km
+</div>
+
 
 <script>
+
 
 const button =
 document.getElementById("launchButton");
@@ -77,6 +134,15 @@ document.getElementById("rocket");
 const status =
 document.getElementById("status");
 
+const altitudeDisplay =
+document.getElementById("altitude");
+
+
+let altitude = 0;
+
+let altitudeTimer = null;
+
+
 button.onclick = function(){
 
 button.disabled = true;
@@ -84,27 +150,64 @@ button.disabled = true;
 status.innerText =
 "COUNTDOWN STARTED";
 
+
 let number = 3;
 
-countdown.innerText = number;
+countdown.innerText =
+number;
 
-let timer = setInterval(function(){
+
+let timer =
+setInterval(function(){
 
 number--;
 
+
 if(number > 0){
 
-countdown.innerText = number;
+countdown.innerText =
+number;
 
-}else{
+}
+
+
+else{
 
 clearInterval(timer);
 
-countdown.innerText = "🚀";
 
-status.innerText = "LIFTOFF!";
+countdown.innerText =
+"🚀";
+
+
+status.innerText =
+"LIFTOFF!";
+
+
+rocket.classList.remove("fly");
+
+void rocket.offsetWidth;
 
 rocket.classList.add("fly");
+
+
+altitude = 0;
+
+altitudeDisplay.innerText =
+"ALTITUDE: 0 km";
+
+
+altitudeTimer =
+setInterval(function(){
+
+altitude += 100;
+
+altitudeDisplay.innerText =
+"ALTITUDE: " +
+altitude +
+" km";
+
+},1000);
 
 }
 
@@ -112,7 +215,10 @@ rocket.classList.add("fly");
 
 };
 
+
 </script>
 
+
 </body>
+
 </html>
