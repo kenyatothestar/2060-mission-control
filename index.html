@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>2060 Mission Control</title>
+<title>2060 Mission Control V2.3.6</title>
 
 <style>
 
@@ -91,7 +91,7 @@ button:disabled{
 
 .telemetry{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(3,1fr);
     gap:12px;
     margin-top:20px;
 }
@@ -114,7 +114,22 @@ button:disabled{
     color:#38bdf8;
 }
 
-@media(max-width:500px){
+.fuel-container{
+    height:8px;
+    background:#1e293b;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:12px;
+}
+
+#fuelBar{
+    height:100%;
+    width:100%;
+    background:#00d084;
+    transition:width .5s;
+}
+
+@media(max-width:600px){
 
 .telemetry{
     grid-template-columns:1fr;
@@ -150,172 +165,4 @@ SYSTEM READY
 
 <div id="space">
 
-<div id="rocket">
-🚀
-</div>
-
-</div>
-
-
-<div class="telemetry">
-
-
-<div class="card">
-
-<small>
-ALTITUDE
-</small>
-
-<strong>
-<span id="altitude">0</span> km
-</strong>
-
-</div>
-
-
-<div class="card">
-
-<small>
-SPEED
-</small>
-
-<strong>
-<span id="speed">0</span> km/h
-</strong>
-
-</div>
-
-
-</div>
-
-
-<script>
-
-
-const button =
-document.getElementById("launchButton");
-
-const countdown =
-document.getElementById("countdown");
-
-const rocket =
-document.getElementById("rocket");
-
-const status =
-document.getElementById("status");
-
-const altitudeDisplay =
-document.getElementById("altitude");
-
-const speedDisplay =
-document.getElementById("speed");
-
-
-let altitude = 0;
-
-let speed = 0;
-
-let altitudeTimer = null;
-
-let speedTimer = null;
-
-
-button.onclick = function(){
-
-button.disabled = true;
-
-status.innerText =
-"COUNTDOWN STARTED";
-
-
-let number = 3;
-
-countdown.innerText =
-number;
-
-
-let timer =
-setInterval(function(){
-
-number--;
-
-
-if(number > 0){
-
-countdown.innerText =
-number;
-
-}
-
-
-else{
-
-clearInterval(timer);
-
-
-countdown.innerText =
-"🚀";
-
-
-status.innerText =
-"LIFTOFF!";
-
-
-rocket.classList.remove("fly");
-
-void rocket.offsetWidth;
-
-rocket.classList.add("fly");
-
-
-/* RESET TELEMETRY */
-
-altitude = 0;
-
-speed = 0;
-
-altitudeDisplay.innerText =
-altitude;
-
-speedDisplay.innerText =
-speed;
-
-
-/* ALTITUDE */
-
-altitudeTimer =
-setInterval(function(){
-
-altitude += 100;
-
-altitudeDisplay.innerText =
-altitude;
-
-},1000);
-
-
-/* SPEED */
-
-speedTimer =
-setInterval(function(){
-
-speed += 5000;
-
-speedDisplay.innerText =
-speed.toLocaleString();
-
-},1000);
-
-}
-
-},1000);
-
-};
-
-
-</script>
-
-
-</body>
-
-</html>
+<div id="
