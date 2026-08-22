@@ -2,235 +2,230 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2060 Mission Control</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>2060 Mission Control V1.9</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+margin:0;
+background:#030712;
+color:#fff;
+font-family:Arial,sans-serif;
+}
+header{
+background:#080f20;
+padding:18px;
+text-align:center;
+border-bottom:1px solid #243454;
+}
+header h1{margin:0;font-size:24px;letter-spacing:2px}
+header p{margin:7px 0 0;color:#8193b5;font-size:13px}
+
+.container{max-width:1100px;margin:auto;padding:14px}
+
+.status{
+background:#080f20;
+border:1px solid #243454;
+border-radius:12px;
+padding:15px;
+text-align:center;
+margin-bottom:14px;
 }
 
-body {
-  margin: 0;
-  background: #050816;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  overflow-x: hidden;
+#status{color:#00ff9d;font-weight:bold}
+
+.stage{
+background:#080f20;
+border:1px solid #243454;
+border-radius:14px;
+height:420px;
+position:relative;
+overflow:hidden;
+margin-bottom:14px;
 }
 
-header {
-  background: #0b1025;
-  padding: 18px;
-  text-align: center;
-  border-bottom: 1px solid #24304f;
+.stars{
+position:absolute;
+inset:0;
+background-image:
+radial-gradient(#fff 1px,transparent 1px),
+radial-gradient(#fff 1px,transparent 1px);
+background-size:90px 90px,140px 140px;
+background-position:10px 20px,40px 70px;
+opacity:.55;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 25px;
-  letter-spacing: 2px;
+.earth{
+position:absolute;
+width:260px;
+height:260px;
+border-radius:50%;
+bottom:-140px;
+left:50%;
+transform:translateX(-50%);
+background:radial-gradient(circle at 35% 30%,#55aaff,#1551a5 55%,#06132e);
+box-shadow:0 0 70px #1658b8;
 }
 
-header p {
-  margin: 6px 0 0;
-  color: #8fa3c7;
-  font-size: 13px;
+.orbit{
+position:absolute;
+width:350px;
+height:180px;
+border:2px dashed #496b9f;
+border-radius:50%;
+left:50%;
+top:100px;
+transform:translateX(-50%);
+display:none;
 }
 
-.dashboard {
-  max-width: 1100px;
-  margin: auto;
-  padding: 15px;
+.rocket{
+position:absolute;
+left:50%;
+bottom:75px;
+transform:translateX(-50%);
+font-size:58px;
+z-index:5;
 }
 
-.status {
-  background: #0b1025;
-  border: 1px solid #24304f;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 15px;
-  text-align: center;
+.flame{
+display:none;
+font-size:32px;
+text-align:center;
+animation:flame .12s infinite alternate;
 }
 
-.status span {
-  font-weight: bold;
+@keyframes flame{
+from{transform:scale(.8)}
+to{transform:scale(1.2)}
 }
 
-#missionStatus {
-  color: #00ff99;
+.launching{
+animation:shake .12s infinite alternate;
 }
 
-.launch-area {
-  position: relative;
-  height: 430px;
-  background:
-    radial-gradient(circle at 20% 20%, #ffffff 1px, transparent 2px),
-    radial-gradient(circle at 70% 30%, #ffffff 1px, transparent 2px),
-    radial-gradient(circle at 40% 70%, #ffffff 1px, transparent 2px),
-    #02040c;
-  background-size: 120px 120px;
-  border: 1px solid #24304f;
-  border-radius: 15px;
-  overflow: hidden;
-  margin-bottom: 15px;
+@keyframes shake{
+from{margin-left:-3px}
+to{margin-left:3px}
 }
 
-.planet {
-  position: absolute;
-  bottom: -100px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #3c8cff, #102c72 55%, #030816);
-  box-shadow: 0 0 70px #174bba;
+.countdown{
+display:none;
+position:absolute;
+inset:0;
+z-index:10;
+align-items:center;
+justify-content:center;
+font-size:100px;
+font-weight:bold;
+color:#00ff9d;
+text-shadow:0 0 30px #00ff9d;
 }
 
-.rocket {
-  position: absolute;
-  bottom: 85px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 60px;
-  z-index: 5;
-  transition: bottom 0.2s linear;
+.controls{
+display:flex;
+gap:10px;
+margin-bottom:14px;
+flex-wrap:wrap;
 }
 
-.flame {
-  position: absolute;
-  top: 57px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 35px;
-  display: none;
-  animation: flame 0.15s infinite alternate;
+button{
+flex:1;
+min-width:120px;
+padding:14px;
+border:0;
+border-radius:10px;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
 }
 
-@keyframes flame {
-  from { transform: translateX(-50%) scale(0.8); }
-  to { transform: translateX(-50%) scale(1.2); }
+#launch{background:#00d084;color:#001b10}
+#abort{background:#ef4444;color:white}
+#reset{background:#263653;color:white}
+
+button:disabled{
+opacity:.4;
+cursor:not-allowed;
 }
 
-.rocket.launching {
-  animation: rocketShake 0.12s infinite alternate;
+.telemetry{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+margin-bottom:14px;
 }
 
-@keyframes rocketShake {
-  from { margin-left: -3px; }
-  to { margin-left: 3px; }
+.card{
+background:#080f20;
+border:1px solid #243454;
+border-radius:12px;
+padding:15px;
 }
 
-.countdown {
-  position: absolute;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 100px;
-  font-weight: bold;
-  color: #00ff99;
-  text-shadow: 0 0 30px #00ff99;
-  z-index: 10;
+.card small{color:#8193b5}
+.card strong{
+display:block;
+font-size:21px;
+margin-top:7px;
 }
 
-.controls {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 15px;
+.graph{
+background:#080f20;
+border:1px solid #243454;
+border-radius:12px;
+padding:15px;
+margin-bottom:14px;
 }
 
-button {
-  flex: 1;
-  min-width: 120px;
-  padding: 15px;
-  border: 0;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
+canvas{
+width:100%;
+height:180px;
+background:#030712;
+border-radius:8px;
 }
 
-#launchBtn {
-  background: #00d084;
-  color: #001b10;
+.alert{
+background:#080f20;
+border:1px solid #243454;
+border-radius:12px;
+padding:15px;
+margin-bottom:14px;
 }
 
-#abortBtn {
-  background: #ff4d4d;
-  color: white;
+#alertBox{
+color:#8cffc8;
+font-family:monospace;
 }
 
-#resetBtn {
-  background: #253252;
-  color: white;
+.log{
+background:#080f20;
+border:1px solid #243454;
+border-radius:12px;
+padding:15px;
 }
 
-button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+.log h2{font-size:18px;margin-top:0}
+
+#log{
+height:170px;
+overflow:auto;
+background:#030712;
+border-radius:8px;
+padding:10px;
+font-family:monospace;
+font-size:12px;
 }
 
-.telemetry {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-bottom: 15px;
+.entry{
+margin-bottom:7px;
+color:#9fffd3;
 }
 
-.card {
-  background: #0b1025;
-  border: 1px solid #24304f;
-  border-radius: 12px;
-  padding: 15px;
-}
-
-.card small {
-  color: #8fa3c7;
-}
-
-.card strong {
-  display: block;
-  margin-top: 8px;
-  font-size: 22px;
-}
-
-.log {
-  background: #0b1025;
-  border: 1px solid #24304f;
-  border-radius: 12px;
-  padding: 15px;
-}
-
-.log h2 {
-  margin-top: 0;
-  font-size: 18px;
-}
-
-#missionLog {
-  height: 170px;
-  overflow-y: auto;
-  background: #02040c;
-  padding: 10px;
-  border-radius: 8px;
-  font-family: monospace;
-  font-size: 13px;
-}
-
-.log-entry {
-  margin-bottom: 8px;
-  color: #9effd1;
-}
-
-@media (max-width: 700px) {
-  .telemetry {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .launch-area {
-    height: 380px;
-  }
+@media(max-width:700px){
+.telemetry{grid-template-columns:repeat(2,1fr)}
+.stage{height:380px}
 }
 </style>
 </head>
@@ -238,345 +233,73 @@ button:disabled {
 <body>
 
 <header>
-  <h1>2060 MISSION CONTROL</h1>
-  <p>Aerospace Launch Simulation • V1.8.1</p>
+<h1>2060 MISSION CONTROL</h1>
+<p>Aerospace Launch Simulation • V1.9</p>
 </header>
 
-<div class="dashboard">
+<div class="container">
 
-  <div class="status">
-    MISSION STATUS:
-    <span id="missionStatus">STANDBY</span>
-  </div>
+<div class="status">
+MISSION STATUS:
+<span id="status">STANDBY</span>
+</div>
 
-  <div class="launch-area">
+<div class="stage">
 
-    <div id="countdown" class="countdown">3</div>
+<div class="stars"></div>
 
-    <div id="rocket" class="rocket">
-      🚀
-      <div id="flame" class="flame">🔥</div>
-    </div>
+<div id="countdown" class="countdown">3</div>
 
-    <div class="planet"></div>
+<div id="orbit" class="orbit"></div>
 
-  </div>
+<div id="rocket" class="rocket">
+🚀
+<div id="flame" class="flame">🔥</div>
+</div>
 
-  <div class="controls">
-    <button id="launchBtn">🚀 LAUNCH</button>
-    <button id="abortBtn" disabled>⛔ ABORT</button>
-    <button id="resetBtn">↻ RESET</button>
-  </div>
-
-  <div class="telemetry">
-
-    <div class="card">
-      <small>ALTITUDE</small>
-      <strong><span id="altitude">0</span> km</strong>
-    </div>
-
-    <div class="card">
-      <small>SPEED</small>
-      <strong><span id="speed">0</span> km/h</strong>
-    </div>
-
-    <div class="card">
-      <small>FUEL</small>
-      <strong><span id="fuel">100</span>%</strong>
-    </div>
-
-    <div class="card">
-      <small>MISSION TIME</small>
-      <strong><span id="missionTime">00:00</span></strong>
-    </div>
-
-  </div>
-
-  <div class="log">
-
-    <h2>MISSION LOG</h2>
-
-    <div id="missionLog">
-      <div class="log-entry">
-        [SYSTEM] Mission Control initialized.
-      </div>
-
-      <div class="log-entry">
-        [SYSTEM] Vehicle standing by.
-      </div>
-    </div>
-
-  </div>
+<div class="earth"></div>
 
 </div>
 
-<script>
-
-let countdownTimer = null;
-let telemetryTimer = null;
-let missionSeconds = 0;
-
-let altitude = 0;
-let speed = 0;
-let fuel = 100;
-
-let launching = false;
-let aborted = false;
-
-const launchBtn = document.getElementById("launchBtn");
-const abortBtn = document.getElementById("abortBtn");
-const resetBtn = document.getElementById("resetBtn");
-
-const missionStatus = document.getElementById("missionStatus");
-const countdown = document.getElementById("countdown");
-
-const rocket = document.getElementById("rocket");
-const flame = document.getElementById("flame");
-
-const altitudeEl = document.getElementById("altitude");
-const speedEl = document.getElementById("speed");
-const fuelEl = document.getElementById("fuel");
-const missionTimeEl = document.getElementById("missionTime");
-
-const missionLog = document.getElementById("missionLog");
-
-function logMessage(message) {
-
-  const entry = document.createElement("div");
-
-  entry.className = "log-entry";
-
-  const time = new Date().toLocaleTimeString();
-
-  entry.textContent = "[" + time + "] " + message;
-
-  missionLog.appendChild(entry);
-
-  missionLog.scrollTop = missionLog.scrollHeight;
-}
-
-function updateTelemetry() {
-
-  altitudeEl.textContent = Math.floor(altitude);
-
-  speedEl.textContent = Math.floor(speed);
-
-  fuelEl.textContent = Math.max(0, fuel).toFixed(1);
-
-  const minutes = Math.floor(missionSeconds / 60);
-
-  const seconds = missionSeconds % 60;
-
-  missionTimeEl.textContent =
-    String(minutes).padStart(2, "0") +
-    ":" +
-    String(seconds).padStart(2, "0");
-}
-
-function startCountdown() {
-
-  launching = true;
-
-  aborted = false;
-
-  launchBtn.disabled = true;
-
-  abortBtn.disabled = false;
-
-  missionStatus.textContent = "COUNTDOWN";
-
-  missionStatus.style.color = "#ffd166";
-
-  logMessage("Launch sequence initiated.");
-
-  countdown.style.display = "flex";
-
-  let number = 3;
-
-  countdown.textContent = number;
-
-  countdownTimer = setInterval(() => {
-
-    number--;
-
-    if (number > 0) {
-
-      countdown.textContent = number;
-
-      logMessage("T-" + number);
-
-    } else {
-
-      clearInterval(countdownTimer);
-
-      countdown.style.display = "none";
-
-      beginLaunch();
-
-    }
-
-  }, 1000);
-}
-
-function beginLaunch() {
-
-  if (aborted) return;
-
-  missionStatus.textContent = "LIFTOFF";
-
-  missionStatus.style.color = "#00ff99";
-
-  flame.style.display = "block";
-
-  rocket.classList.add("launching");
-
-  logMessage("ENGINE IGNITION.");
-
-  setTimeout(() => {
-
-    logMessage("LIFTOFF CONFIRMED.");
-
-  }, 700);
-
-  setTimeout(() => {
-
-    missionStatus.textContent = "IN FLIGHT";
-
-    logMessage("Vehicle ascending.");
-
-  }, 1500);
-
-  telemetryTimer = setInterval(() => {
-
-    missionSeconds++;
-
-    altitude += 1.8;
-
-    speed += 320;
-
-    fuel -= 0.45;
-
-    let rocketBottom =
-      85 + missionSeconds * 12;
-
-    rocket.style.bottom =
-      Math.min(370, rocketBottom) + "px";
-
-    updateTelemetry();
-
-    if (fuel <= 0) {
-
-      completeMission();
-
-    }
-
-  }, 1000);
-
-}
-
-function abortMission() {
-
-  if (!launching) return;
-
-  aborted = true;
-
-  launching = false;
-
-  clearInterval(countdownTimer);
-
-  clearInterval(telemetryTimer);
-
-  countdown.style.display = "none";
-
-  flame.style.display = "none";
-
-  rocket.classList.remove("launching");
-
-  missionStatus.textContent = "ABORTED";
-
-  missionStatus.style.color = "#ff4d4d";
-
-  launchBtn.disabled = true;
-
-  abortBtn.disabled = true;
-
-  logMessage("⚠ LAUNCH ABORTED.");
-
-}
-
-function completeMission() {
-
-  clearInterval(telemetryTimer);
-
-  launching = false;
-
-  flame.style.display = "none";
-
-  rocket.classList.remove("launching");
-
-  missionStatus.textContent = "MISSION COMPLETE";
-
-  missionStatus.style.color = "#00ff99";
-
-  abortBtn.disabled = true;
-
-  logMessage("MISSION COMPLETE.");
-
-}
-
-function resetMission() {
-
-  clearInterval(countdownTimer);
-
-  clearInterval(telemetryTimer);
-
-  launching = false;
-
-  aborted = false;
-
-  missionSeconds = 0;
-
-  altitude = 0;
-
-  speed = 0;
-
-  fuel = 100;
-
-  countdown.style.display = "none";
-
-  flame.style.display = "none";
-
-  rocket.classList.remove("launching");
-
-  rocket.style.bottom = "85px";
-
-  missionStatus.textContent = "STANDBY";
-
-  missionStatus.style.color = "#00ff99";
-
-  launchBtn.disabled = false;
-
-  abortBtn.disabled = true;
-
-  missionLog.innerHTML = "";
-
-  logMessage("Mission Control reset.");
-
-  logMessage("Vehicle ready for launch.");
-
-  updateTelemetry();
-
-}
-
-launchBtn.addEventListener("click", startCountdown);
-
-abortBtn.addEventListener("click", abortMission);
-
-resetBtn.addEventListener("click", resetMission);
-
-updateTelemetry();
-
-</script>
-
-</body>
-</html>
+<div class="controls">
+<button id="launch">🚀 LAUNCH</button>
+<button id="abort" disabled>⛔ ABORT</button>
+<button id="reset">↻ RESET</button>
+</div>
+
+<div class="telemetry">
+
+<div class="card">
+<small>ALTITUDE</small>
+<strong><span id="altitude">0</span> km</strong>
+</div>
+
+<div class="card">
+<small>SPEED</small>
+<strong><span id="speed">0</span> km/h</strong>
+</div>
+
+<div class="card">
+<small>FUEL</small>
+<strong><span id="fuel">100</span>%</strong>
+</div>
+
+<div class="card">
+<small>MISSION TIME</small>
+<strong id="time">00:00</strong>
+</div>
+
+</div>
+
+<div class="graph">
+<h3>LIVE TELEMETRY</h3>
+<canvas id="graph" width="900" height="180"></canvas>
+</div>
+
+<div class="alert">
+<h3>📡 SYSTEM ALERTS</h3>
+<div id="alertBox">SYSTEM READY — ALL SYSTEMS NOMINAL</div>
+</div>
+
+<div class="log">
+<h2>📝 MISSION LOG</h2>
