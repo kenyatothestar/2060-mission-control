@@ -73,14 +73,38 @@ transform:translateY(-400px);
 
 }
 
-#altitude{
+.telemetry{
 margin-top:30px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.card{
 padding:18px;
 background:#081226;
 border:1px solid #263858;
 border-radius:12px;
-font-size:22px;
+}
+
+.label{
+color:#94a3b8;
+font-size:14px;
+}
+
+.value{
+display:block;
+margin-top:8px;
+font-size:24px;
 color:#38bdf8;
+}
+
+@media(max-width:500px){
+
+.telemetry{
+grid-template-columns:1fr;
+}
+
 }
 
 </style>
@@ -114,8 +138,37 @@ SYSTEM READY
 </div>
 
 
-<div id="altitude">
-ALTITUDE: 0 km
+<div class="telemetry">
+
+
+<div class="card">
+
+<div class="label">
+ALTITUDE
+</div>
+
+<span id="altitude"
+class="value">
+0 km
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+SPEED
+</div>
+
+<span id="speed"
+class="value">
+0 km/h
+</span>
+
+</div>
+
+
 </div>
 
 
@@ -137,88 +190,14 @@ document.getElementById("status");
 const altitudeDisplay =
 document.getElementById("altitude");
 
+const speedDisplay =
+document.getElementById("speed");
+
 
 let altitude = 0;
 
+let speed = 0;
+
 let altitudeTimer = null;
 
-
-button.onclick = function(){
-
-button.disabled = true;
-
-status.innerText =
-"COUNTDOWN STARTED";
-
-
-let number = 3;
-
-countdown.innerText =
-number;
-
-
-let timer =
-setInterval(function(){
-
-number--;
-
-
-if(number > 0){
-
-countdown.innerText =
-number;
-
-}
-
-
-else{
-
-clearInterval(timer);
-
-
-countdown.innerText =
-"🚀";
-
-
-status.innerText =
-"LIFTOFF!";
-
-
-rocket.classList.remove("fly");
-
-void rocket.offsetWidth;
-
-rocket.classList.add("fly");
-
-
-altitude = 0;
-
-altitudeDisplay.innerText =
-"ALTITUDE: 0 km";
-
-
-altitudeTimer =
-setInterval(function(){
-
-altitude += 100;
-
-altitudeDisplay.innerText =
-"ALTITUDE: " +
-altitude +
-" km";
-
-},1000);
-
-}
-
-},1000);
-
-};
-
-
-</script>
-
-
-</body>
-
-</html>
+let speedTimer = null;
