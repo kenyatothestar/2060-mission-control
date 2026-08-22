@@ -3,329 +3,673 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>2060 Mission Control V2.4</title>
+<title>2060 Mission Control V2.3.3</title>
 
 <style>
 
-*{
-box-sizing:border-box;
-}
-
 body{
-margin:0;
-background:#020617;
-color:white;
-font-family:Arial,sans-serif;
-text-align:center;
+    margin:0;
+    background:#020617;
+    color:white;
+    font-family:Arial,sans-serif;
+    text-align:center;
 }
 
 header{
-padding:20px;
-background:#081226;
-border-bottom:1px solid #263858;
+    padding:20px;
+    background:#081226;
+    border-bottom:1px solid #263858;
 }
 
 header h1{
-margin:0;
-font-size:24px;
+    margin:0;
+    font-size:24px;
 }
 
 header p{
-margin:8px 0 0;
-color:#94a3b8;
+    color:#94a3b8;
 }
 
 #status{
-margin:15px;
-font-size:21px;
-font-weight:bold;
-color:#00ff99;
+    margin:15px;
+    font-size:21px;
+    font-weight:bold;
+    color:#00ff99;
 }
 
 #countdown{
-height:90px;
-font-size:70px;
-font-weight:bold;
-color:#00ff99;
+    font-size:70px;
+    font-weight:bold;
+    color:#00ff99;
+    height:90px;
 }
-
-/* SPACE */
 
 #space{
-height:500px;
-margin:20px;
-position:relative;
-overflow:hidden;
-background:#030712;
-border:2px solid #334155;
-border-radius:15px;
+    height:500px;
+    margin:20px;
+    border:2px solid #334155;
+    border-radius:15px;
+    position:relative;
+    overflow:hidden;
+    background:#030712;
 }
-
-.stars{
-position:absolute;
-inset:0;
-
-background-image:
-radial-gradient(#fff 1px,transparent 1px),
-radial-gradient(#fff 1px,transparent 1px);
-
-background-size:
-80px 80px,
-130px 130px;
-
-opacity:.35;
-}
-
-.earth{
-position:absolute;
-width:220px;
-height:220px;
-left:50%;
-bottom:-120px;
-transform:translateX(-50%);
-border-radius:50%;
-
-background:
-radial-gradient(
-circle at 35% 30%,
-#60a5fa,
-#2563eb 50%,
-#061631 75%
-);
-
-box-shadow:
-0 0 70px #1264d8;
-}
-
-.orbit{
-position:absolute;
-width:330px;
-height:170px;
-left:50%;
-top:90px;
-transform:translateX(-50%);
-border:2px dashed #48658f;
-border-radius:50%;
-}
-
-/* ROCKET */
 
 #rocket{
-position:absolute;
-left:50%;
-bottom:30px;
-transform:translateX(-50%);
-font-size:60px;
-z-index:10;
+    position:absolute;
+    left:50%;
+    bottom:30px;
+    transform:translateX(-50%);
+    font-size:60px;
+    z-index:10;
 }
 
 #rocket.fly{
-animation:fly 5s linear forwards;
+    animation:fly 5s linear forwards;
 }
 
 @keyframes fly{
 
-from{
-bottom:30px;
-}
+    from{
+        bottom:30px;
+    }
 
-to{
-bottom:430px;
-}
+    to{
+        bottom:430px;
+    }
 
 }
-
-/* CONTROLS */
 
 .controls{
-display:flex;
-gap:10px;
-margin:20px;
+    display:flex;
+    gap:10px;
+    margin:20px;
 }
 
 button{
-flex:1;
-padding:15px;
-font-size:17px;
-font-weight:bold;
-border:0;
-border-radius:10px;
-cursor:pointer;
+    flex:1;
+    padding:15px;
+    font-size:17px;
+    font-weight:bold;
+    border:0;
+    border-radius:10px;
 }
 
 #launch{
-background:#00d084;
-color:#001b10;
-}
-
-#abort{
-background:#ef4444;
-color:white;
+    background:#00d084;
+    color:#001b10;
 }
 
 #reset{
-background:#334155;
-color:white;
+    background:#334155;
+    color:white;
 }
 
 button:disabled{
-opacity:.4;
-cursor:not-allowed;
+    opacity:.4;
 }
 
-/* TELEMETRY */
-
 .telemetry{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px;
-margin:20px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin:20px;
 }
 
 .card{
-background:#081226;
-border:1px solid #263858;
-border-radius:12px;
-padding:15px;
+    background:#081226;
+    border:1px solid #263858;
+    border-radius:12px;
+    padding:15px;
 }
 
 .card small{
-color:#94a3b8;
+    color:#94a3b8;
 }
 
 .card strong{
-display:block;
-font-size:22px;
-margin-top:8px;
+    display:block;
+    font-size:22px;
+    margin-top:8px;
 }
 
 .progress{
-height:8px;
-background:#1e293b;
-border-radius:10px;
-overflow:hidden;
-margin-top:10px;
+    height:8px;
+    background:#1e293b;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:10px;
 }
 
 .bar{
-height:100%;
-width:100%;
-background:#00d084;
-transition:width .5s;
+    height:100%;
+    width:100%;
+    background:#00d084;
+    transition:width .5s;
 }
-
-/* PANELS */
 
 .panel{
-margin:20px;
-padding:15px;
-background:#081226;
-border:1px solid #263858;
-border-radius:12px;
-text-align:left;
+    margin:20px;
+    padding:15px;
+    background:#081226;
+    border:1px solid #263858;
+    border-radius:12px;
+    text-align:left;
 }
-
-.panel h3{
-margin-top:0;
-}
-
-/* ALERT */
 
 #alert{
-padding:15px;
-background:#020617;
-border-left:5px solid #00d084;
-border-radius:8px;
-color:#9fffd3;
+    padding:15px;
+    background:#020617;
+    border-left:5px solid #00d084;
+    color:#9fffd3;
 }
 
-#alertTitle{
-font-weight:bold;
-color:#00ff99;
+#log{
+    height:180px;
+    overflow:auto;
+    background:#020617;
+    padding:12px;
+    border-radius:8px;
+    font-family:monospace;
+    font-size:13px;
 }
 
-#alertMessage{
-margin-top:5px;
+.logline{
+    margin-bottom:7px;
+    color:#9fffd3;
 }
 
-/* SYSTEM HEALTH */
+@media(max-width:700px){
 
-.systems{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px;
+    .telemetry{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .controls{
+        flex-direction:column;
+    }
+
 }
 
-.system{
-background:#020617;
-border:1px solid #263858;
-border-radius:10px;
-padding:15px;
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🚀 2060 MISSION CONTROL</h1>
+
+<p>Aerospace Operations Dashboard</p>
+
+</header>
+
+<div id="status">
+STANDBY
+</div>
+
+<div id="countdown"></div>
+
+<div id="space">
+
+    <div id="rocket">
+        🚀
+    </div>
+
+</div>
+
+<div class="controls">
+
+<button id="launch">
+🚀 LAUNCH
+</button>
+
+<button id="reset">
+↻ RESET
+</button>
+
+</div>
+
+<div class="telemetry">
+
+<div class="card">
+
+<small>ALTITUDE</small>
+
+<strong>
+<span id="altitude">0</span> km
+</strong>
+
+</div>
+
+<div class="card">
+
+<small>SPEED</small>
+
+<strong>
+<span id="speed">0</span> km/h
+</strong>
+
+</div>
+
+<div class="card">
+
+<small>FUEL</small>
+
+<strong>
+<span id="fuel">100</span>%
+</strong>
+
+<div class="progress">
+<div id="fuelBar" class="bar"></div>
+</div>
+
+</div>
+
+<div class="card">
+
+<small>SIGNAL</small>
+
+<strong>
+<span id="signal">100</span>%
+</strong>
+
+<div class="progress">
+<div id="signalBar" class="bar"></div>
+</div>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h3>📡 MISSION STATUS</h3>
+
+<div id="alert">
+SYSTEM READY — ALL SYSTEMS NOMINAL
+</div>
+
+</div>
+
+<div class="panel">
+
+<h3>📝 MISSION LOG</h3>
+
+<div id="log">
+
+<div class="logline">
+SYSTEM INITIALIZED
+</div>
+
+<div class="logline">
+VEHICLE READY
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const button =
+document.getElementById("launch");
+
+const reset =
+document.getElementById("reset");
+
+const rocket =
+document.getElementById("rocket");
+
+const status =
+document.getElementById("status");
+
+const countdown =
+document.getElementById("countdown");
+
+const log =
+document.getElementById("log");
+
+const altitude =
+document.getElementById("altitude");
+
+const speed =
+document.getElementById("speed");
+
+const fuel =
+document.getElementById("fuel");
+
+const signal =
+document.getElementById("signal");
+
+const fuelBar =
+document.getElementById("fuelBar");
+
+const signalBar =
+document.getElementById("signalBar");
+
+const alert =
+document.getElementById("alert");
+
+let countTimer = null;
+
+let telemetryTimer = null;
+
+let seconds = 0;
+
+let altitudeValue = 0;
+
+let speedValue = 0;
+
+let fuelValue = 100;
+
+let signalValue = 100;
+
+let launched = false;
+
+
+function addLog(text){
+
+    const line =
+    document.createElement("div");
+
+    line.className =
+    "logline";
+
+    line.textContent =
+    "[" +
+    new Date().toLocaleTimeString() +
+    "] " +
+    text;
+
+    log.appendChild(line);
+
+    log.scrollTop =
+    log.scrollHeight;
+
 }
 
-.systemName{
-color:#94a3b8;
-font-size:12px;
+
+function updateTelemetry(){
+
+    altitude.textContent =
+    Math.floor(altitudeValue);
+
+    speed.textContent =
+    Math.floor(speedValue);
+
+    fuel.textContent =
+    Math.max(0,fuelValue).toFixed(1);
+
+    signal.textContent =
+    Math.max(0,signalValue).toFixed(0);
+
+    fuelBar.style.width =
+    Math.max(0,fuelValue) + "%";
+
+    signalBar.style.width =
+    Math.max(0,signalValue) + "%";
+
 }
 
-.systemStatus{
-display:block;
-margin-top:8px;
-font-weight:bold;
-color:#00ff99;
+
+button.onclick = function(){
+
+    if(launched){
+        return;
+    }
+
+    launched = true;
+
+    button.disabled = true;
+
+    status.textContent =
+    "COUNTDOWN";
+
+    status.style.color =
+    "#ffd166";
+
+    alert.textContent =
+    "COUNTDOWN ACTIVE — LAUNCH SEQUENCE STARTED";
+
+    addLog(
+        "LAUNCH SEQUENCE STARTED"
+    );
+
+    let count = 3;
+
+    countdown.textContent =
+    count;
+
+
+    countTimer =
+    setInterval(function(){
+
+        count--;
+
+        if(count > 0){
+
+            countdown.textContent =
+            count;
+
+            addLog(
+                "T-" + count
+            );
+
+        }else{
+
+            clearInterval(countTimer);
+
+            countdown.textContent =
+            "🚀";
+
+            status.textContent =
+            "LIFTOFF";
+
+            status.style.color =
+            "#00ff99";
+
+            alert.textContent =
+            "ENGINE IGNITION — LIFTOFF CONFIRMED";
+
+            addLog(
+                "ENGINE IGNITION"
+            );
+
+            addLog(
+                "🚀 LIFTOFF CONFIRMED"
+            );
+
+
+            /*
+            WORKING ROCKET ANIMATION
+            */
+
+            rocket.classList.remove("fly");
+
+            void rocket.offsetWidth;
+
+            rocket.classList.add("fly");
+
+
+            startTelemetry();
+
+        }
+
+    },1000);
+
+};
+
+
+function startTelemetry(){
+
+    telemetryTimer =
+    setInterval(function(){
+
+        seconds++;
+
+        altitudeValue +=
+        120 + seconds * 15;
+
+        speedValue +=
+        6500;
+
+        fuelValue -=
+        1.8;
+
+        signalValue =
+        Math.max(
+            70,
+            100 - seconds * 1.2
+        );
+
+        updateTelemetry();
+
+
+        if(seconds === 3){
+
+            status.textContent =
+            "ASCENT";
+
+            alert.textContent =
+            "ASCENT NOMINAL — VEHICLE CLIMBING";
+
+            addLog(
+                "ASCENT PHASE CONFIRMED"
+            );
+
+        }
+
+
+        if(seconds === 5){
+
+            alert.textContent =
+            "NAVIGATION LOCKED — TRAJECTORY NOMINAL";
+
+            addLog(
+                "NAVIGATION LOCKED"
+            );
+
+        }
+
+
+        if(seconds === 7){
+
+            alert.textContent =
+            "COMMUNICATION LINK ESTABLISHED";
+
+            addLog(
+                "GROUND STATION LINK ESTABLISHED"
+            );
+
+        }
+
+
+        if(seconds === 9){
+
+            alert.textContent =
+            "POWER SYSTEM NOMINAL";
+
+            addLog(
+                "POWER SYSTEM CHECK COMPLETE"
+            );
+
+        }
+
+
+        if(fuelValue < 40){
+
+            alert.textContent =
+            "⚠ FUEL WARNING — LEVEL APPROACHING THRESHOLD";
+
+        }
+
+
+        if(signalValue < 85){
+
+            alert.textContent =
+            "⚠ SIGNAL REDUCED — TELEMETRY ACTIVE";
+
+        }
+
+
+        if(seconds >= 16){
+
+            clearInterval(telemetryTimer);
+
+            status.textContent =
+            "ORBIT";
+
+            status.style.color =
+            "#00ff99";
+
+            alert.textContent =
+            "🛰 ORBIT ACHIEVED — MISSION SUCCESS";
+
+            addLog(
+                "ORBITAL INSERTION SUCCESSFUL"
+            );
+
+            addLog(
+                "SPACECRAFT ESTABLISHED IN ORBIT"
+            );
+
+            addLog(
+                "MISSION OBJECTIVE ACHIEVED"
+            );
+
+        }
+
+    },1000);
+
 }
 
-/* MISSION PHASE */
 
-.phases{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:7px;
-}
+reset.onclick = function(){
 
-.phase{
-padding:10px 5px;
-background:#17243b;
-border-radius:7px;
-text-align:center;
-font-size:11px;
-color:#94a3b8;
-}
+    clearInterval(countTimer);
 
-.phase.active{
-background:#00a66a;
-color:white;
-}
+    clearInterval(telemetryTimer);
 
-.phase.done{
-background:#245d4a;
-color:#baffdf;
-}
+    launched = false;
 
-/* EVENT TIMELINE */
+    seconds = 0;
 
-.timeline{
-max-height:260px;
-overflow:auto;
-}
+    altitudeValue = 0;
 
-.event{
-background:#020617;
-border-left:3px solid #00d084;
-border-radius:5px;
-padding:10px;
-margin-bottom:10px;
-}
+    speedValue = 0;
 
-.eventTime{
-font-size:11px;
-color:#64748b;
-}
+    fuelValue = 100;
 
-.eventTitle{
-font-weight:bold;
-margin-top:
+    signalValue = 100;
+
+    rocket.classList.remove("fly");
+
+    button.disabled = false;
+
+    status.textContent =
+    "STANDBY";
+
+    status.style.color =
+    "#00ff99";
+
+    countdown.textContent =
+    "";
+
+    alert.textContent =
+    "SYSTEM READY — ALL SYSTEMS NOMINAL";
+
+    log.innerHTML =
+    "<div class='logline'>SYSTEM INITIALIZED</div>" +
+    "<div class='logline'>VEHICLE READY</div>";
+
+    updateTelemetry();
+
+};
+
+</script>
+
+</body>
+</html>
