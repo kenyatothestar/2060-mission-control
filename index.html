@@ -1,456 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>2060 Mission Control V2.3.3</title>
+<title>2060 Mission Control</title>
 
 <style>
-
 body{
-margin:0;
-background:#020617;
-color:white;
-font-family:Arial,sans-serif;
-text-align:center;
-}
-
-header{
-padding:20px;
-background:#081226;
-border-bottom:1px solid #263858;
-}
-
-header h1{
-margin:0;
-font-size:24px;
-}
-
-header p{
-color:#94a3b8;
-}
-
-#status{
-margin:15px;
-font-size:21px;
-font-weight:bold;
-color:#00ff99;
-}
-
-#countdown{
-font-size:70px;
-font-weight:bold;
-color:#00ff99;
-height:90px;
-}
-
-#space{
-height:500px;
-margin:20px;
-border:2px solid #334155;
-border-radius:15px;
-position:relative;
-overflow:hidden;
-background:#030712;
-}
-
-#rocket{
-position:absolute;
-left:50%;
-bottom:30px;
-transform:translateX(-50%);
-font-size:60px;
-z-index:10;
-}
-
-#rocket.fly{
-animation:fly 5s linear forwards;
-}
-
-@keyframes fly{
-
-from{
-bottom:30px;
-}
-
-to{
-bottom:430px;
-}
-
-}
-
-.controls{
-display:flex;
-gap:10px;
-margin:20px;
+    margin:0;
+    background:#020617;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+    padding:40px 15px;
 }
 
 button{
-flex:1;
-padding:15px;
-font-size:17px;
-font-weight:bold;
-border:0;
-border-radius:10px;
+    background:#00d084;
+    border:0;
+    padding:18px 35px;
+    border-radius:10px;
+    font-size:20px;
+    font-weight:bold;
 }
 
-#launch{
-background:#00d084;
-color:#001b10;
+#rocket{
+    font-size:60px;
+    margin-top:150px;
 }
 
-#reset{
-background:#334155;
-color:white;
+.fly{
+    animation:launch 5s linear forwards;
 }
 
-button:disabled{
-opacity:.4;
+@keyframes launch{
+    from{
+        transform:translateY(0);
+    }
+    to{
+        transform:translateY(-400px);
+    }
 }
-
-.telemetry{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px;
-margin:20px;
-}
-
-.card{
-background:#081226;
-border:1px solid #263858;
-border-radius:12px;
-padding:15px;
-}
-
-.card small{
-color:#94a3b8;
-}
-
-.card strong{
-display:block;
-font-size:22px;
-margin-top:8px;
-}
-
-.progress{
-height:8px;
-background:#1e293b;
-border-radius:10px;
-overflow:hidden;
-margin-top:10px;
-}
-
-.bar{
-height:100%;
-width:100%;
-background:#00d084;
-transition:width .5s;
-}
-
-.panel{
-margin:20px;
-padding:15px;
-background:#081226;
-border:1px solid #263858;
-border-radius:12px;
-text-align:left;
-}
-
-#alert{
-padding:15px;
-background:#020617;
-border-left:5px solid #00d084;
-color:#9fffd3;
-}
-
-#log{
-height:180px;
-overflow:auto;
-background:#020617;
-padding:12px;
-border-radius:8px;
-font-family:monospace;
-font-size:13px;
-}
-
-.logline{
-margin-bottom:7px;
-color:#9fffd3;
-}
-
-@media(max-width:700px){
-
-.telemetry{
-grid-template-columns:repeat(2,1fr);
-}
-
-.controls{
-flex-direction:column;
-}
-
-}
-
 </style>
 </head>
 
 <body>
 
-<header>
-
 <h1>🚀 2060 MISSION CONTROL</h1>
 
-<p>Aerospace Operations Dashboard</p>
+<p id="status">SYSTEM READY</p>
 
-</header>
+<button onclick="launch()">🚀 LAUNCH</button>
 
-<div id="status">
-STANDBY
-</div>
-
-<div id="countdown"></div>
-
-<div id="space">
-
-<div id="rocket">
-🚀
-</div>
-
-</div>
-
-<div class="controls">
-
-<button id="launch">
-🚀 LAUNCH
-</button>
-
-<button id="reset">
-↻ RESET
-</button>
-
-</div>
-
-<div class="telemetry">
-
-<div class="card">
-
-<small>ALTITUDE</small>
-
-<strong>
-<span id="altitude">0</span> km
-</strong>
-
-</div>
-
-<div class="card">
-
-<small>SPEED</small>
-
-<strong>
-<span id="speed">0</span> km/h
-</strong>
-
-</div>
-
-<div class="card">
-
-<small>FUEL</small>
-
-<strong>
-<span id="fuel">100</span>%
-</strong>
-
-<div class="progress">
-
-<div id="fuelBar" class="bar"></div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<small>SIGNAL</small>
-
-<strong>
-<span id="signal">100</span>%
-</strong>
-
-<div class="progress">
-
-<div id="signalBar" class="bar"></div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="panel">
-
-<h3>📡 MISSION STATUS</h3>
-
-<div id="alert">
-SYSTEM READY — ALL SYSTEMS NOMINAL
-</div>
-
-</div>
-
-<div class="panel">
-
-<h3>📝 MISSION LOG</h3>
-
-<div id="log">
-
-<div class="logline">
-SYSTEM INITIALIZED
-</div>
-
-<div class="logline">
-VEHICLE READY
-</div>
-
-</div>
-
-</div>
+<div id="rocket">🚀</div>
 
 <script>
 
-const button =
-document.getElementById("launch");
+function launch(){
 
-const reset =
-document.getElementById("reset");
+document.getElementById("status").innerText =
+"🚀 LIFTOFF!";
 
-const rocket =
-document.getElementById("rocket");
-
-const status =
-document.getElementById("status");
-
-const countdown =
-document.getElementById("countdown");
-
-const log =
-document.getElementById("log");
-
-const altitude =
-document.getElementById("altitude");
-
-const speed =
-document.getElementById("speed");
-
-const fuel =
-document.getElementById("fuel");
-
-const signal =
-document.getElementById("signal");
-
-const fuelBar =
-document.getElementById("fuelBar");
-
-const signalBar =
-document.getElementById("signalBar");
-
-const alert =
-document.getElementById("alert");
-
-let countTimer = null;
-
-let telemetryTimer = null;
-
-let seconds = 0;
-
-let altitudeValue = 0;
-
-let speedValue = 0;
-
-let fuelValue = 100;
-
-let signalValue = 100;
-
-let launched = false;
-
-
-function addLog(text){
-
-const line =
-document.createElement("div");
-
-line.className =
-"logline";
-
-line.textContent =
-"[" +
-new Date().toLocaleTimeString() +
-"] " +
-text;
-
-log.appendChild(line);
-
-log.scrollTop =
-log.scrollHeight;
+document.getElementById("rocket")
+.classList.add("fly");
 
 }
 
+</script>
 
-function updateTelemetry(){
-
-altitude.textContent =
-Math.floor(altitudeValue);
-
-speed.textContent =
-Math.floor(speedValue);
-
-fuel.textContent =
-Math.max(0,fuelValue).toFixed(1);
-
-signal.textContent =
-Math.max(0,signalValue).toFixed(0);
-
-fuelBar.style.width =
-Math.max(0,fuelValue) + "%";
-
-signalBar.style.width =
-Math.max(0,signalValue) + "%";
-
-}
-
-
-button.onclick = function(){
-
-if(launched){
-return;
-}
-
-launched = true;
-
-button.disabled = true;
-
-status.textContent =
-"COUNTDOWN";
-
-status.style.color =
-"#ffd166";
-
-alert.textContent =
-"COUNTDOWN ACTIVE — LAUNCH SEQUENCE STARTED";
-
-addLog(
-"LAUNCH SEQUENCE STARTED"
-);
-
-let count = 3;
-
-countdown.textContent =
-count;
-
-
-countTimer =
-setInterval(function(){
-
-count--;
-
-if(count > 0){
-
-count
+</body>
+</html>
