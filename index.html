@@ -2,288 +2,280 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2060 Mission Control V1.3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2060 Mission Control V1.4</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
- margin:0;
- background:#050914;
- color:#e8f1ff;
- font-family:Arial,sans-serif;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-header{
- padding:16px;
- background:#08111f;
- border-bottom:1px solid #20304a;
- position:sticky;
- top:0;
- z-index:20;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #05080d;
+    color: #e8f1ff;
+    min-height: 100vh;
 }
 
-.logo{
- font-size:21px;
- font-weight:bold;
- letter-spacing:1.5px;
+header {
+    background: #0a1019;
+    border-bottom: 1px solid #243142;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.sub{
- font-size:11px;
- color:#7890aa;
- margin-top:5px;
+.logo h1 {
+    font-size: 22px;
+    letter-spacing: 2px;
 }
 
-.status{
- display:inline-block;
- margin-top:10px;
- padding:6px 10px;
- border:1px solid #24d17e;
- border-radius:20px;
- color:#24d17e;
- font-size:11px;
+.logo span {
+    color: #4da3ff;
 }
 
-nav{
- display:flex;
- overflow-x:auto;
- gap:7px;
- padding:10px;
- background:#07101c;
- border-bottom:1px solid #17273b;
+.status {
+    padding: 8px 14px;
+    border: 1px solid #31506f;
+    border-radius: 20px;
+    color: #6cff9b;
+    font-size: 12px;
+    font-weight: bold;
 }
 
-nav button{
- flex:0 0 auto;
- padding:9px 12px;
- background:#0b1829;
- border:1px solid #203751;
- color:#b9cce0;
- border-radius:7px;
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
 }
 
-nav button.active{
- background:#12304a;
- color:white;
- border-color:#4ca7e8;
+.hero {
+    background: linear-gradient(135deg, #0b1420, #07101a);
+    border: 1px solid #203044;
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 20px;
 }
 
-main{
- max-width:1200px;
- margin:auto;
- padding:15px;
+.hero h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
 }
 
-.page{display:none}
-.page.active{display:block}
-
-.title{
- font-size:18px;
- font-weight:bold;
- margin:8px 0 15px;
+.hero p {
+    color: #8fa2b8;
 }
 
-.grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
- gap:12px;
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-.card{
- background:#0a1424;
- border:1px solid #1b2b43;
- border-radius:11px;
- padding:15px;
+button {
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    background: #1769aa;
 }
 
-.label{
- color:#71869f;
- font-size:10px;
- text-transform:uppercase;
- letter-spacing:1px;
+button:hover {
+    opacity: 0.85;
 }
 
-.value{
- font-size:26px;
- font-weight:bold;
- margin-top:7px;
+.launch-btn {
+    background: #168c4a;
 }
 
-.small{
- font-size:12px;
- color:#7890aa;
+.abort-btn {
+    background: #b32632;
 }
 
-.progress{
- height:8px;
- background:#18253a;
- border-radius:10px;
- margin-top:12px;
- overflow:hidden;
+.reset-btn {
+    background: #39485a;
 }
 
-.bar{
- height:100%;
- background:#24d17e;
- transition:.5s;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
 }
 
-canvas{
- width:100%;
- height:230px;
- background:#07101d;
- border-radius:10px;
+.card {
+    background: #0b121c;
+    border: 1px solid #1f3044;
+    border-radius: 12px;
+    padding: 18px;
 }
 
-.map{
- height:290px;
- position:relative;
- overflow:hidden;
- border:1px solid #1b2b43;
- border-radius:12px;
- background:radial-gradient(circle at 50% 110%,#15456d,#050b14 55%);
+.card-title {
+    color: #7e91a8;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
 }
 
-.earth{
- position:absolute;
- width:155px;
- height:155px;
- border-radius:50%;
- bottom:-75px;
- left:50%;
- transform:translateX(-50%);
- background:radial-gradient(circle at 35% 30%,#4c9bd7,#12365b 60%,#06101c);
- box-shadow:0 0 45px #155582;
+.value {
+    font-size: 26px;
+    font-weight: bold;
 }
 
-.orbit{
- position:absolute;
- width:430px;
- height:190px;
- border:1px dashed #526d8e;
- border-radius:50%;
- left:50%;
- bottom:20px;
- transform:translateX(-50%);
+.unit {
+    font-size: 12px;
+    color: #788ba1;
 }
 
-.ship{
- position:absolute;
- width:13px;
- height:13px;
- border-radius:50%;
- background:white;
- box-shadow:0 0 18px white;
- left:50%;
- bottom:75px;
- animation:move 8s linear infinite;
+.progress {
+    width: 100%;
+    height: 8px;
+    background: #182331;
+    border-radius: 20px;
+    margin-top: 12px;
+    overflow: hidden;
 }
 
-@keyframes move{
- 0%{transform:translate(-190px,35px)}
- 25%{transform:translate(-90px,-50px)}
- 50%{transform:translate(90px,-55px)}
- 75%{transform:translate(190px,10px)}
- 100%{transform:translate(-190px,35px)}
+.progress-bar {
+    height: 100%;
+    width: 100%;
+    background: #42d77d;
+    transition: width 0.4s ease;
 }
 
-.alert{
- padding:11px;
- margin-bottom:8px;
- border-left:3px solid #24d17e;
- background:#0c1b20;
- font-size:12px;
+.altitude-bar {
+    background: #4da3ff;
 }
 
-.alert.warning{border-color:#e6b84d}
-.alert.danger{border-color:#e85b5b}
-
-.log{
- height:240px;
- overflow:auto;
- background:#050b14;
- padding:12px;
- border-radius:8px;
- font:12px monospace;
- color:#9fb6cf;
+.speed-bar {
+    background: #b66cff;
 }
 
-.log div{margin-bottom:8px}
-
-.ai{
- border:1px solid #34577d;
- background:#091a2b;
+.fuel-bar {
+    background: #ffc857;
 }
 
-.ai h3{
- margin-top:0;
- color:#66b7ff;
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
 
-.control-grid{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:10px;
- margin-top:12px;
+.panel {
+    background: #0b121c;
+    border: 1px solid #1f3044;
+    border-radius: 12px;
+    padding: 20px;
 }
 
-.control{
- padding:13px;
- border-radius:8px;
- border:1px solid #2d5278;
- background:#0b1b2d;
- color:white;
- font-weight:bold;
+.panel h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
 }
 
-.control.start{border-color:#24d17e}
-.control.pause{border-color:#e6b84d}
-.control.reset{border-color:#e85b5b}
-
-.control:active{
- transform:scale(.98);
+.mission-stage {
+    text-align: center;
+    padding: 25px;
 }
 
-button.action{
- width:100%;
- padding:11px;
- margin-top:10px;
- background:#0b1b2d;
- color:white;
- border:1px solid #2d5278;
- border-radius:7px;
+.stage {
+    font-size: 34px;
+    font-weight: bold;
+    color: #4da3ff;
+    margin: 15px 0;
 }
 
-.mission-state{
- padding:12px;
- border-radius:8px;
- background:#071421;
- border:1px solid #263d57;
- margin-top:12px;
+.countdown {
+    font-size: 52px;
+    font-weight: bold;
+    color: #6cff9b;
 }
 
-.state-dot{
- display:inline-block;
- width:9px;
- height:9px;
- border-radius:50%;
- background:#e6b84d;
- margin-right:7px;
+.log {
+    height: 250px;
+    overflow-y: auto;
+    background: #050a10;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: monospace;
+    font-size: 12px;
 }
 
-footer{
- text-align:center;
- padding:25px;
- color:#52677f;
- font-size:10px;
+.log-entry {
+    padding: 6px 0;
+    border-bottom: 1px solid #121c28;
+    color: #9db0c7;
 }
 
-@media(max-width:500px){
- .control-grid{
-  grid-template-columns:1fr;
- }
+.log-entry span {
+    color: #4da3ff;
+}
+
+.systems {
+    margin-top: 20px;
+}
+
+.system-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #1b2938;
+}
+
+.online {
+    color: #6cff9b;
+}
+
+.warning {
+    color: #ffc857;
+}
+
+.danger {
+    color: #ff5c69;
+}
+
+footer {
+    text-align: center;
+    color: #536579;
+    font-size: 11px;
+    padding: 25px;
+}
+
+@media (max-width: 800px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 500px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h2 {
+        font-size: 22px;
+    }
+
+    .countdown {
+        font-size: 42px;
+    }
 }
 </style>
 </head>
@@ -291,1570 +283,563 @@ footer{
 <body>
 
 <header>
+    <div class="logo">
+        <h1>2060 <span>MISSION CONTROL</span></h1>
+    </div>
 
-<div class="logo">🚀 2060 MISSION CONTROL</div>
-
-<div class="sub">
-AEROSPACE SYSTEMS • DIGITAL MISSION PLATFORM
-</div>
-
-<div class="status" id="systemStatus">
-● SIMULATION READY
-</div>
-
+    <div class="status" id="globalStatus">
+        SYSTEM READY
+    </div>
 </header>
 
+<div class="container">
+
+    <section class="hero">
+        <h2>ORBITAL MISSION SIMULATION</h2>
+        <p>2060 Aerospace Command • Kenya Mission Operations Center</p>
+
+        <div class="controls">
+            <button class="launch-btn" onclick="startMission()">
+                🚀 START LAUNCH
+            </button>
 
-<nav>
+            <button class="abort-btn" onclick="abortMission()">
+                ⚠ ABORT
+            </button>
 
-<button class="active"
-onclick="showPage('dashboard',this)">
-Dashboard
-</button>
+            <button class="reset-btn" onclick="resetMission()">
+                ↻ RESET
+            </button>
+        </div>
+    </section>
 
-<button onclick="showPage('telemetry',this)">
-Telemetry
-</button>
+    <div class="grid">
 
-<button onclick="showPage('trajectory',this)">
-Trajectory
-</button>
+        <div class="card">
+            <div class="card-title">Mission Time</div>
+            <div class="value" id="missionTime">00:00</div>
+            <div class="unit">MM : SS</div>
+        </div>
 
-<button onclick="showPage('missions',this)">
-Missions
-</button>
+        <div class="card">
+            <div class="card-title">Altitude</div>
+            <div class="value">
+                <span id="altitude">0</span>
+            </div>
+            <div class="unit">KM</div>
 
-<button onclick="showPage('alerts',this)">
-Alerts
-</button>
+            <div class="progress">
+                <div class="progress-bar altitude-bar" id="altitudeBar"></div>
+            </div>
+        </div>
 
-<button onclick="showPage('ai',this)">
-Mission AI
-</button>
+        <div class="card">
+            <div class="card-title">Velocity</div>
+            <div class="value">
+                <span id="speed">0</span>
+            </div>
+            <div class="unit">KM/S</div>
 
-<button onclick="showPage('events',this)">
-Event Log
-</button>
+            <div class="progress">
+                <div class="progress-bar speed-bar" id="speedBar"></div>
+            </div>
+        </div>
 
-<button onclick="showPage('settings',this)">
-Settings
-</button>
+        <div class="card">
+            <div class="card-title">Fuel</div>
+            <div class="value">
+                <span id="fuel">100</span>
+            </div>
+            <div class="unit">%</div>
 
-</nav>
+            <div class="progress">
+                <div class="progress-bar fuel-bar" id="fuelBar"></div>
+            </div>
+        </div>
 
+    </div>
 
-<main>
+    <div class="two-column">
 
+        <section class="panel mission-stage">
 
-<!-- DASHBOARD -->
+            <h3>MISSION PHASE</h3>
 
-<section id="dashboard" class="page active">
+            <div class="countdown" id="countdown">
+                10
+            </div>
 
-<div class="title">
-Mission Dashboard
-</div>
-
-
-<div class="grid">
-
-<div class="card">
-
-<div class="label">
-Mission
-</div>
-
-<div class="value">
-2060-X1
-</div>
-
-<div class="small">
-Autonomous Research Vehicle
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Mission Timer
-</div>
-
-<div class="value" id="timer">
-00:00:00
-</div>
-
-<div class="small">
-Simulation time
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Mission Status
-</div>
-
-<div class="value" id="missionStatus">
-READY
-</div>
-
-<div class="small">
-Simulation control state
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Flight Phase
-</div>
-
-<div class="value" id="phase">
-PRE-LAUNCH
-</div>
-
-<div class="small">
-Current simulated phase
-</div>
-
-</div>
-
-</div>
-
-
-<br>
-
-
-<div class="card">
-
-<div class="label">
-Mission Controls
-</div>
-
-<div class="control-grid">
-
-<button class="control start"
-onclick="startMission()">
-▶ START MISSION
-</button>
-
-<button class="control pause"
-onclick="pauseMission()">
-Ⅱ PAUSE
-</button>
-
-<button class="control reset"
-onclick="resetMission()">
-↻ RESET
-</button>
-
-<button class="control"
-onclick="simulateEmergency()">
-⚠ SIMULATE EMERGENCY
-</button>
-
-</div>
-
-
-<div class="mission-state">
-
-<span class="state-dot" id="stateDot"></span>
-
-<span id="stateText">
-Mission simulation is ready to start.
-</span>
-
-</div>
-
-</div>
-
-
-<br>
-
-
-<div class="grid">
-
-
-<div class="card">
-
-<div class="label">
-Altitude
-</div>
-
-<div class="value">
-
-<span id="alt">
-29.8
-</span>
-
-<span class="small">
-km
-</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Velocity
-</div>
-
-<div class="value">
-
-<span id="vel">
-1458
-</span>
-
-<span class="small">
-m/s
-</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Temperature
-</div>
-
-<div class="value">
-
-<span id="temp">
-29
-</span>
-
-<span class="small">
-°C
-</span>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Propellant
-</div>
-
-<div class="value">
-
-<span id="fuel">
-76
-</span>
-
-<span class="small">
-%
-</span>
-
-</div>
-
-<div class="progress">
-
-<div
-class="bar"
-id="fuelbar"
-style="width:76%">
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- TELEMETRY -->
-
-<section id="telemetry" class="page">
-
-<div class="title">
-Live Telemetry
-</div>
-
-
-<div class="grid">
-
-
-<div class="card">
-
-<div class="label">
-Altitude
-</div>
-
-<div class="value">
-
-<span id="alt2">
-29.8
-</span>
-
-km
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Velocity
-</div>
-
-<div class="value">
-
-<span id="vel2">
-1458
-</span>
-
-m/s
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Temperature
-</div>
-
-<div class="value">
-
-<span id="temp2">
-29
-</span>
-
-°C
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Propellant
-</div>
-
-<div class="value">
-
-<span id="fuel2">
-76
-</span>
-
-%
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Engine Thrust
-</div>
-
-<div class="value">
-
-<span id="thrust">
-92
-</span>
-
-%
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Fuel Flow
-</div>
-
-<div class="value">
-
-<span id="flow">
-84
-</span>
-
-kg/s
-
-</div>
-
-</div>
-
-</div>
-
-
-<br>
-
-
-<div class="card">
-
-<div class="label">
-Altitude Telemetry
-</div>
-
-<br>
-
-<canvas id="chart"></canvas>
-
-</div>
-
-</section>
-
-
-
-<!-- TRAJECTORY -->
-
-<section id="trajectory" class="page">
-
-<div class="title">
-Mission Trajectory
-</div>
-
-
-<div class="map">
+            <div class="stage" id="missionStage">
+                READY
+            </div>
 
-<div class="orbit"></div>
+            <p id="missionMessage">
+                Vehicle standing by for launch sequence.
+            </p>
 
-<div class="earth"></div>
+        </section>
 
-<div class="ship"></div>
+        <section class="panel">
 
-</div>
-
-
-<br>
-
-
-<div class="grid">
-
-
-<div class="card">
-
-<div class="label">
-Origin
-</div>
-
-<div class="value">
-KENYA 🇰🇪
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Current Region
-</div>
-
-<div class="value">
-EARTH
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Destination
-</div>
-
-<div class="value">
-ORBIT
-</div>
-
-</div>
-
-</div>
-
-
-<br>
-
-
-<div class="card">
-
-<b>
-Trajectory Status
-</b>
-
-<p class="small">
-Simulated spacecraft trajectory is monitored by Mission Control.
-</p>
-
-</div>
-
-</section>
-
-
-
-<!-- MISSIONS -->
-
-<section id="missions" class="page">
-
-<div class="title">
-Mission Management
-</div>
-
-
-<div class="grid">
-
-
-<div class="card">
-
-<div class="label">
-Active Mission
-</div>
-
-<div class="value">
-2060-X1
-</div>
-
-<p class="small">
-Research and orbital demonstration simulation.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Mission Status
-</div>
-
-<div class="value"
-id="missionStatus2">
-READY
-</div>
-
-<p class="small">
-Simulation operating state.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Vehicle
-</div>
-
-<div class="value">
-X1
-</div>
-
-<p class="small">
-Autonomous research vehicle concept.
-</p>
-
-</div>
-
-</div>
-
-
-<br>
-
-
-<div class="card">
-
-<b>
-Mission Controls
-</b>
-
-<button
-class="action"
-onclick="startMission()">
-▶ Start Mission
-</button>
-
-<button
-class="action"
-onclick="pauseMission()">
-Ⅱ Pause Mission
-</button>
-
-<button
-class="action"
-onclick="resetMission()">
-↻ Reset Mission
-</button>
-
-<button
-class="action"
-onclick="simulateEmergency()">
-⚠ Simulate Emergency
-</button>
-
-</div>
-
-</section>
-
-
-
-<!-- ALERTS -->
-
-<section id="alerts" class="page">
-
-<div class="title">
-Mission Alerts
-</div>
-
-
-<div id="alertList">
-
-<div class="alert">
-✓ ENGINE CHECK — NOMINAL
-</div>
-
-<div class="alert">
-✓ TELEMETRY LINK — STABLE
-</div>
-
-<div class="alert">
-✓ GUIDANCE SYSTEM — NOMINAL
-</div>
-
-<div class="alert warning">
-⚠ ORBIT INSERTION — STANDBY
-</div>
-
-</div>
-
+            <h3>MISSION LOG</h3>
 
-<br>
+            <div class="log" id="missionLog">
 
+                <div class="log-entry">
+                    <span>[SYSTEM]</span>
+                    Mission Control initialized.
+                </div>
 
-<div class="card">
+                <div class="log-entry">
+                    <span>[SYSTEM]</span>
+                    All primary systems online.
+                </div>
 
-<b>
-Alert System
-</b>
+                <div class="log-entry">
+                    <span>[READY]</span>
+                    Launch vehicle awaiting command.
+                </div>
 
-<p class="small">
-Alerts in this version are simulated demonstrations of how a future mission-control monitoring system could operate.
-</p>
+            </div>
 
-</div>
-
-</section>
-
-
-
-<!-- AI -->
-
-<section id="ai" class="page">
-
-<div class="title">
-Mission AI
-</div>
-
-
-<div class="card ai">
-
-<h3>
-🧠 MISSION AI — ONLINE
-</h3>
-
-<p id="aimsg">
-
-Mission computer is awaiting mission start.
-
-</p>
-
-</div>
-
-
-<br>
-
-
-<div class="grid">
-
-
-<div class="card">
-
-<div class="label">
-AI Assessment
-</div>
-
-<div class="value">
-NOMINAL
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Trajectory
-</div>
-
-<div class="value">
-STABLE
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-Risk Level
-</div>
-
-<div class="value">
-LOW
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- EVENTS -->
-
-<section id="events" class="page">
-
-<div class="title">
-Mission Event Log
-</div>
-
+        </section>
 
-<div class="card">
+    </div>
 
-<div
-class="log"
-id="log">
+    <section class="panel systems">
 
-<div>
-SYSTEM — V1.3 INITIALIZED
-</div>
-
-<div>
-MISSION DATABASE — READY
-</div>
-
-<div>
-TELEMETRY ENGINE — READY
-</div>
-
-<div>
-MISSION CONTROL — STANDBY
-</div>
-
-</div>
-
-
-<button
-class="action"
-onclick="missionEvent('MANUAL MISSION EVENT')">
-
-+ ADD MISSION EVENT
-
-</button>
-
-
-<button
-class="action"
-onclick="clearEvents()">
-
-CLEAR EVENT LOG
-
-</button>
-
-</div>
-
-</section>
-
-
-
-<!-- SETTINGS -->
-
-<section id="settings" class="page">
-
-<div class="title">
-System Settings
-</div>
-
+        <h3>SYSTEM STATUS</h3>
 
-<div class="card">
+        <div class="system-row">
+            <span>Flight Computer</span>
+            <strong class="online" id="computerStatus">ONLINE</strong>
+        </div>
 
-<div class="label">
-Platform
-</div>
-
-<div class="value">
-2060-X1
-</div>
-
-<p class="small">
-Mission Control V1.3
-</p>
-
-
-<div class="mission-state">
-
-Data persistence:
-
-<b id="storageStatus">
-ENABLED
-</b>
-
-</div>
-
-
-<button
-class="action"
-onclick="saveMission()">
-
-SAVE MISSION DATA
+        <div class="system-row">
+            <span>Navigation System</span>
+            <strong class="online" id="navigationStatus">ONLINE</strong>
+        </div>
 
-</button>
+        <div class="system-row">
+            <span>Communications</span>
+            <strong class="online" id="communicationStatus">ONLINE</strong>
+        </div>
 
+        <div class="system-row">
+            <span>Propulsion</span>
+            <strong class="online" id="propulsionStatus">STANDBY</strong>
+        </div>
 
-<button
-class="action"
-onclick="loadMission()">
+        <div class="system-row">
+            <span>Life Support</span>
+            <strong class="online">ONLINE</strong>
+        </div>
 
-LOAD SAVED DATA
+    </section>
 
-</button>
-
-
-<button
-class="action"
-onclick="clearSavedData()">
-
-CLEAR SAVED DATA
-
-</button>
-
-
-<button
-class="action"
-onclick="systemCheck()">
-
-RUN SYSTEM CHECK
-
-</button>
-
-
 </div>
-
-</section>
-
-
-</main>
-
 
 <footer>
-
-2060 Aerospace Systems<br>
-
-MISSION CONTROL V1.3 • SIMULATION ONLY
-
+    2060 Aerospace Initiative • Mission Control Prototype V1.4
 </footer>
-
-
 
 <script>
 
-
-/* ==============================
-   APPLICATION STATE
-============================== */
-
 let missionRunning = false;
+let missionAborted = false;
 
-let missionPaused = false;
+let countdownValue = 10;
+let missionSeconds = 0;
 
-let seconds = 0;
+let altitude = 0;
+let speed = 0;
+let fuel = 100;
 
-let altitude = 29.8;
+let missionInterval = null;
+let countdownInterval = null;
 
-let velocity = 1458;
+const missionTimeEl = document.getElementById("missionTime");
+const altitudeEl = document.getElementById("altitude");
+const speedEl = document.getElementById("speed");
+const fuelEl = document.getElementById("fuel");
 
-let temperature = 29;
+const altitudeBar = document.getElementById("altitudeBar");
+const speedBar = document.getElementById("speedBar");
+const fuelBar = document.getElementById("fuelBar");
 
-let fuel = 76;
+const countdownEl = document.getElementById("countdown");
+const missionStageEl = document.getElementById("missionStage");
+const missionMessageEl = document.getElementById("missionMessage");
 
-let phaseIndex = 0;
+const globalStatus = document.getElementById("globalStatus");
+const missionLog = document.getElementById("missionLog");
 
-let telemetryTimer = null;
+const propulsionStatus =
+    document.getElementById("propulsionStatus");
 
-let clockTimer = null;
+function addLog(message, type = "SYSTEM") {
 
+    const entry = document.createElement("div");
 
-const phases = [
+    entry.className = "log-entry";
 
-"PRE-LAUNCH",
+    const time = new Date().toLocaleTimeString();
 
-"ASCENT",
+    entry.innerHTML =
+        `<span>[${type}]</span> ${time} — ${message}`;
 
-"MAX-Q",
+    missionLog.appendChild(entry);
 
-"STAGE SEPARATION",
+    missionLog.scrollTop = missionLog.scrollHeight;
+}
 
-"UPPER ATMOSPHERE",
+function updateDisplay() {
 
-"ORBIT INSERTION",
+    altitudeEl.textContent =
+        Math.round(altitude);
 
-"ORBIT"
+    speedEl.textContent =
+        speed.toFixed(2);
 
-];
+    fuelEl.textContent =
+        fuel.toFixed(1);
 
+    altitudeBar.style.width =
+        Math.min(100, altitude / 2) + "%";
 
+    speedBar.style.width =
+        Math.min(100, speed / 7.8 * 100) + "%";
 
-/* ==============================
-   NAVIGATION
-============================== */
+    fuelBar.style.width =
+        Math.max(0, fuel) + "%";
 
-function showPage(id,button){
+    const minutes =
+        Math.floor(missionSeconds / 60)
+        .toString()
+        .padStart(2, "0");
 
- document
- .querySelectorAll(".page")
- .forEach(page=>{
-  page.classList.remove("active");
- });
+    const seconds =
+        (missionSeconds % 60)
+        .toString()
+        .padStart(2, "0");
 
- document
- .getElementById(id)
- .classList.add("active");
+    missionTimeEl.textContent =
+        `${minutes}:${seconds}`;
+}
 
+function startMission() {
 
- document
- .querySelectorAll("nav button")
- .forEach(btn=>{
-  btn.classList.remove("active");
- });
+    if (missionRunning) return;
 
- button.classList.add("active");
+    missionAborted = false;
+
+    missionStageEl.textContent =
+        "LAUNCH PREPARATION";
+
+    missionMessageEl.textContent =
+        "Final checks in progress.";
+
+    globalStatus.textContent =
+        "LAUNCH SEQUENCE";
+
+    globalStatus.style.color =
+        "#ffc857";
+
+    propulsionStatus.textContent =
+        "ARMING";
+
+    propulsionStatus.className =
+        "warning";
+
+    addLog(
+        "Launch sequence initiated.",
+        "LAUNCH"
+    );
+
+    countdownValue = 10;
+
+    countdownEl.textContent =
+        countdownValue;
+
+    countdownInterval =
+        setInterval(() => {
+
+            countdownValue--;
+
+            countdownEl.textContent =
+                countdownValue;
+
+            if (countdownValue > 0) {
+
+                addLog(
+                    "T-" + countdownValue +
+                    " seconds.",
+                    "COUNTDOWN"
+                );
+
+            }
+
+            if (countdownValue <= 0) {
+
+                clearInterval(countdownInterval);
+
+                launchVehicle();
+
+            }
+
+        }, 1000);
+}
+
+function launchVehicle() {
+
+    if (missionAborted) return;
+
+    missionRunning = true;
+
+    missionStageEl.textContent =
+        "LIFTOFF";
+
+    missionMessageEl.textContent =
+        "Vehicle has cleared the launch platform.";
+
+    globalStatus.textContent =
+        "MISSION ACTIVE";
+
+    globalStatus.style.color =
+        "#6cff9b";
+
+    propulsionStatus.textContent =
+        "ACTIVE";
+
+    propulsionStatus.className =
+        "online";
+
+    addLog(
+        "LIFTOFF confirmed.",
+        "FLIGHT"
+    );
+
+    addLog(
+        "Vehicle clearing launch platform.",
+        "FLIGHT"
+    );
+
+    missionInterval =
+        setInterval(updateMission, 1000);
+}
+
+function updateMission() {
+
+    if (!missionRunning || missionAborted) return;
+
+    missionSeconds++;
+
+    /*
+       Simulated flight physics
+    */
+
+    altitude +=
+        18 + Math.random() * 14;
+
+    speed +=
+        0.18 + Math.random() * 0.12;
+
+    fuel -=
+        0.35 + Math.random() * 0.15;
+
+    if (altitude < 80) {
+
+        missionStageEl.textContent =
+            "ASCENT";
+
+        missionMessageEl.textContent =
+            "Vehicle accelerating through lower atmosphere.";
+
+    }
+
+    if (altitude >= 80 && altitude < 160) {
+
+        missionStageEl.textContent =
+            "UPPER ASCENT";
+
+        missionMessageEl.textContent =
+            "Vehicle approaching orbital insertion altitude.";
+
+    }
+
+    if (altitude >= 160 && altitude < 200) {
+
+        missionStageEl.textContent =
+            "ORBIT INSERTION";
+
+        missionMessageEl.textContent =
+            "Preparing for orbital velocity.";
+
+    }
+
+    if (altitude >= 200) {
+
+        missionStageEl.textContent =
+            "ORBIT";
+
+        missionMessageEl.textContent =
+            "Orbital insertion achieved. Mission nominal.";
+
+        if (speed > 7.8) {
+
+            speed = 7.8;
+
+        }
+
+    }
+
+    if (fuel <= 25 && fuel > 10) {
+
+        fuelBar.style.background =
+            "#ffc857";
+
+        addLog(
+            "Fuel reserve below 25%.",
+            "WARNING"
+        );
+
+    }
+
+    if (fuel <= 10) {
+
+        fuelBar.style.background =
+            "#ff5c69";
+
+        addLog(
+            "Critical fuel reserve.",
+            "WARNING"
+        );
+
+    }
+
+    if (missionSeconds % 10 === 0) {
+
+        addLog(
+            `Telemetry nominal. Altitude: ${Math.round(altitude)} km.`,
+            "TELEMETRY"
+        );
+
+    }
+
+    updateDisplay();
 
 }
 
+function abortMission() {
 
+    if (!missionRunning &&
+        countdownValue === 10) {
 
-/* ==============================
-   START MISSION
-============================== */
+        addLog(
+            "No active mission to abort.",
+            "SYSTEM"
+        );
 
-function startMission(){
+        return;
+    }
 
- if(missionRunning){
+    missionAborted = true;
 
-  missionEvent(
-   "MISSION ALREADY RUNNING"
-  );
+    missionRunning = false;
 
-  return;
- }
+    clearInterval(missionInterval);
+    clearInterval(countdownInterval);
 
+    missionStageEl.textContent =
+        "ABORTED";
 
- missionRunning=true;
+    missionMessageEl.textContent =
+        "Mission terminated by Mission Control.";
 
- missionPaused=false;
+    globalStatus.textContent =
+        "MISSION ABORTED";
 
+    globalStatus.style.color =
+        "#ff5c69";
 
- document
- .getElementById("missionStatus")
- .textContent="ACTIVE";
+    propulsionStatus.textContent =
+        "SHUTDOWN";
 
- document
- .getElementById("missionStatus2")
- .textContent="ACTIVE";
+    propulsionStatus.className =
+        "danger";
 
+    addLog(
+        "EMERGENCY ABORT COMMAND EXECUTED.",
+        "ABORT"
+    );
 
- document
- .getElementById("systemStatus")
- .textContent="● SIMULATION ACTIVE";
-
-
- document
- .getElementById("stateText")
- .textContent=
- "Mission simulation is running.";
-
-
- document
- .getElementById("stateDot")
- .style.background=
- "#24d17e";
-
-
- missionEvent(
- "MISSION STARTED — 2060-X1"
- );
-
-
- startTimers();
-
+    addLog(
+        "Vehicle propulsion shutdown.",
+        "ABORT"
+    );
 }
 
+function resetMission() {
 
+    clearInterval(missionInterval);
+    clearInterval(countdownInterval);
 
-/* ==============================
-   PAUSE
-============================== */
+    missionRunning = false;
+    missionAborted = false;
 
-function pauseMission(){
+    countdownValue = 10;
+    missionSeconds = 0;
 
- if(!missionRunning){
+    altitude = 0;
+    speed = 0;
+    fuel = 100;
 
-  missionEvent(
-   "PAUSE REQUEST — MISSION NOT RUNNING"
-  );
+    countdownEl.textContent =
+        "10";
 
-  return;
- }
+    missionStageEl.textContent =
+        "READY";
 
+    missionMessageEl.textContent =
+        "Vehicle standing by for launch sequence.";
 
- missionRunning=false;
+    globalStatus.textContent =
+        "SYSTEM READY";
 
- missionPaused=true;
+    globalStatus.style.color =
+        "#6cff9b";
 
+    propulsionStatus.textContent =
+        "STANDBY";
 
- document
- .getElementById("missionStatus")
- .textContent="PAUSED";
+    propulsionStatus.className =
+        "online";
 
- document
- .getElementById("missionStatus2")
- .textContent="PAUSED";
+    fuelBar.style.background =
+        "#ffc857";
 
+    missionLog.innerHTML = "";
 
- document
- .getElementById("systemStatus")
- .textContent="● SIMULATION PAUSED";
+    addLog(
+        "Mission Control reset.",
+        "SYSTEM"
+    );
 
+    addLog(
+        "All systems returned to standby.",
+        "SYSTEM"
+    );
 
- document
- .getElementById("stateText")
- .textContent=
- "Mission simulation is paused.";
-
-
- document
- .getElementById("stateDot")
- .style.background=
- "#e6b84d";
-
-
- stopTelemetry();
-
-
- missionEvent(
- "MISSION PAUSED"
- );
-
+    updateDisplay();
 }
 
+/*
+   Initial display
+*/
 
+updateDisplay();
 
-/* ==============================
-   RESET
-============================== */
+</script>
 
-function resetMission(){
-
- stopTelemetry();
-
-
- missionRunning=false;
-
- missionPaused=false;
-
- seconds=0;
-
- altitude=29.8;
-
- velocity=1458;
-
- temperature=29;
-
- fuel=76;
-
- phaseIndex=0;
-
-
- updateDisplay();
-
-
- document
- .getElementById("missionStatus")
- .textContent="READY";
-
- document
- .getElementById("missionStatus2")
- .textContent="READY";
-
-
- document
- .getElementById("systemStatus")
- .textContent=
- "● SIMULATION READY";
-
-
- document
- .getElementById("stateText")
- .textContent=
- "Mission simulation is ready to start.";
-
-
- document
- .getElementById("stateDot")
- .style.background=
- "#e6b84d";
-
-
- document
- .getElementById("aimsg")
- .textContent=
- "Mission computer is awaiting mission start.";
-
-
- missionEvent(
- "MISSION RESET — SYSTEM READY"
- );
-
-}
-
-
-
-/* ==============================
-   START TIMERS
-============================== */
-
-function startTimers(){
-
- stopTelemetry();
-
-
- clockTimer=setInterval(()=>{
-
-  if(!missionRunning)return;
-
-  seconds++;
-
-  updateTimer();
-
- },1000);
-
-
- telemetryTimer=setInterval(()=>{
-
-  if(!missionRunning)return;
-
-  updateTelemetry();
-
- },1000);
-
-}
-
-
-
-/* ==============================
-   STOP TELEMETRY
-============================== */
-
-function stopTelemetry(){
-
- if(clockTimer){
-
-  clearInterval(clockTimer);
-
-  clockTimer=null;
-
- }
-
- if(telemetryTimer){
-
-  clearInterval(telemetryTimer);
-
-  telemetryTimer=null;
-
- }
-
-}
-
-
-
-/* ==============================
-   TIMER DISPLAY
-============================== */
-
-function updateTimer(){
-
- let h=
- Math.floor(seconds/3600);
-
- let m=
- Math.floor(
-  (seconds%3600)/60
- );
-
- let s=
- seconds%60;
-
-
- document
- .getElementById("timer")
- .textContent=
-
- String(h).padStart(2,"0")
- +":"
- +String(m).padStart(2,"0")
- +":"
- +String(s).padStart(2,"0");
-
-}
-
-
-
-/* ==============================
-   TELEMETRY
-============================== */
-
-function updateTelemetry(){
-
- altitude +=
- 0.08+
- Math.random()*0.18;
-
-
- velocity +=
- Math.floor(
-  Math.random()*8
- );
-
-
- temperature=
- 29+
- Math.floor(
-  Math.sin(Date.now()/3000)*5
- );
-
-
- fuel -=
- 0.01+
- Math.random()*0.03;
-
-
- if(fuel<0)
- fuel=0;
-
-
- updatePhase();
-
- updateDisplay();
-
- updateAI();
-
- drawChart();
-
- saveMission();
-
-
- if(fuel<=20){
-
-  addAlert(
-   "LOW PROPELLANT — SIMULATION WARNING",
-   "warning"
-  );
-
- }
-
-
- if(fuel<=0){
-
-  missionRunning=false;
-
-  stopTelemetry();
-
-  missionEvent(
-   "PROPELLANT DEPLETED — MISSION STOPPED"
-  );
-
- }
-
-}
-
-
-
-/* ==============================
-   UPDATE DISPLAY
-============================== */
-
-function updateDisplay(){
-
- let alt=
- altitude.toFixed(1);
-
- let vel=
- Math.round(velocity);
-
- let temp=
- temperature;
-
- let fuelValue=
- fuel.toFixed(1);
-
-
- document
- .getElementById("alt")
- .textContent=alt;
-
- document
- .getElementById("alt2")
- .textContent=alt;
-
-
- document
- .getElementById("vel")
- .textContent=vel;
-
- document
- .getElementById("vel2")
- .textContent=vel;
-
-
- document
- .getElementById("temp")
- .textContent=temp;
-
- document
- .getElementById("temp2")
- .textContent=temp;
-
-
- document
- .getElementById("fuel")
- .textContent=fuelValue;
-
- document
- .getElementById("fuel2")
- .textContent=fuelValue;
-
-
- document
- .getElementById("fuelbar")
- .style.width=
- Math.max(0,fuel)+"%";
-
-
- updateTimer();
-
-}
-
-
-
-/* ==============================
-   FLIGHT PHASE
-============================== */
-
-function updatePhase(){
-
- if(!missionRunning){
-
-  phaseIndex=0;
-
- }
-
- else if(altitude>100){
-
-  phaseIndex=6;
-
- }
-
- else if(altitude>80){
-
-  phaseIndex=5;
-
- }
-
- else if(altitude>60){
-
-  phaseIndex=4;
-
- }
-
- else if(altitude>45){
-
-  phaseIndex=3;
-
- }
-
- else if(altitude>35){
-
-  phaseIndex=2;
-
- }
-
- else{
-
-  phaseIndex=1;
-
- }
-
-
- document
- .getElementById("phase")
- .textContent=
- phases[phaseIndex];
-
-}
-
-
-
-/* ==============================
-   MISSION AI
-============================== */
-
-function updateAI(){
-
- let message;
-
-
- if(!missionRunning){
-
-  message=
-  "Mission computer is in standby mode.";
-
- }
-
- else if(fuel<20){
-
-  message=
-  "LOW PROPELLANT — simulated mission planning recommends preparing for mission transition.";
-
- }
-
- else if(temperature>40){
-
-  message=
-  "THERMAL VARIATION DETECTED — monitoring simulated vehicle conditions.";
-
- }
-
- else{
-
-  message=
-  "Flight trajectory within simulated parameters. Propulsion performance nominal. No critical anomalies detected.";
-
- }
-
-
- document
- .getElementById("aimsg")
- .textContent=message;
-
-}
-
-
-
-/* ==============================
-   EVENT LOG
-============================== */
-
-function missionEvent(message){
-
- let log=
- document.getElementById("log");
-
-
- let entry=
- document.createElement("div");
-
-
- entry.textContent=
- new Date().toLocaleTimeString()
- +" — "
- +message;
-
-
- log.prepend(entry);
-
-
- saveMission();
-
-}
-
-
-
-/* ==============================
-   CLEAR EVENTS
-============================== */
-
-function clearEvents(){
-
- document
- .getElementById("log")
- .innerHTML=
- "<div>EVENT LOG CLEARED</div>";
-
-
- saveMission();
-
-}
-
-
-
-/* ==============================
-   ALERT SYSTEM
-============================== */
-
-function addAlert(message,type){
-
- let list=
- document.getElementById("alertList");
-
-
- let alert=
- document.createElement("div");
-
-
- alert.className=
- "alert "
- +type;
-
-
- alert.textContent=
- "⚠ "
- +message;
-
-
- list.prepend(alert);
-
-}
-
-
-
-/* ===================
+</body>
+         </html>
