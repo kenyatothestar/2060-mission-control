@@ -1,5 +1,10 @@
-status.innerText =
-"LIFTOFF!";
+else{
+
+clearInterval(timer);
+
+countdown.innerText = "🚀";
+
+status.innerText = "LIFTOFF!";
 
 rocket.classList.add("fly");
 
@@ -12,3 +17,5 @@ altitude += 100;
 document.getElementById("altitude").innerText = altitude;
 
 },1000);
+
+}
