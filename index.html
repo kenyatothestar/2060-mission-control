@@ -1,41 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2060 Mission Control</title>
 
 <style>
-
 body{
 margin:0;
 background:#020617;
 color:white;
-font-family:Arial,sans-serif;
+font-family:Arial;
 text-align:center;
-padding:25px 15px;
-}
-
-h1{
-font-size:25px;
-}
-
-#status{
-font-size:20px;
-font-weight:bold;
-color:#00ff99;
-margin:15px;
-}
-
-#countdown{
-font-size:70px;
-font-weight:bold;
-color:#00ff99;
-height:100px;
+padding:30px 15px;
 }
 
 button{
@@ -47,8 +24,11 @@ font-size:20px;
 font-weight:bold;
 }
 
-button:disabled{
-opacity:.5;
+#countdown{
+font-size:70px;
+font-weight:bold;
+color:#00ff99;
+height:100px;
 }
 
 #rocket{
@@ -61,89 +41,89 @@ animation:launch 5s linear forwards;
 }
 
 @keyframes launch{
-
 from{
 transform:translateY(0);
 }
-
 to{
 transform:translateY(-400px);
 }
-
 }
-
-
-/* TELEMETRY */
-
-.telemetry{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-top:30px;
-}
-
-.card{
-background:#081226;
-border:1px solid #263858;
-border-radius:12px;
-padding:15px;
-}
-
-.card small{
-color:#94a3b8;
-}
-
-.card strong{
-display:block;
-font-size:22px;
-margin-top:8px;
-}
-
-#fuelBar{
-height:8px;
-background:#00d084;
-width:100%;
-margin-top:10px;
-border-radius:10px;
-}
-
-@media(max-width:600px){
-
-.telemetry{
-grid-template-columns:1fr;
-}
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
+<h1>🚀 2060 MISSION CONTROL</h1>
 
-<h1>
-🚀 2060 MISSION CONTROL
-</h1>
-
-
-<p id="status">
-SYSTEM READY
-</p>
-
+<p id="status">SYSTEM READY</p>
 
 <div id="countdown"></div>
-
 
 <button id="launchButton">
 🚀 LAUNCH
 </button>
 
-
 <div id="rocket">
 🚀
 </div>
 
+<script>
 
-<!-- TELEMETRY
+const button =
+document.getElementById("launchButton");
+
+const countdown =
+document.getElementById("countdown");
+
+const rocket =
+document.getElementById("rocket");
+
+const status =
+document.getElementById("status");
+
+button.onclick = function(){
+
+button.disabled = true;
+
+status.innerText =
+"COUNTDOWN STARTED";
+
+let number = 3;
+
+countdown.innerText =
+number;
+
+let timer =
+setInterval(function(){
+
+number--;
+
+if(number > 0){
+
+countdown.innerText =
+number;
+
+}
+
+else{
+
+clearInterval(timer);
+
+countdown.innerText =
+"🚀";
+
+status.innerText =
+"LIFTOFF!";
+
+rocket.classList.add("fly");
+
+}
+
+},1000);
+
+};
+
+</script>
+
+</body>
+</html>
