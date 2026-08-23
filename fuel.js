@@ -1,10 +1,10 @@
-let fuelLevel = 100;
-let fuelTimer = null;
+let fuel = 100;
 
-function getFuelDisplay(){
+let fuelRunning = false;
 
-    const cards =
-        document.querySelectorAll(".card");
+function findFuelDisplay(){
+
+    const cards = document.querySelectorAll(".card");
 
     if(cards.length < 3){
         return null;
@@ -14,80 +14,66 @@ function getFuelDisplay(){
 }
 
 
-function updateFuel(){
+function showFuel(){
 
-    const display =
-        getFuelDisplay();
+    const display = findFuelDisplay();
 
     if(!display){
         return;
     }
 
-    display.innerText =
-        fuelLevel + " %";
+    display.innerText = fuel + " %";
 }
 
 
-function startFuel(){
+function fuelLoop(){
 
-    if(fuelTimer){
-        clearInterval(fuelTimer);
-    }
+    const rocket =
+        document.getElementById("rocket");
 
-    fuelLevel = 100;
-
-    updateFuel();
-
-    fuelTimer =
-        setInterval(function(){
-
-            fuelLevel -= 2;
-
-            if(fuelLevel < 0){
-                fuelLevel = 0;
-            }
-
-            updateFuel();
-
-            if(fuelLevel === 0){
-
-                clearInterval(
-                    fuelTimer
-                );
-
-                fuelTimer = null;
-            }
-
-        },1000);
-}
-
-
-/*
-Watch the launch button
-without changing the
-original launch code.
-*/
-
-function connectFuel(){
-
-    const button =
-        document.getElementById(
-            "launchButton"
-        );
-
-    if(!button){
+    if(!rocket){
         return;
     }
 
-    button.addEventListener(
-        "click",
-        function(){
+    /*
+    Start fuel consumption when
+    the rocket is actually flying.
+    */
 
-            startFuel();
+    if(
+        rocket.classList.contains("fly") &&
+        !fuelRunning
+    ){
 
-        },
-        {once:false}
-    );
+        fuelRunning = true;
+        fuel = 100;
+
+        showFuel();
+
+        setInterval(function(){
+
+            if(
+                rocket.classList.contains("fly")
+            ){
+
+                fuel -= 2;
+
+                if(fuel < 0){
+                    fuel = 0;
+                }
+
+                showFuel();
+
+            }
+
+        },1000);
+    }
+
+    /*
+    Keep watching the rocket.
+    */
+
+    setTimeout(fuelLoop,200);
 }
 
 
@@ -95,11 +81,11 @@ if(document.readyState === "loading"){
 
     document.addEventListener(
         "DOMContentLoaded",
-        connectFuel
+        fuelLoop
     );
 
 }else{
 
-    connectFuel();
+    fuelLoop();
 
 }
