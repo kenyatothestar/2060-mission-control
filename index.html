@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>2060 Mission Control V2.6</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>2060 Mission Control V2.7</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
 background:#020617;
-color:#fff;
+color:white;
 font-family:Arial,sans-serif;
 padding:18px;
 }
@@ -59,8 +66,13 @@ margin-bottom:6px;
 font-size:18px;
 }
 
-.green{color:#00ff99}
-.blue{color:#38bdf8}
+.green{
+color:#00ff99;
+}
+
+.blue{
+color:#38bdf8;
+}
 
 #status{
 text-align:center;
@@ -76,6 +88,15 @@ color:#38bdf8;
 font-weight:bold;
 font-size:14px;
 margin-bottom:12px;
+}
+
+#event{
+text-align:center;
+color:#facc15;
+font-weight:bold;
+font-size:14px;
+margin-bottom:8px;
+min-height:20px;
 }
 
 #countdown{
@@ -128,26 +149,24 @@ animation:launch 5s linear forwards;
 }
 
 @keyframes launch{
+
 from{
 bottom:25px;
 transform:translateX(-50%);
 }
+
 to{
 bottom:360px;
 transform:translateX(-50%);
 }
-}
 
-.sectionTitle{
-font-size:18px;
-font-weight:bold;
-margin:18px 0 10px;
 }
 
 .telemetry{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:10px;
+margin-top:18px;
 }
 
 .card{
@@ -181,6 +200,12 @@ overflow:hidden;
 height:100%;
 width:100%;
 background:#00d084;
+}
+
+.sectionTitle{
+font-size:18px;
+font-weight:bold;
+margin:18px 0 10px;
 }
 
 .systems{
@@ -220,7 +245,7 @@ text-align:center;
 }
 
 #missionLog{
-height:145px;
+height:180px;
 overflow-y:auto;
 background:#020617;
 padding:12px;
@@ -235,6 +260,7 @@ color:#9fffd3;
 }
 
 @media(max-width:600px){
+
 .telemetry{
 grid-template-columns:1fr 1fr;
 }
@@ -242,63 +268,117 @@ grid-template-columns:1fr 1fr;
 }
 
 @media(max-width:420px){
+
 .telemetry,
 .dashboard,
 .systems{
 grid-template-columns:1fr;
 }
+
 }
+
 </style>
+
 </head>
 
 <body>
 
+
 <header>
-<h1>🚀 2060 MISSION CONTROL</h1>
+
+<h1>
+🚀 2060 MISSION CONTROL
+</h1>
+
 <div class="subtitle">
 AEROSPACE MISSION SIMULATION PLATFORM
 </div>
+
 </header>
+
 
 <div class="dashboard">
 
 <div class="info">
-<small>MISSION ID</small>
-<strong>MC-2060-001</strong>
+
+<small>
+MISSION ID
+</small>
+
+<strong>
+MC-2060-001
+</strong>
+
 </div>
+
 
 <div class="info">
-<small>VEHICLE</small>
-<strong>2060-X1</strong>
+
+<small>
+VEHICLE
+</small>
+
+<strong>
+2060-X1
+</strong>
+
 </div>
+
 
 <div class="info">
-<small>LAUNCH SITE</small>
-<strong class="blue">KENYA SPACEPORT</strong>
+
+<small>
+LAUNCH SITE
+</small>
+
+<strong class="blue">
+KENYA SPACEPORT
+</strong>
+
 </div>
+
 
 <div class="info">
-<small>MISSION STATUS</small>
-<strong class="green">READY</strong>
+
+<small>
+MISSION STATUS
+</small>
+
+<strong class="green">
+READY
+</strong>
+
 </div>
 
 </div>
+
 
 <div id="status">
 SYSTEM READY
 </div>
 
+
 <div id="phase">
 MISSION PHASE: READY
 </div>
 
+
+<div id="event">
+EVENT: STANDBY
+</div>
+
+
 <div id="countdown"></div>
 
+
 <div class="launchArea">
+
 <button id="launchButton">
 🚀 LAUNCH
 </button>
+
 </div>
+
 
 <div id="space">
 
@@ -308,71 +388,132 @@ MISSION PHASE: READY
 
 </div>
 
+
 <div class="sectionTitle">
 LIVE TELEMETRY
 </div>
 
+
 <div class="telemetry">
 
+
 <div class="card">
-<small>ALTITUDE</small>
+
+<small>
+ALTITUDE
+</small>
+
 <strong>
 <span id="altitude">0</span> km
 </strong>
+
 </div>
 
+
 <div class="card">
-<small>SPEED</small>
+
+<small>
+SPEED
+</small>
+
 <strong>
 <span id="speed">0</span> km/h
 </strong>
+
 </div>
 
+
 <div class="card">
-<small>FUEL</small>
+
+<small>
+FUEL
+</small>
+
 <strong>
 <span id="fuel">100</span> %
 </strong>
 
 <div class="fuelBar">
+
 <div id="fuelBar"></div>
-</div>
 
 </div>
 
 </div>
+
+
+</div>
+
 
 <div class="sectionTitle">
 VEHICLE SYSTEMS
 </div>
 
+
 <div class="systems">
 
-<div class="system">
-<small>🔥 PROPULSION</small>
-<strong id="propulsion">READY</strong>
-</div>
 
 <div class="system">
-<small>🧭 GUIDANCE</small>
-<strong id="guidance">READY</strong>
+
+<small>
+🔥 PROPULSION
+</small>
+
+<strong id="propulsion">
+READY
+</strong>
+
 </div>
+
 
 <div class="system">
-<small>📡 COMMUNICATIONS</small>
-<strong id="communications">ONLINE</strong>
+
+<small>
+🧭 GUIDANCE
+</small>
+
+<strong id="guidance">
+READY
+</strong>
+
 </div>
+
 
 <div class="system">
-<small>⚡ POWER</small>
-<strong id="power">NOMINAL</strong>
-</div>
+
+<small>
+📡 COMMUNICATIONS
+</small>
+
+<strong id="communications">
+ONLINE
+</strong>
 
 </div>
+
+
+<div class="system">
+
+<small>
+⚡ POWER
+</small>
+
+<strong id="power">
+NOMINAL
+</strong>
+
+</div>
+
+
+</div>
+
 
 <div id="missionPanel">
 
-<h2>📝 MISSION LOG</h2>
+<h2>
+📝 MISSION EVENT LOG
+</h2>
+
 
 <div id="missionLog">
 
@@ -392,6 +533,7 @@ ALL PRIMARY SYSTEMS NOMINAL
 
 </div>
 
+
 <script>
 
 const button =
@@ -408,6 +550,9 @@ document.getElementById("status");
 
 const phase =
 document.getElementById("phase");
+
+const eventDisplay =
+document.getElementById("event");
 
 const altitudeDisplay =
 document.getElementById("altitude");
@@ -436,17 +581,24 @@ document.getElementById("power");
 const missionLog =
 document.getElementById("missionLog");
 
+
 let altitude = 0;
+
 let speed = 0;
+
 let fuel = 100;
+
 
 function addLog(message){
 
 const line =
 document.createElement("div");
 
-line.className = "log";
-line.innerText = message;
+line.className =
+"log";
+
+line.innerText =
+message;
 
 missionLog.appendChild(line);
 
@@ -455,9 +607,24 @@ missionLog.scrollHeight;
 
 }
 
+
+function setEvent(message){
+
+eventDisplay.innerText =
+"EVENT: " + message;
+
+addLog(message);
+
+}
+
+
 button.onclick = function(){
 
-button.disabled = true;
+button.disabled =
+true;
+
+
+/* COUNTDOWN */
 
 status.innerText =
 "COUNTDOWN STARTED";
@@ -465,28 +632,34 @@ status.innerText =
 phase.innerText =
 "MISSION PHASE: COUNTDOWN";
 
-addLog(
-"LAUNCH SEQUENCE STARTED"
+setEvent(
+"T-3 COUNTDOWN INITIATED"
 );
+
 
 let number = 3;
 
 countdown.innerText =
 number;
 
+
 let timer =
 setInterval(function(){
 
 number--;
+
 
 if(number > 0){
 
 countdown.innerText =
 number;
 
-addLog("T-" + number);
+setEvent(
+"T-" + number
+);
 
 }
+
 
 else{
 
@@ -495,11 +668,19 @@ clearInterval(timer);
 countdown.innerText =
 "🚀";
 
+
+/* LIFTOFF */
+
 status.innerText =
 "LIFTOFF!";
 
 phase.innerText =
 "MISSION PHASE: LIFTOFF";
+
+setEvent(
+"LIFTOFF CONFIRMED"
+);
+
 
 propulsion.innerText =
 "ACTIVE";
@@ -513,13 +694,6 @@ communications.innerText =
 power.innerText =
 "NOMINAL";
 
-addLog(
-"ENGINE IGNITION"
-);
-
-addLog(
-"LIFTOFF CONFIRMED"
-);
 
 rocket.classList.remove("fly");
 
@@ -527,9 +701,13 @@ void rocket.offsetWidth;
 
 rocket.classList.add("fly");
 
+
 altitude = 0;
+
 speed = 0;
+
 fuel = 100;
+
 
 altitudeDisplay.innerText =
 "0";
@@ -543,19 +721,59 @@ fuelDisplay.innerText =
 fuelBar.style.width =
 "100%";
 
+
+/* MAX-Q */
+
 setTimeout(function(){
 
 status.innerText =
-"ASCENT";
+"MAX-Q";
 
 phase.innerText =
 "MISSION PHASE: ASCENT";
 
-addLog(
-"ASCENT PHASE STARTED"
+setEvent(
+"MAX-Q PASSED"
 );
 
-},1000);
+},2000);
+
+
+/* MAIN ENGINE BURN */
+
+setTimeout(function(){
+
+status.innerText =
+"MAIN ENGINE BURN";
+
+phase.innerText =
+"MISSION PHASE: ASCENT";
+
+setEvent(
+"MAIN ENGINE BURN NOMINAL"
+);
+
+},3000);
+
+
+/* STAGE SEPARATION */
+
+setTimeout(function(){
+
+status.innerText =
+"STAGE SEPARATION";
+
+phase.innerText =
+"MISSION PHASE: ASCENT";
+
+setEvent(
+"STAGE 1 SEPARATION CONFIRMED"
+);
+
+},5000);
+
+
+/* ORBIT INSERTION */
 
 setTimeout(function(){
 
@@ -565,11 +783,14 @@ status.innerText =
 phase.innerText =
 "MISSION PHASE: ORBIT INSERTION";
 
-addLog(
+setEvent(
 "ORBIT INSERTION BURN"
 );
 
-},4000);
+},7000);
+
+
+/* ORBIT ACHIEVED */
 
 setTimeout(function(){
 
@@ -582,11 +803,14 @@ phase.innerText =
 guidance.innerText =
 "ORBIT LOCK";
 
-addLog(
+setEvent(
 "ORBIT ACHIEVED"
 );
 
-},7000);
+},9000);
+
+
+/* ALTITUDE */
 
 setInterval(function(){
 
@@ -597,6 +821,9 @@ altitude;
 
 },1000);
 
+
+/* SPEED */
+
 setInterval(function(){
 
 speed += 5000;
@@ -606,12 +833,17 @@ speed.toLocaleString();
 
 },1000);
 
+
+/* FUEL */
+
 setInterval(function(){
 
 fuel -= 2;
 
 if(fuel < 0){
+
 fuel = 0;
+
 }
 
 fuelDisplay.innerText =
@@ -619,6 +851,7 @@ fuel;
 
 fuelBar.style.width =
 fuel + "%";
+
 
 if(fuel <= 20){
 
@@ -638,4 +871,5 @@ fuelBar.style.background =
 </script>
 
 </body>
-</html>
+
+  </html>
