@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>2060 Mission Control V2.8</title>
+<title>2060 Mission Control V2.9</title>
 
 <style>
 
@@ -277,6 +278,38 @@ margin-bottom:6px;
 color:#00ff99;
 }
 
+.intelligence{
+background:#081226;
+border:1px solid #263858;
+border-radius:12px;
+padding:15px;
+}
+
+.aiStatus{
+font-size:18px;
+font-weight:bold;
+color:#00ff99;
+margin-bottom:10px;
+}
+
+.check{
+padding:8px 0;
+border-bottom:1px solid #1e293b;
+font-size:14px;
+}
+
+.check:last-child{
+border-bottom:0;
+}
+
+.warning{
+color:#facc15;
+}
+
+.normal{
+color:#00ff99;
+}
+
 #missionPanel{
 margin-top:15px;
 background:#081226;
@@ -291,7 +324,7 @@ text-align:center;
 }
 
 #missionLog{
-height:170px;
+height:190px;
 overflow-y:auto;
 background:#020617;
 padding:12px;
@@ -345,23 +378,46 @@ AEROSPACE MISSION SIMULATION PLATFORM
 <div class="dashboard">
 
 <div class="info">
+
 <small>MISSION ID</small>
-<strong>MC-2060-001</strong>
+
+<strong>
+MC-2060-001
+</strong>
+
 </div>
 
+
 <div class="info">
+
 <small>VEHICLE</small>
-<strong>2060-X1</strong>
+
+<strong>
+2060-X1
+</strong>
+
 </div>
 
+
 <div class="info">
+
 <small>LAUNCH SITE</small>
-<strong class="blue">KENYA SPACEPORT</strong>
+
+<strong class="blue">
+KENYA SPACEPORT
+</strong>
+
 </div>
 
+
 <div class="info">
+
 <small>MISSION STATUS</small>
-<strong class="green">READY</strong>
+
+<strong class="green" id="missionStatus">
+READY
+</strong>
+
 </div>
 
 </div>
@@ -371,13 +427,16 @@ AEROSPACE MISSION SIMULATION PLATFORM
 SYSTEM READY
 </div>
 
+
 <div id="phase">
 MISSION PHASE: READY
 </div>
 
+
 <div id="event">
 EVENT: STANDBY
 </div>
+
 
 <div id="countdown"></div>
 
@@ -407,9 +466,12 @@ LIVE TELEMETRY
 
 <div class="telemetry">
 
+
 <div class="card">
 
-<small>ALTITUDE</small>
+<small>
+ALTITUDE
+</small>
 
 <strong>
 <span id="altitude">0</span> km
@@ -420,7 +482,9 @@ LIVE TELEMETRY
 
 <div class="card">
 
-<small>SPEED</small>
+<small>
+SPEED
+</small>
 
 <strong>
 <span id="speed">0</span> km/h
@@ -431,7 +495,9 @@ LIVE TELEMETRY
 
 <div class="card">
 
-<small>FUEL</small>
+<small>
+FUEL
+</small>
 
 <strong>
 <span id="fuel">100</span> %
@@ -554,6 +620,59 @@ ORBIT ACHIEVED
 
 </div>
 
+</div>
+
+
+<div class="sectionTitle">
+MISSION CONTROL INTELLIGENCE
+</div>
+
+
+<div class="intelligence">
+
+<div class="aiStatus" id="aiStatus">
+🤖 AUTO MONITOR: STANDBY
+</div>
+
+
+<div class="check">
+🔥 Propulsion:
+<span class="normal" id="checkPropulsion">
+NOMINAL
+</span>
+</div>
+
+
+<div class="check">
+🧭 Guidance:
+<span class="normal" id="checkGuidance">
+NOMINAL
+</span>
+</div>
+
+
+<div class="check">
+📡 Communications:
+<span class="normal" id="checkComms">
+NOMINAL
+</span>
+</div>
+
+
+<div class="check">
+⚡ Power:
+<span class="normal" id="checkPower">
+NOMINAL
+</span>
+</div>
+
+
+<div class="check">
+⛽ Fuel:
+<span class="normal" id="checkFuel">
+NOMINAL
+</span>
+</div>
 
 </div>
 
@@ -565,9 +684,12 @@ VEHICLE SYSTEMS
 
 <div class="systems">
 
+
 <div class="system">
 
-<small>🔥 PROPULSION</small>
+<small>
+🔥 PROPULSION
+</small>
 
 <strong id="propulsion">
 READY
@@ -578,7 +700,9 @@ READY
 
 <div class="system">
 
-<small>🧭 GUIDANCE</small>
+<small>
+🧭 GUIDANCE
+</small>
 
 <strong id="guidance">
 READY
@@ -589,7 +713,9 @@ READY
 
 <div class="system">
 
-<small>📡 COMMUNICATIONS</small>
+<small>
+📡 COMMUNICATIONS
+</small>
 
 <strong id="communications">
 ONLINE
@@ -600,7 +726,9 @@ ONLINE
 
 <div class="system">
 
-<small>⚡ POWER</small>
+<small>
+⚡ POWER
+</small>
 
 <strong id="power">
 NOMINAL
@@ -617,6 +745,7 @@ NOMINAL
 📝 MISSION EVENT LOG
 </h2>
 
+
 <div id="missionLog">
 
 <div class="log">
@@ -628,7 +757,7 @@ SYSTEM INITIALIZED
 </div>
 
 <div class="log">
-ALL PRIMARY SYSTEMS NOMINAL
+AUTO MONITOR STANDBY
 </div>
 
 </div>
@@ -656,6 +785,12 @@ document.getElementById("phase");
 const eventDisplay =
 document.getElementById("event");
 
+const missionStatus =
+document.getElementById("missionStatus");
+
+const aiStatus =
+document.getElementById("aiStatus");
+
 const altitudeDisplay =
 document.getElementById("altitude");
 
@@ -679,6 +814,21 @@ document.getElementById("communications");
 
 const power =
 document.getElementById("power");
+
+const checkPropulsion =
+document.getElementById("checkPropulsion");
+
+const checkGuidance =
+document.getElementById("checkGuidance");
+
+const checkComms =
+document.getElementById("checkComms");
+
+const checkPower =
+document.getElementById("checkPower");
+
+const checkFuel =
+document.getElementById("checkFuel");
 
 const missionLog =
 document.getElementById("missionLog");
@@ -762,13 +912,54 @@ item.classList.add(
 }
 
 
+function intelligence(message){
+
+aiStatus.innerText =
+"🤖 AUTO MONITOR: " + message;
+
+addLog(
+"AUTO MONITOR: " + message
+);
+
+}
+
+
+function runSystemChecks(){
+
+checkPropulsion.innerText =
+"NOMINAL";
+
+checkGuidance.innerText =
+"NOMINAL";
+
+checkComms.innerText =
+"NOMINAL";
+
+checkPower.innerText =
+"NOMINAL";
+
+checkFuel.innerText =
+"NOMINAL";
+
+}
+
+
 button.onclick = function(){
 
 button.disabled =
 true;
 
+missionStatus.innerText =
+"ACTIVE";
 
-/* START */
+runSystemChecks();
+
+intelligence(
+"LAUNCH MONITORING ACTIVE"
+);
+
+
+/* COUNTDOWN */
 
 status.innerText =
 "COUNTDOWN STARTED";
@@ -845,6 +1036,10 @@ setEvent(
 "LIFTOFF CONFIRMED"
 );
 
+intelligence(
+"ALL PRIMARY SYSTEMS NOMINAL"
+);
+
 
 propulsion.innerText =
 "ACTIVE";
@@ -906,6 +1101,10 @@ setEvent(
 "MAX-Q PASSED"
 );
 
+intelligence(
+"MAX-Q PARAMETERS NOMINAL"
+);
+
 },2000);
 
 
@@ -922,6 +1121,10 @@ setEvent(
 "MAIN ENGINE BURN NOMINAL"
 );
 
+intelligence(
+"PROPULSION PERFORMANCE NOMINAL"
+);
+
 },3000);
 
 
@@ -936,6 +1139,10 @@ setTimeline(6);
 
 setEvent(
 "STAGE 1 SEPARATION CONFIRMED"
+);
+
+intelligence(
+"STAGE SEPARATION CONFIRMED"
 );
 
 },5000);
@@ -957,6 +1164,10 @@ setEvent(
 "ORBIT INSERTION BURN"
 );
 
+intelligence(
+"GUIDANCE SOLUTION NOMINAL"
+);
+
 },7000);
 
 
@@ -974,6 +1185,10 @@ setTimeline(8);
 
 guidance.innerText =
 "ORBIT LOCK";
+
+intelligence(
+"MISSION OBJECTIVE ACHIEVED"
+);
 
 setEvent(
 "ORBIT ACHIEVED"
@@ -1030,6 +1245,16 @@ if(fuel <= 20){
 fuelBar.style.background =
 "#ff4444";
 
+checkFuel.innerText =
+"LOW";
+
+checkFuel.className =
+"warning";
+
+intelligence(
+"FUEL LEVEL LOW"
+);
+
 }
 
 },1000);
@@ -1044,4 +1269,4 @@ fuelBar.style.background =
 
 </body>
 
-</html>
+  </html>
