@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>2060 Mission Control V2.5</title>
+<title>2060 Mission Control V2.5.1</title>
 
 <style>
 
@@ -30,6 +30,13 @@ font-size:20px;
 font-weight:bold;
 color:#00ff99;
 margin:15px;
+}
+
+#phase{
+font-size:15px;
+color:#38bdf8;
+margin:8px;
+font-weight:bold;
 }
 
 #countdown{
@@ -181,6 +188,11 @@ SYSTEM READY
 </div>
 
 
+<div id="phase">
+MISSION PHASE: READY
+</div>
+
+
 <div id="countdown"></div>
 
 
@@ -284,6 +296,9 @@ document.getElementById("rocket");
 const status =
 document.getElementById("status");
 
+const phase =
+document.getElementById("phase");
+
 const altitudeDisplay =
 document.getElementById("altitude");
 
@@ -330,8 +345,14 @@ button.onclick = function(){
 
 button.disabled = true;
 
+
+/* COUNTDOWN */
+
 status.innerText =
 "COUNTDOWN STARTED";
+
+phase.innerText =
+"MISSION PHASE: COUNTDOWN";
 
 addLog(
 "LAUNCH SEQUENCE STARTED"
@@ -369,8 +390,14 @@ clearInterval(timer);
 countdown.innerText =
 "🚀";
 
+
+/* LIFTOFF */
+
 status.innerText =
 "LIFTOFF!";
+
+phase.innerText =
+"MISSION PHASE: LIFTOFF";
 
 
 addLog(
@@ -409,9 +436,55 @@ fuelBar.style.width =
 "100%";
 
 
+/* ASCENT */
+
+setTimeout(function(){
+
+status.innerText =
+"ASCENT";
+
+phase.innerText =
+"MISSION PHASE: ASCENT";
+
 addLog(
 "ASCENT PHASE STARTED"
 );
+
+},1000);
+
+
+/* ORBIT INSERTION */
+
+setTimeout(function(){
+
+status.innerText =
+"ORBIT INSERTION";
+
+phase.innerText =
+"MISSION PHASE: ORBIT INSERTION";
+
+addLog(
+"ORBIT INSERTION BURN"
+);
+
+},4000);
+
+
+/* ORBIT ACHIEVED */
+
+setTimeout(function(){
+
+status.innerText =
+"ORBIT ACHIEVED";
+
+phase.innerText =
+"MISSION PHASE: ORBIT ACHIEVED";
+
+addLog(
+"ORBIT ACHIEVED"
+);
+
+},7000);
 
 
 /* ALTITUDE */
