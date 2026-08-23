@@ -1,24 +1,32 @@
 let fuelLevel = 100;
 let fuelTimer = null;
 
-function updateFuel(){
+function getFuelDisplay(){
 
-    const cards = document.querySelectorAll(".card");
+    const cards =
+        document.querySelectorAll(".card");
 
     if(cards.length < 3){
+        return null;
+    }
+
+    return cards[2].querySelector("strong");
+}
+
+
+function updateFuel(){
+
+    const display =
+        getFuelDisplay();
+
+    if(!display){
         return;
     }
 
-    const fuelDisplay =
-        cards[2].querySelector("strong");
-
-    if(!fuelDisplay){
-        return;
-    }
-
-    fuelDisplay.innerText =
+    display.innerText =
         fuelLevel + " %";
 }
+
 
 function startFuel(){
 
@@ -30,33 +38,68 @@ function startFuel(){
 
     updateFuel();
 
-    fuelTimer = setInterval(function(){
+    fuelTimer =
+        setInterval(function(){
 
-        fuelLevel -= 2;
+            fuelLevel -= 2;
 
-        if(fuelLevel < 0){
-            fuelLevel = 0;
-        }
+            if(fuelLevel < 0){
+                fuelLevel = 0;
+            }
 
-        updateFuel();
+            updateFuel();
 
-        if(fuelLevel === 0){
-            clearInterval(fuelTimer);
-            fuelTimer = null;
-        }
+            if(fuelLevel === 0){
 
-    },1000);
+                clearInterval(
+                    fuelTimer
+                );
+
+                fuelTimer = null;
+            }
+
+        },1000);
 }
+
+
+/*
+Watch the launch button
+without changing the
+original launch code.
+*/
+
+function connectFuel(){
+
+    const button =
+        document.getElementById(
+            "launchButton"
+        );
+
+    if(!button){
+        return;
+    }
+
+    button.addEventListener(
+        "click",
+        function(){
+
+            startFuel();
+
+        },
+        {once:false}
+    );
+}
+
 
 if(document.readyState === "loading"){
 
     document.addEventListener(
         "DOMContentLoaded",
-        updateFuel
+        connectFuel
     );
 
 }else{
 
-    updateFuel();
+    connectFuel();
 
 }
