@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>2060 Mission Control V2.4.2</title>
 
@@ -23,6 +19,7 @@ padding:30px 15px;
 
 h1{
 font-size:26px;
+margin-bottom:10px;
 }
 
 #status{
@@ -114,6 +111,20 @@ font-size:24px;
 color:#38bdf8;
 }
 
+.fuelBar{
+height:10px;
+background:#1e293b;
+border-radius:10px;
+margin-top:12px;
+overflow:hidden;
+}
+
+.fuelFull{
+height:100%;
+width:100%;
+background:#00d084;
+}
+
 #missionPanel{
 margin-top:20px;
 padding:18px;
@@ -151,30 +162,21 @@ grid-template-columns:1fr;
 }
 
 </style>
-
 </head>
-
 
 <body>
 
-
-<h1>
-🚀 2060 MISSION CONTROL
-</h1>
-
+<h1>🚀 2060 MISSION CONTROL</h1>
 
 <div id="status">
 SYSTEM READY
 </div>
 
-
 <div id="countdown"></div>
-
 
 <button id="launchButton">
 🚀 LAUNCH
 </button>
-
 
 <div id="space">
 
@@ -187,140 +189,6 @@ SYSTEM READY
 
 <div class="telemetry">
 
-
 <div class="card">
 
-<small>
-ALTITUDE
-</small>
-
-<strong>
-<span id="altitude">0</span> km
-</strong>
-
-</div>
-
-
-<div class="card">
-
-<small>
-SPEED
-</small>
-
-<strong>
-<span id="speed">0</span> km/h
-</strong>
-
-</div>
-
-
-<div class="card">
-
-<small>
-FUEL
-</small>
-
-<strong>
-<span id="fuel">100</span> %
-</strong>
-
-</div>
-
-
-</div>
-
-
-<div id="missionPanel">
-
-<h2>
-📝 MISSION LOG
-</h2>
-
-<div id="missionLog">
-
-<div class="log">
-SYSTEM INITIALIZED
-</div>
-
-<div class="log">
-VEHICLE READY
-</div>
-
-</div>
-
-</div>
-
-
-<script>
-
-
-const button =
-document.getElementById("launchButton");
-
-const countdown =
-document.getElementById("countdown");
-
-const rocket =
-document.getElementById("rocket");
-
-const status =
-document.getElementById("status");
-
-const altitudeDisplay =
-document.getElementById("altitude");
-
-const speedDisplay =
-document.getElementById("speed");
-
-const missionLog =
-document.getElementById("missionLog");
-
-
-let altitude = 0;
-
-let speed = 0;
-
-
-function addLog(message){
-
-const line =
-document.createElement("div");
-
-line.className =
-"log";
-
-line.innerText =
-message;
-
-missionLog.appendChild(line);
-
-missionLog.scrollTop =
-missionLog.scrollHeight;
-
-}
-
-
-button.onclick =
-function(){
-
-button.disabled =
-true;
-
-status.innerText =
-"COUNTDOWN STARTED";
-
-addLog(
-"LAUNCH SEQUENCE STARTED"
-);
-
-
-let number = 3;
-
-countdown.innerText =
-number;
-
-
-let timer =
-setInterval(function(){
-
-number--;
+<small>ALTITUDE</small>
