@@ -1,79 +1,68 @@
 let fuel = 100;
+let fuelTimer = null;
 
-let fuelRunning = false;
+function startFuel(){
 
-function findFuelDisplay(){
-
-    const cards = document.querySelectorAll(".card");
-
-    if(cards.length < 3){
-        return null;
-    }
-
-    return cards[2].querySelector("strong");
-}
-
-
-function showFuel(){
-
-    const display = findFuelDisplay();
+    const display =
+        document.getElementById("fuelDisplay");
 
     if(!display){
         return;
     }
 
-    display.innerText = fuel + " %";
+    fuel = 100;
+
+    display.innerText = "100 %";
+
+    if(fuelTimer){
+        clearInterval(fuelTimer);
+    }
+
+    fuelTimer = setInterval(function(){
+
+        const rocket =
+            document.getElementById("rocket");
+
+        if(!rocket){
+            return;
+        }
+
+        if(rocket.classList.contains("fly")){
+
+            fuel -= 2;
+
+            if(fuel < 0){
+                fuel = 0;
+            }
+
+            display.innerText =
+                fuel + " %";
+
+        }
+
+    },1000);
 }
 
 
-function fuelLoop(){
+function watchRocket(){
 
     const rocket =
         document.getElementById("rocket");
 
-    if(!rocket){
+    if(
+        rocket &&
+        rocket.classList.contains("fly")
+    ){
+
+        startFuel();
+
         return;
     }
 
-    /*
-    Start fuel consumption when
-    the rocket is actually flying.
-    */
-
-    if(
-        rocket.classList.contains("fly") &&
-        !fuelRunning
-    ){
-
-        fuelRunning = true;
-        fuel = 100;
-
-        showFuel();
-
-        setInterval(function(){
-
-            if(
-                rocket.classList.contains("fly")
-            ){
-
-                fuel -= 2;
-
-                if(fuel < 0){
-                    fuel = 0;
-                }
-
-                showFuel();
-
-            }
-
-        },1000);
-    }
-
-    /*
-    Keep watching the rocket.
-    */
-
-    setTimeout(fuelLoop,200);
+    setTimeout(
+        watchRocket,
+        200
+    );
 }
 
 
@@ -81,11 +70,11 @@ if(document.readyState === "loading"){
 
     document.addEventListener(
         "DOMContentLoaded",
-        fuelLoop
+        watchRocket
     );
 
 }else{
 
-    fuelLoop();
+    watchRocket();
 
 }
