@@ -1,16 +1,13 @@
-// 2060 Mission Control V2.4.3
-// SAFE FUEL SYSTEM
+// 2060 Mission Control V2.4.4
+// SAFE INDEPENDENT FUEL MONITOR
 
 let fuelLevel = 100;
 
 let fuelTimer = null;
 
-function startFuelSystem(){
+function updateFuel(){
 
-    fuelLevel = 100;
-
-    const cards =
-        document.querySelectorAll(".card");
+    const cards = document.querySelectorAll(".card");
 
     if(cards.length < 3){
         return;
@@ -25,30 +22,47 @@ function startFuelSystem(){
 
     fuelDisplay.innerText =
         fuelLevel + " %";
+}
+
+
+function startFuelMonitor(){
 
     if(fuelTimer){
         clearInterval(fuelTimer);
     }
 
+    fuelLevel = 100;
+
+    updateFuel();
+
     fuelTimer = setInterval(function(){
 
-        fuelLevel -= 2;
+        fuelLevel -= 1;
 
         if(fuelLevel < 0){
             fuelLevel = 0;
         }
 
-        fuelDisplay.innerText =
-            fuelLevel + " %";
-
-        if(fuelLevel <= 20){
-            fuelDisplay.style.color =
-                "#ff4444";
-        }
+        updateFuel();
 
         if(fuelLevel === 0){
             clearInterval(fuelTimer);
+            fuelTimer = null;
         }
 
-    },1000);
+    },2000);
+}
+
+
+if(document.readyState === "loading"){
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        startFuelMonitor
+    );
+
+}else{
+
+    startFuelMonitor();
+
 }
