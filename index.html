@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2060 Mission Control V2.4.1</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>2060 Mission Control V2.5</title>
 
 <style>
+
 body{
 margin:0;
 background:#020617;
@@ -70,14 +76,17 @@ animation:launch 5s linear forwards;
 }
 
 @keyframes launch{
+
 from{
 bottom:30px;
 transform:translateX(-50%);
 }
+
 to{
 bottom:430px;
 transform:translateX(-50%);
 }
+
 }
 
 .telemetry{
@@ -103,6 +112,20 @@ margin-bottom:8px;
 .card strong{
 font-size:24px;
 color:#38bdf8;
+}
+
+.fuelBar{
+height:10px;
+background:#1e293b;
+border-radius:10px;
+margin-top:10px;
+overflow:hidden;
+}
+
+#fuelBar{
+height:100%;
+width:100%;
+background:#00d084;
 }
 
 #missionPanel{
@@ -134,59 +157,118 @@ color:#9fffd3;
 }
 
 @media(max-width:500px){
+
 .telemetry{
 grid-template-columns:1fr;
 }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
-<h1>🚀 2060 MISSION CONTROL</h1>
+<h1>
+🚀 2060 MISSION CONTROL
+</h1>
 
-<div id="status">SYSTEM READY</div>
+
+<div id="status">
+SYSTEM READY
+</div>
+
 
 <div id="countdown"></div>
 
-<button id="launchButton">🚀 LAUNCH</button>
+
+<button id="launchButton">
+🚀 LAUNCH
+</button>
+
 
 <div id="space">
-<div id="rocket">🚀</div>
+
+<div id="rocket">
+🚀
 </div>
+
+</div>
+
 
 <div class="telemetry">
 
+
 <div class="card">
-<small>ALTITUDE</small>
+
+<small>
+ALTITUDE
+</small>
+
 <strong>
 <span id="altitude">0</span> km
-</strong>id="fuelDisplay">100 %</strong>
+</strong>
 
 </div>
 
+
 <div class="card">
-<small>SPEED</small>
+
+<small>
+SPEED
+</small>
+
 <strong>
 <span id="speed">0</span> km/h
 </strong>
+
 </div>
-<small>FUEL</small>
-<strong>100 %</strong
+
+
+<div class="card">
+
+<small>
+FUEL
+</small>
+
+<strong>
+<span id="fuel">100</span> %
+</strong>
+
+<div class="fuelBar">
+
+<div id="fuelBar"></div>
+
 </div>
+
+</div>
+
+
+</div>
+
 
 <div id="missionPanel">
 
-<h2>📝 MISSION LOG</h2>
+<h2>
+📝 MISSION LOG
+</h2>
 
 <div id="missionLog">
 
-<div class="log">SYSTEM INITIALIZED</div>
-<div class="log">VEHICLE READY</div>
+<div class="log">
+SYSTEM INITIALIZED
+</div>
 
+<div class="log">
+VEHICLE READY
 </div>
 
 </div>
+
+</div>
+
 
 <script>
 
@@ -208,19 +290,33 @@ document.getElementById("altitude");
 const speedDisplay =
 document.getElementById("speed");
 
+const fuelDisplay =
+document.getElementById("fuel");
+
+const fuelBar =
+document.getElementById("fuelBar");
+
 const missionLog =
 document.getElementById("missionLog");
 
+
 let altitude = 0;
+
 let speed = 0;
+
+let fuel = 100;
+
 
 function addLog(message){
 
 const line =
 document.createElement("div");
 
-line.className = "log";
-line.innerText = message;
+line.className =
+"log";
+
+line.innerText =
+message;
 
 missionLog.appendChild(line);
 
@@ -228,6 +324,7 @@ missionLog.scrollTop =
 missionLog.scrollHeight;
 
 }
+
 
 button.onclick = function(){
 
@@ -240,15 +337,18 @@ addLog(
 "LAUNCH SEQUENCE STARTED"
 );
 
+
 let number = 3;
 
 countdown.innerText =
 number;
 
+
 let timer =
 setInterval(function(){
 
 number--;
+
 
 if(number > 0){
 
@@ -259,7 +359,10 @@ addLog(
 "T-" + number
 );
 
-}else{
+}
+
+
+else{
 
 clearInterval(timer);
 
@@ -269,6 +372,7 @@ countdown.innerText =
 status.innerText =
 "LIFTOFF!";
 
+
 addLog(
 "ENGINE IGNITION"
 );
@@ -277,14 +381,20 @@ addLog(
 "LIFTOFF CONFIRMED"
 );
 
+
 rocket.classList.remove("fly");
 
 void rocket.offsetWidth;
 
 rocket.classList.add("fly");
 
+
 altitude = 0;
+
 speed = 0;
+
+fuel = 100;
+
 
 altitudeDisplay.innerText =
 "0";
@@ -292,9 +402,19 @@ altitudeDisplay.innerText =
 speedDisplay.innerText =
 "0";
 
+fuelDisplay.innerText =
+"100";
+
+fuelBar.style.width =
+"100%";
+
+
 addLog(
 "ASCENT PHASE STARTED"
 );
+
+
+/* ALTITUDE */
 
 setInterval(function(){
 
@@ -305,12 +425,44 @@ altitude;
 
 },1000);
 
+
+/* SPEED */
+
 setInterval(function(){
 
 speed += 5000;
 
 speedDisplay.innerText =
 speed.toLocaleString();
+
+},1000);
+
+
+/* FUEL */
+
+setInterval(function(){
+
+fuel -= 2;
+
+if(fuel < 0){
+
+fuel = 0;
+
+}
+
+fuelDisplay.innerText =
+fuel;
+
+fuelBar.style.width =
+fuel + "%";
+
+
+if(fuel <= 20){
+
+fuelBar.style.background =
+"#ff4444";
+
+}
 
 },1000);
 
@@ -322,7 +474,6 @@ speed.toLocaleString();
 
 </script>
 
-
-
 </body>
+
 </html>
