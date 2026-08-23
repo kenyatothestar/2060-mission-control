@@ -3,11 +3,9 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>2060 Mission Control V2.7</title>
+<title>2060 Mission Control V2.8</title>
 
 <style>
 
@@ -87,7 +85,7 @@ text-align:center;
 color:#38bdf8;
 font-weight:bold;
 font-size:14px;
-margin-bottom:12px;
+margin-bottom:8px;
 }
 
 #event{
@@ -95,8 +93,8 @@ text-align:center;
 color:#facc15;
 font-weight:bold;
 font-size:14px;
-margin-bottom:8px;
 min-height:20px;
+margin-bottom:8px;
 }
 
 #countdown{
@@ -162,11 +160,16 @@ transform:translateX(-50%);
 
 }
 
+.sectionTitle{
+font-size:18px;
+font-weight:bold;
+margin:18px 0 10px;
+}
+
 .telemetry{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:10px;
-margin-top:18px;
 }
 
 .card{
@@ -202,10 +205,53 @@ width:100%;
 background:#00d084;
 }
 
-.sectionTitle{
-font-size:18px;
+.timeline{
+background:#081226;
+border:1px solid #263858;
+border-radius:12px;
+padding:15px;
+}
+
+.timelineItem{
+display:flex;
+align-items:center;
+gap:12px;
+padding:11px 5px;
+border-bottom:1px solid #1e293b;
+}
+
+.timelineItem:last-child{
+border-bottom:0;
+}
+
+.timelineDot{
+width:14px;
+height:14px;
+border-radius:50%;
+background:#475569;
+flex-shrink:0;
+}
+
+.timelineItem.completed .timelineDot{
+background:#00ff99;
+}
+
+.timelineItem.current .timelineDot{
+background:#facc15;
+box-shadow:0 0 10px #facc15;
+}
+
+.timelineText{
+font-size:14px;
+}
+
+.timelineItem.completed .timelineText{
+color:#00ff99;
+}
+
+.timelineItem.current .timelineText{
+color:#facc15;
 font-weight:bold;
-margin:18px 0 10px;
 }
 
 .systems{
@@ -245,7 +291,7 @@ text-align:center;
 }
 
 #missionLog{
-height:180px;
+height:170px;
 overflow-y:auto;
 background:#020617;
 padding:12px;
@@ -283,7 +329,6 @@ grid-template-columns:1fr;
 
 <body>
 
-
 <header>
 
 <h1>
@@ -300,54 +345,23 @@ AEROSPACE MISSION SIMULATION PLATFORM
 <div class="dashboard">
 
 <div class="info">
-
-<small>
-MISSION ID
-</small>
-
-<strong>
-MC-2060-001
-</strong>
-
+<small>MISSION ID</small>
+<strong>MC-2060-001</strong>
 </div>
 
-
 <div class="info">
-
-<small>
-VEHICLE
-</small>
-
-<strong>
-2060-X1
-</strong>
-
+<small>VEHICLE</small>
+<strong>2060-X1</strong>
 </div>
 
-
 <div class="info">
-
-<small>
-LAUNCH SITE
-</small>
-
-<strong class="blue">
-KENYA SPACEPORT
-</strong>
-
+<small>LAUNCH SITE</small>
+<strong class="blue">KENYA SPACEPORT</strong>
 </div>
 
-
 <div class="info">
-
-<small>
-MISSION STATUS
-</small>
-
-<strong class="green">
-READY
-</strong>
-
+<small>MISSION STATUS</small>
+<strong class="green">READY</strong>
 </div>
 
 </div>
@@ -357,16 +371,13 @@ READY
 SYSTEM READY
 </div>
 
-
 <div id="phase">
 MISSION PHASE: READY
 </div>
 
-
 <div id="event">
 EVENT: STANDBY
 </div>
-
 
 <div id="countdown"></div>
 
@@ -396,12 +407,9 @@ LIVE TELEMETRY
 
 <div class="telemetry">
 
-
 <div class="card">
 
-<small>
-ALTITUDE
-</small>
+<small>ALTITUDE</small>
 
 <strong>
 <span id="altitude">0</span> km
@@ -412,9 +420,7 @@ ALTITUDE
 
 <div class="card">
 
-<small>
-SPEED
-</small>
+<small>SPEED</small>
 
 <strong>
 <span id="speed">0</span> km/h
@@ -425,9 +431,7 @@ SPEED
 
 <div class="card">
 
-<small>
-FUEL
-</small>
+<small>FUEL</small>
 
 <strong>
 <span id="fuel">100</span> %
@@ -437,6 +441,115 @@ FUEL
 
 <div id="fuelBar"></div>
 
+</div>
+
+</div>
+
+</div>
+
+
+<div class="sectionTitle">
+MISSION TIMELINE
+</div>
+
+
+<div class="timeline">
+
+
+<div class="timelineItem" id="event0">
+
+<div class="timelineDot"></div>
+
+<div class="timelineText">
+T-3 COUNTDOWN
+</div>
+
+</div>
+
+
+<div class="timelineItem" id="event1">
+
+<div class="timelineDot"></div>
+
+<div class="timelineText">
+T-2 COUNTDOWN
+</div>
+
+</div>
+
+
+<div class="timelineItem" id="event2">
+
+<div class="timelineDot"></div>
+
+<div class="timelineText">
+T-1 COUNTDOWN
+</div>
+
+</div>
+
+
+<div class="timelineItem" id="event3">
+
+<div class="timelineDot"></div>
+
+<div class="timelineText">
+LIFTOFF
+</div>
+
+</div>
+
+
+<div class="timelineItem" id="event4">
+
+<div class="timelineDot"></div>
+
+<div class="timelineText">
+MAX-Q
+</div>
+
+</div>
+
+
+<div class="timelineItem" id="event5">
+
+<div class="timelineDot"></div>
+
+<div class="timelineText">
+MAIN ENGINE BURN
+</div>
+
+</div>
+
+
+<div class="timelineItem" id="event6">
+
+<div class="timelineDot"></div>
+
+<div class="timelineText">
+STAGE SEPARATION
+</div>
+
+</div>
+
+
+<div class="timelineItem" id="event7">
+
+<div class="timelineDot"></div>
+
+<div class="timelineText">
+ORBIT INSERTION
+</div>
+
+</div>
+
+
+<div class="timelineItem" id="event8">
+
+<div class="timelineDot"></div>
+
+<div class="timelineText">
+ORBIT ACHIEVED
 </div>
 
 </div>
@@ -452,12 +565,9 @@ VEHICLE SYSTEMS
 
 <div class="systems">
 
-
 <div class="system">
 
-<small>
-🔥 PROPULSION
-</small>
+<small>🔥 PROPULSION</small>
 
 <strong id="propulsion">
 READY
@@ -468,9 +578,7 @@ READY
 
 <div class="system">
 
-<small>
-🧭 GUIDANCE
-</small>
+<small>🧭 GUIDANCE</small>
 
 <strong id="guidance">
 READY
@@ -481,9 +589,7 @@ READY
 
 <div class="system">
 
-<small>
-📡 COMMUNICATIONS
-</small>
+<small>📡 COMMUNICATIONS</small>
 
 <strong id="communications">
 ONLINE
@@ -494,16 +600,13 @@ ONLINE
 
 <div class="system">
 
-<small>
-⚡ POWER
-</small>
+<small>⚡ POWER</small>
 
 <strong id="power">
 NOMINAL
 </strong>
 
 </div>
-
 
 </div>
 
@@ -513,7 +616,6 @@ NOMINAL
 <h2>
 📝 MISSION EVENT LOG
 </h2>
-
 
 <div id="missionLog">
 
@@ -618,19 +720,63 @@ addLog(message);
 }
 
 
+function setTimeline(index){
+
+for(
+let i = 0;
+i < 9;
+i++
+){
+
+const item =
+document.getElementById(
+"event" + i
+);
+
+item.classList.remove(
+"current"
+);
+
+item.classList.remove(
+"completed"
+);
+
+if(i < index){
+
+item.classList.add(
+"completed"
+);
+
+}
+
+if(i === index){
+
+item.classList.add(
+"current"
+);
+
+}
+
+}
+
+}
+
+
 button.onclick = function(){
 
 button.disabled =
 true;
 
 
-/* COUNTDOWN */
+/* START */
 
 status.innerText =
 "COUNTDOWN STARTED";
 
 phase.innerText =
 "MISSION PHASE: COUNTDOWN";
+
+setTimeline(0);
 
 setEvent(
 "T-3 COUNTDOWN INITIATED"
@@ -649,13 +795,29 @@ setInterval(function(){
 number--;
 
 
-if(number > 0){
+if(number === 2){
 
 countdown.innerText =
-number;
+"2";
+
+setTimeline(1);
 
 setEvent(
-"T-" + number
+"T-2 COUNTDOWN"
+);
+
+}
+
+
+else if(number === 1){
+
+countdown.innerText =
+"1";
+
+setTimeline(2);
+
+setEvent(
+"T-1 COUNTDOWN"
 );
 
 }
@@ -677,6 +839,8 @@ status.innerText =
 phase.innerText =
 "MISSION PHASE: LIFTOFF";
 
+setTimeline(3);
+
 setEvent(
 "LIFTOFF CONFIRMED"
 );
@@ -695,11 +859,15 @@ power.innerText =
 "NOMINAL";
 
 
-rocket.classList.remove("fly");
+rocket.classList.remove(
+"fly"
+);
 
 void rocket.offsetWidth;
 
-rocket.classList.add("fly");
+rocket.classList.add(
+"fly"
+);
 
 
 altitude = 0;
@@ -732,6 +900,8 @@ status.innerText =
 phase.innerText =
 "MISSION PHASE: ASCENT";
 
+setTimeline(4);
+
 setEvent(
 "MAX-Q PASSED"
 );
@@ -739,15 +909,14 @@ setEvent(
 },2000);
 
 
-/* MAIN ENGINE BURN */
+/* ENGINE BURN */
 
 setTimeout(function(){
 
 status.innerText =
 "MAIN ENGINE BURN";
 
-phase.innerText =
-"MISSION PHASE: ASCENT";
+setTimeline(5);
 
 setEvent(
 "MAIN ENGINE BURN NOMINAL"
@@ -763,8 +932,7 @@ setTimeout(function(){
 status.innerText =
 "STAGE SEPARATION";
 
-phase.innerText =
-"MISSION PHASE: ASCENT";
+setTimeline(6);
 
 setEvent(
 "STAGE 1 SEPARATION CONFIRMED"
@@ -783,6 +951,8 @@ status.innerText =
 phase.innerText =
 "MISSION PHASE: ORBIT INSERTION";
 
+setTimeline(7);
+
 setEvent(
 "ORBIT INSERTION BURN"
 );
@@ -790,7 +960,7 @@ setEvent(
 },7000);
 
 
-/* ORBIT ACHIEVED */
+/* ORBIT */
 
 setTimeout(function(){
 
@@ -799,6 +969,8 @@ status.innerText =
 
 phase.innerText =
 "MISSION PHASE: ORBIT ACHIEVED";
+
+setTimeline(8);
 
 guidance.innerText =
 "ORBIT LOCK";
@@ -872,4 +1044,4 @@ fuelBar.style.background =
 
 </body>
 
-  </html>
+</html>
