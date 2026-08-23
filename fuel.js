@@ -1,8 +1,4 @@
-// 2060 Mission Control V2.4.4
-// SAFE INDEPENDENT FUEL MONITOR
-
 let fuelLevel = 100;
-
 let fuelTimer = null;
 
 function updateFuel(){
@@ -24,8 +20,7 @@ function updateFuel(){
         fuelLevel + " %";
 }
 
-
-function startFuelMonitor(){
+function startFuel(){
 
     if(fuelTimer){
         clearInterval(fuelTimer);
@@ -37,7 +32,7 @@ function startFuelMonitor(){
 
     fuelTimer = setInterval(function(){
 
-        fuelLevel -= 1;
+        fuelLevel -= 2;
 
         if(fuelLevel < 0){
             fuelLevel = 0;
@@ -50,19 +45,18 @@ function startFuelMonitor(){
             fuelTimer = null;
         }
 
-    },2000);
+    },1000);
 }
-
 
 if(document.readyState === "loading"){
 
     document.addEventListener(
         "DOMContentLoaded",
-        startFuelMonitor
+        updateFuel
     );
 
 }else{
 
-    startFuelMonitor();
+    updateFuel();
 
 }
