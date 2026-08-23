@@ -1,59 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>2060 Mission Control V2.5.1</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>2060 Mission Control V2.6</title>
 
 <style>
+*{box-sizing:border-box}
 
 body{
 margin:0;
 background:#020617;
-color:white;
+color:#fff;
 font-family:Arial,sans-serif;
+padding:18px;
+}
+
+header{
+background:#081226;
+border:1px solid #263858;
+border-radius:14px;
+padding:18px;
 text-align:center;
-padding:30px 15px;
+margin-bottom:15px;
 }
 
 h1{
-font-size:26px;
+margin:0 0 8px;
+font-size:25px;
 }
 
+.subtitle{
+color:#94a3b8;
+font-size:13px;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-bottom:15px;
+}
+
+.info{
+background:#081226;
+border:1px solid #263858;
+border-radius:12px;
+padding:14px;
+}
+
+.info small{
+display:block;
+color:#94a3b8;
+margin-bottom:6px;
+}
+
+.info strong{
+font-size:18px;
+}
+
+.green{color:#00ff99}
+.blue{color:#38bdf8}
+
 #status{
+text-align:center;
 font-size:20px;
 font-weight:bold;
 color:#00ff99;
-margin:15px;
+margin:15px 0 5px;
 }
 
 #phase{
-font-size:15px;
+text-align:center;
 color:#38bdf8;
-margin:8px;
 font-weight:bold;
+font-size:14px;
+margin-bottom:12px;
 }
 
 #countdown{
-font-size:70px;
+height:75px;
+text-align:center;
+font-size:58px;
 font-weight:bold;
 color:#00ff99;
-height:100px;
+}
+
+.launchArea{
+text-align:center;
 }
 
 button{
 background:#00d084;
 color:#001b10;
 border:0;
-padding:18px 35px;
+padding:16px 32px;
 border-radius:10px;
-font-size:20px;
+font-size:19px;
 font-weight:bold;
+cursor:pointer;
 }
 
 button:disabled{
@@ -61,8 +106,8 @@ opacity:.5;
 }
 
 #space{
-height:500px;
-margin-top:20px;
+height:420px;
+margin-top:18px;
 position:relative;
 overflow:hidden;
 border:2px solid #334155;
@@ -73,9 +118,9 @@ background:#030712;
 #rocket{
 position:absolute;
 left:50%;
-bottom:30px;
+bottom:25px;
 transform:translateX(-50%);
-font-size:60px;
+font-size:58px;
 }
 
 .fly{
@@ -83,46 +128,49 @@ animation:launch 5s linear forwards;
 }
 
 @keyframes launch{
-
 from{
-bottom:30px;
+bottom:25px;
 transform:translateX(-50%);
 }
-
 to{
-bottom:430px;
+bottom:360px;
 transform:translateX(-50%);
 }
+}
 
+.sectionTitle{
+font-size:18px;
+font-weight:bold;
+margin:18px 0 10px;
 }
 
 .telemetry{
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:20px;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
 }
 
 .card{
-padding:18px;
 background:#081226;
 border:1px solid #263858;
 border-radius:12px;
+padding:16px;
+text-align:center;
 }
 
 .card small{
 display:block;
 color:#94a3b8;
-margin-bottom:8px;
+margin-bottom:7px;
 }
 
 .card strong{
-font-size:24px;
+font-size:21px;
 color:#38bdf8;
 }
 
 .fuelBar{
-height:10px;
+height:9px;
 background:#1e293b;
 border-radius:10px;
 margin-top:10px;
@@ -135,71 +183,122 @@ width:100%;
 background:#00d084;
 }
 
-#missionPanel{
-margin-top:20px;
-padding:18px;
+.systems{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.system{
 background:#081226;
 border:1px solid #263858;
 border-radius:12px;
-text-align:left;
+padding:15px;
+}
+
+.system small{
+display:block;
+color:#94a3b8;
+margin-bottom:6px;
+}
+
+.system strong{
+color:#00ff99;
+}
+
+#missionPanel{
+margin-top:15px;
+background:#081226;
+border:1px solid #263858;
+border-radius:12px;
+padding:15px;
 }
 
 #missionPanel h2{
+font-size:18px;
 text-align:center;
 }
 
 #missionLog{
-height:160px;
+height:145px;
 overflow-y:auto;
 background:#020617;
 padding:12px;
 border-radius:8px;
 font-family:monospace;
-font-size:14px;
+font-size:13px;
 }
 
 .log{
-margin-bottom:8px;
+margin-bottom:7px;
 color:#9fffd3;
 }
 
-@media(max-width:500px){
-
+@media(max-width:600px){
 .telemetry{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(max-width:420px){
+.telemetry,
+.dashboard,
+.systems{
 grid-template-columns:1fr;
 }
-
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-<h1>
-🚀 2060 MISSION CONTROL
-</h1>
+<header>
+<h1>🚀 2060 MISSION CONTROL</h1>
+<div class="subtitle">
+AEROSPACE MISSION SIMULATION PLATFORM
+</div>
+</header>
 
+<div class="dashboard">
+
+<div class="info">
+<small>MISSION ID</small>
+<strong>MC-2060-001</strong>
+</div>
+
+<div class="info">
+<small>VEHICLE</small>
+<strong>2060-X1</strong>
+</div>
+
+<div class="info">
+<small>LAUNCH SITE</small>
+<strong class="blue">KENYA SPACEPORT</strong>
+</div>
+
+<div class="info">
+<small>MISSION STATUS</small>
+<strong class="green">READY</strong>
+</div>
+
+</div>
 
 <div id="status">
 SYSTEM READY
 </div>
 
-
 <div id="phase">
 MISSION PHASE: READY
 </div>
 
-
 <div id="countdown"></div>
 
-
+<div class="launchArea">
 <button id="launchButton">
 🚀 LAUNCH
 </button>
-
+</div>
 
 <div id="space">
 
@@ -209,63 +308,71 @@ MISSION PHASE: READY
 
 </div>
 
+<div class="sectionTitle">
+LIVE TELEMETRY
+</div>
 
 <div class="telemetry">
 
-
 <div class="card">
-
-<small>
-ALTITUDE
-</small>
-
+<small>ALTITUDE</small>
 <strong>
 <span id="altitude">0</span> km
 </strong>
-
 </div>
 
-
 <div class="card">
-
-<small>
-SPEED
-</small>
-
+<small>SPEED</small>
 <strong>
 <span id="speed">0</span> km/h
 </strong>
-
 </div>
 
-
 <div class="card">
-
-<small>
-FUEL
-</small>
-
+<small>FUEL</small>
 <strong>
 <span id="fuel">100</span> %
 </strong>
 
 <div class="fuelBar">
-
 <div id="fuelBar"></div>
-
 </div>
 
 </div>
 
-
 </div>
 
+<div class="sectionTitle">
+VEHICLE SYSTEMS
+</div>
+
+<div class="systems">
+
+<div class="system">
+<small>🔥 PROPULSION</small>
+<strong id="propulsion">READY</strong>
+</div>
+
+<div class="system">
+<small>🧭 GUIDANCE</small>
+<strong id="guidance">READY</strong>
+</div>
+
+<div class="system">
+<small>📡 COMMUNICATIONS</small>
+<strong id="communications">ONLINE</strong>
+</div>
+
+<div class="system">
+<small>⚡ POWER</small>
+<strong id="power">NOMINAL</strong>
+</div>
+
+</div>
 
 <div id="missionPanel">
 
-<h2>
-📝 MISSION LOG
-</h2>
+<h2>📝 MISSION LOG</h2>
 
 <div id="missionLog">
 
@@ -274,13 +381,16 @@ SYSTEM INITIALIZED
 </div>
 
 <div class="log">
-VEHICLE READY
+2060-X1 VEHICLE READY
+</div>
+
+<div class="log">
+ALL PRIMARY SYSTEMS NOMINAL
 </div>
 
 </div>
 
 </div>
-
 
 <script>
 
@@ -311,27 +421,32 @@ document.getElementById("fuel");
 const fuelBar =
 document.getElementById("fuelBar");
 
+const propulsion =
+document.getElementById("propulsion");
+
+const guidance =
+document.getElementById("guidance");
+
+const communications =
+document.getElementById("communications");
+
+const power =
+document.getElementById("power");
+
 const missionLog =
 document.getElementById("missionLog");
 
-
 let altitude = 0;
-
 let speed = 0;
-
 let fuel = 100;
-
 
 function addLog(message){
 
 const line =
 document.createElement("div");
 
-line.className =
-"log";
-
-line.innerText =
-message;
+line.className = "log";
+line.innerText = message;
 
 missionLog.appendChild(line);
 
@@ -340,13 +455,9 @@ missionLog.scrollHeight;
 
 }
 
-
 button.onclick = function(){
 
 button.disabled = true;
-
-
-/* COUNTDOWN */
 
 status.innerText =
 "COUNTDOWN STARTED";
@@ -358,30 +469,24 @@ addLog(
 "LAUNCH SEQUENCE STARTED"
 );
 
-
 let number = 3;
 
 countdown.innerText =
 number;
-
 
 let timer =
 setInterval(function(){
 
 number--;
 
-
 if(number > 0){
 
 countdown.innerText =
 number;
 
-addLog(
-"T-" + number
-);
+addLog("T-" + number);
 
 }
-
 
 else{
 
@@ -390,15 +495,23 @@ clearInterval(timer);
 countdown.innerText =
 "🚀";
 
-
-/* LIFTOFF */
-
 status.innerText =
 "LIFTOFF!";
 
 phase.innerText =
 "MISSION PHASE: LIFTOFF";
 
+propulsion.innerText =
+"ACTIVE";
+
+guidance.innerText =
+"ACTIVE";
+
+communications.innerText =
+"LINKED";
+
+power.innerText =
+"NOMINAL";
 
 addLog(
 "ENGINE IGNITION"
@@ -408,20 +521,15 @@ addLog(
 "LIFTOFF CONFIRMED"
 );
 
-
 rocket.classList.remove("fly");
 
 void rocket.offsetWidth;
 
 rocket.classList.add("fly");
 
-
 altitude = 0;
-
 speed = 0;
-
 fuel = 100;
-
 
 altitudeDisplay.innerText =
 "0";
@@ -434,9 +542,6 @@ fuelDisplay.innerText =
 
 fuelBar.style.width =
 "100%";
-
-
-/* ASCENT */
 
 setTimeout(function(){
 
@@ -452,9 +557,6 @@ addLog(
 
 },1000);
 
-
-/* ORBIT INSERTION */
-
 setTimeout(function(){
 
 status.innerText =
@@ -469,9 +571,6 @@ addLog(
 
 },4000);
 
-
-/* ORBIT ACHIEVED */
-
 setTimeout(function(){
 
 status.innerText =
@@ -480,14 +579,14 @@ status.innerText =
 phase.innerText =
 "MISSION PHASE: ORBIT ACHIEVED";
 
+guidance.innerText =
+"ORBIT LOCK";
+
 addLog(
 "ORBIT ACHIEVED"
 );
 
 },7000);
-
-
-/* ALTITUDE */
 
 setInterval(function(){
 
@@ -498,9 +597,6 @@ altitude;
 
 },1000);
 
-
-/* SPEED */
-
 setInterval(function(){
 
 speed += 5000;
@@ -510,17 +606,12 @@ speed.toLocaleString();
 
 },1000);
 
-
-/* FUEL */
-
 setInterval(function(){
 
 fuel -= 2;
 
 if(fuel < 0){
-
 fuel = 0;
-
 }
 
 fuelDisplay.innerText =
@@ -528,7 +619,6 @@ fuel;
 
 fuelBar.style.width =
 fuel + "%";
-
 
 if(fuel <= 20){
 
@@ -548,5 +638,4 @@ fuelBar.style.background =
 </script>
 
 </body>
-
 </html>
