@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>2060 Mission Operations Center V3.0.4</title>
+<title>2060 Mission Operations Center V3.0.5</title>
 
 <style>
 *{box-sizing:border-box}
@@ -29,7 +29,12 @@ margin-bottom:14px;
 }
 
 h1{margin:0;font-size:23px}
-.subtitle{color:#7f93ad;font-size:12px;margin-top:6px}
+
+.subtitle{
+color:#7f93ad;
+font-size:12px;
+margin-top:6px;
+}
 
 .grid{
 display:grid;
@@ -37,7 +42,9 @@ grid-template-columns:1fr 1fr;
 gap:12px;
 }
 
-.panel{padding:14px}
+.panel{
+padding:14px;
+}
 
 .command{
 grid-column:1/-1;
@@ -86,7 +93,9 @@ cursor:pointer;
 margin:4px;
 }
 
-button:disabled{opacity:.5}
+button:disabled{
+opacity:.5;
+}
 
 .reset{
 background:#334155;
@@ -161,7 +170,9 @@ color:#7f93ad;
 margin-bottom:5px;
 }
 
-.system strong{color:#00ff99}
+.system strong{
+color:#00ff99;
+}
 
 .timeline{
 display:flex;
@@ -258,14 +269,58 @@ margin-bottom:6px;
 color:#9fffd3;
 }
 
+.history{
+overflow-x:auto;
+}
+
+.historyTable{
+width:100%;
+border-collapse:collapse;
+font-size:12px;
+min-width:600px;
+}
+
+.historyTable th,
+.historyTable td{
+padding:9px;
+border-bottom:1px solid #1e2c42;
+text-align:left;
+}
+
+.historyTable th{
+color:#7f93ad;
+}
+
+.success{
+color:#00ff99;
+font-weight:bold;
+}
+
+.empty{
+color:#7f93ad;
+padding:15px 0;
+text-align:center;
+}
+
 @media(max-width:700px){
-.grid{grid-template-columns:1fr}
-.command{grid-column:auto}
-.telemetryGrid{grid-template-columns:1fr 1fr}
+.grid{
+grid-template-columns:1fr;
+}
+
+.command{
+grid-column:auto;
+}
+
+.telemetryGrid{
+grid-template-columns:1fr 1fr;
+}
 }
 
 @media(max-width:430px){
-.telemetryGrid,.vehicleGrid{grid-template-columns:1fr}
+.telemetryGrid,
+.vehicleGrid{
+grid-template-columns:1fr;
+}
 }
 </style>
 </head>
@@ -273,19 +328,41 @@ color:#9fffd3;
 <body>
 
 <header>
-<h1>🚀 2060 MISSION OPERATIONS CENTER</h1>
-<div class="subtitle">AEROSPACE SIMULATION • V3.0.4</div>
+
+<h1>
+🚀 2060 MISSION OPERATIONS CENTER
+</h1>
+
+<div class="subtitle">
+AEROSPACE SIMULATION • V3.0.5
+</div>
+
 </header>
+
 
 <div class="grid">
 
+
+<!-- COMMAND -->
+
 <div class="panel command">
 
-<h2>COMMAND</h2>
+<h2>
+COMMAND
+</h2>
 
-<div id="status">SYSTEM READY</div>
-<div id="phase">MISSION PHASE: READY</div>
-<div id="event">EVENT: STANDBY</div>
+<div id="status">
+SYSTEM READY
+</div>
+
+<div id="phase">
+MISSION PHASE: READY
+</div>
+
+<div id="event">
+EVENT: STANDBY
+</div>
+
 <div id="countdown"></div>
 
 <button id="launchButton">
@@ -303,9 +380,13 @@ color:#9fffd3;
 </div>
 
 
+<!-- VEHICLE -->
+
 <div class="panel">
 
-<h2>🚀 VEHICLE CONTROL</h2>
+<h2>
+🚀 VEHICLE CONTROL
+</h2>
 
 <div class="vehicleGrid">
 
@@ -330,28 +411,39 @@ color:#9fffd3;
 </div>
 
 </div>
+
 </div>
 
 
+<!-- TELEMETRY -->
+
 <div class="panel">
 
-<h2>📊 LIVE TELEMETRY</h2>
+<h2>
+📊 LIVE TELEMETRY
+</h2>
 
 <div class="telemetryGrid">
 
 <div class="metric">
 <small>ALTITUDE</small>
-<strong><span id="altitude">0</span> km</strong>
+<strong>
+<span id="altitude">0</span> km
+</strong>
 </div>
 
 <div class="metric">
 <small>SPEED</small>
-<strong><span id="speed">0</span> km/h</strong>
+<strong>
+<span id="speed">0</span> km/h
+</strong>
 </div>
 
 <div class="metric">
 <small>FUEL</small>
-<strong><span id="fuel">100</span> %</strong>
+<strong>
+<span id="fuel">100</span> %
+</strong>
 
 <div class="fuelBar">
 <div id="fuelBar"></div>
@@ -360,12 +452,17 @@ color:#9fffd3;
 </div>
 
 </div>
+
 </div>
 
 
+<!-- FAULTS -->
+
 <div class="panel">
 
-<h2>🚨 FAULT SIMULATOR</h2>
+<h2>
+🚨 FAULT SIMULATOR
+</h2>
 
 <button class="warningBtn" id="engineFault">
 🔥 ENGINE FAULT
@@ -384,59 +481,146 @@ color:#9fffd3;
 </button>
 
 <div class="alertPanel" id="alerts">
+
 <div class="alert">
 SYSTEM MONITOR: NO ACTIVE FAULTS
 </div>
-</div>
 
 </div>
 
+</div>
+
+
+<!-- TIMELINE -->
 
 <div class="panel">
 
-<h2>🛰️ MISSION TIMELINE</h2>
+<h2>
+🛰️ MISSION TIMELINE
+</h2>
 
 <div class="timeline">
 
-<div class="eventItem" id="e0">T-3 COUNTDOWN</div>
-<div class="eventItem" id="e1">T-2 COUNTDOWN</div>
-<div class="eventItem" id="e2">T-1 COUNTDOWN</div>
-<div class="eventItem" id="e3">LIFTOFF</div>
-<div class="eventItem" id="e4">MAX-Q</div>
-<div class="eventItem" id="e5">MAIN ENGINE BURN</div>
-<div class="eventItem" id="e6">STAGE SEPARATION</div>
-<div class="eventItem" id="e7">ORBIT INSERTION</div>
-<div class="eventItem" id="e8">ORBIT ACHIEVED</div>
-
-</div>
+<div class="eventItem" id="e0">
+T-3 COUNTDOWN
 </div>
 
+<div class="eventItem" id="e1">
+T-2 COUNTDOWN
+</div>
+
+<div class="eventItem" id="e2">
+T-1 COUNTDOWN
+</div>
+
+<div class="eventItem" id="e3">
+LIFTOFF
+</div>
+
+<div class="eventItem" id="e4">
+MAX-Q
+</div>
+
+<div class="eventItem" id="e5">
+MAIN ENGINE BURN
+</div>
+
+<div class="eventItem" id="e6">
+STAGE SEPARATION
+</div>
+
+<div class="eventItem" id="e7">
+ORBIT INSERTION
+</div>
+
+<div class="eventItem" id="e8">
+ORBIT ACHIEVED
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TRAJECTORY -->
 
 <div class="panel">
 
-<h2>🗺️ SIMULATED TRAJECTORY</h2>
+<h2>
+🗺️ SIMULATED TRAJECTORY
+</h2>
 
 <div id="trajectory">
 
 <div id="trajectoryLine"></div>
-<div id="trajectoryRocket">🚀</div>
+
+<div id="trajectoryRocket">
+🚀
+</div>
 
 </div>
+
 </div>
 
+
+<!-- MISSION LOG -->
 
 <div class="panel">
 
-<h2>📝 MISSION LOG</h2>
+<h2>
+📝 MISSION LOG
+</h2>
 
 <div id="missionLog"></div>
 
 </div>
 
+
+<!-- MISSION HISTORY -->
+
+<div class="panel">
+
+<h2>
+📋 MISSION HISTORY
+</h2>
+
+<div class="history">
+
+<table class="historyTable">
+
+<thead>
+
+<tr>
+<th>Mission</th>
+<th>Result</th>
+<th>Max Alt.</th>
+<th>Max Speed</th>
+<th>Fuel</th>
+<th>Time</th>
+</tr>
+
+</thead>
+
+<tbody id="historyBody">
+</tbody>
+
+</table>
+
+<div id="historyEmpty" class="empty">
+No completed missions yet.
+</div>
+
+</div>
+
+</div>
+
+
 </div>
 
 
 <script>
+
+/* ELEMENTS */
 
 const button =
 document.getElementById("launchButton");
@@ -504,9 +688,19 @@ document.getElementById("guidanceFault");
 const clearFaults =
 document.getElementById("clearFaults");
 
+const historyBody =
+document.getElementById("historyBody");
+
+const historyEmpty =
+document.getElementById("historyEmpty");
+
+
+/* MISSION STATE */
 
 let altitude = 0;
+
 let speed = 0;
+
 let fuel = 100;
 
 let running = false;
@@ -517,6 +711,39 @@ let countdownTimer = null;
 
 let missionTimers = [];
 
+let missionStart = null;
+
+let maxAltitude = 0;
+
+let maxSpeed = 0;
+
+let missionCompleted = false;
+
+
+/* MISSION HISTORY */
+
+let missionHistory = [];
+
+try{
+
+const saved =
+localStorage.getItem(
+"missionHistory2060"
+);
+
+if(saved){
+
+missionHistory =
+JSON.parse(saved);
+
+}
+
+}catch(error){
+
+missionHistory = [];
+
+}
+
 
 /* LOG */
 
@@ -525,9 +752,11 @@ function log(message){
 const item =
 document.createElement("div");
 
-item.className = "log";
+item.className =
+"log";
 
-item.innerText = message;
+item.innerText =
+message;
 
 missionLog.appendChild(item);
 
@@ -559,14 +788,19 @@ const item =
 document.getElementById("e"+i);
 
 item.classList.remove("done");
+
 item.classList.remove("active");
 
-if(i<index){
+if(i < index){
+
 item.classList.add("done");
+
 }
 
-if(i===index){
+if(i === index){
+
 item.classList.add("active");
+
 }
 
 }
@@ -579,13 +813,16 @@ item.classList.add("active");
 function moveTrajectory(){
 
 let progress =
-Math.min(altitude/5000,1);
+Math.min(
+altitude / 5000,
+1
+);
 
 trajectoryRocket.style.left =
-(8+progress*76)+"%";
+(8 + progress * 76) + "%";
 
 trajectoryRocket.style.bottom =
-(18+progress*55)+"px";
+(18 + progress * 55) + "px";
 
 }
 
@@ -595,20 +832,196 @@ trajectoryRocket.style.bottom =
 function stopTimers(){
 
 if(countdownTimer){
-clearInterval(countdownTimer);
-countdownTimer=null;
+
+clearInterval(
+countdownTimer
+);
+
+countdownTimer = null;
+
 }
 
 if(telemetryTimer){
-clearInterval(telemetryTimer);
-telemetryTimer=null;
+
+clearInterval(
+telemetryTimer
+);
+
+telemetryTimer = null;
+
 }
 
-missionTimers.forEach(function(timer){
-clearTimeout(timer);
-});
+missionTimers.forEach(
+function(timer){
 
-missionTimers=[];
+clearTimeout(timer);
+
+}
+);
+
+missionTimers = [];
+
+}
+
+
+/* SAVE HISTORY */
+
+function saveHistory(){
+
+try{
+
+localStorage.setItem(
+"missionHistory2060",
+JSON.stringify(
+missionHistory
+)
+);
+
+}catch(error){
+
+console.log(
+"History storage unavailable"
+);
+
+}
+
+}
+
+
+/* DISPLAY HISTORY */
+
+function displayHistory(){
+
+historyBody.innerHTML = "";
+
+if(
+missionHistory.length === 0
+){
+
+historyEmpty.style.display =
+"block";
+
+return;
+
+}
+
+historyEmpty.style.display =
+"none";
+
+
+missionHistory
+.slice()
+.reverse()
+.forEach(
+function(mission){
+
+const row =
+document.createElement("tr");
+
+row.innerHTML =
+
+"<td>MC-" +
+String(
+mission.number
+).padStart(3,"0") +
+"</td>" +
+
+"<td class='success'>" +
+mission.result +
+"</td>" +
+
+"<td>" +
+mission.altitude +
+" km</td>" +
+
+"<td>" +
+mission.speed.toLocaleString() +
+" km/h</td>" +
+
+"<td>" +
+mission.fuel +
+"%</td>" +
+
+"<td>" +
+mission.time +
+"</td>";
+
+historyBody.appendChild(row);
+
+}
+);
+
+}
+
+
+/* COMPLETE MISSION */
+
+function completeMission(){
+
+if(missionCompleted){
+
+return;
+
+}
+
+missionCompleted = true;
+
+if(telemetryTimer){
+
+clearInterval(
+telemetryTimer
+);
+
+telemetryTimer = null;
+
+}
+
+
+const missionNumber =
+missionHistory.length + 1;
+
+const now =
+new Date();
+
+const time =
+now.toLocaleTimeString();
+
+const mission = {
+
+number:
+missionNumber,
+
+result:
+"SUCCESS",
+
+altitude:
+maxAltitude,
+
+speed:
+maxSpeed,
+
+fuel:
+fuel,
+
+time:
+time
+
+};
+
+
+missionHistory.push(
+mission
+);
+
+saveHistory();
+
+displayHistory();
+
+log(
+"MISSION " +
+missionNumber +
+" RECORDED: SUCCESS"
+);
 
 }
 
@@ -619,83 +1032,116 @@ function resetMission(){
 
 stopTimers();
 
-running=false;
+running = false;
 
-altitude=0;
-speed=0;
-fuel=100;
+missionCompleted = false;
 
-button.disabled=false;
+altitude = 0;
 
-status.innerText=
+speed = 0;
+
+fuel = 100;
+
+maxAltitude = 0;
+
+maxSpeed = 0;
+
+button.disabled = false;
+
+status.innerText =
 "SYSTEM READY";
 
-phase.innerText=
+phase.innerText =
 "MISSION PHASE: READY";
 
-eventDisplay.innerText=
+eventDisplay.innerText =
 "EVENT: STANDBY";
 
-countdown.innerText="";
+countdown.innerText = "";
 
-altitudeDisplay.innerText="0";
+altitudeDisplay.innerText =
+"0";
 
-speedDisplay.innerText="0";
+speedDisplay.innerText =
+"0";
 
-fuelDisplay.innerText="100";
+fuelDisplay.innerText =
+"100";
 
-fuelBar.style.width="100%";
+fuelBar.style.width =
+"100%";
 
-fuelBar.style.background="#00d084";
+fuelBar.style.background =
+"#00d084";
 
-propulsion.innerText="READY";
-guidance.innerText="READY";
-communications.innerText="ONLINE";
-power.innerText="NOMINAL";
+propulsion.innerText =
+"READY";
 
-propulsion.style.color="#00ff99";
-guidance.style.color="#00ff99";
-communications.style.color="#00ff99";
+guidance.innerText =
+"READY";
 
-trajectoryRocket.style.left="8%";
-trajectoryRocket.style.bottom="18px";
+communications.innerText =
+"ONLINE";
+
+power.innerText =
+"NOMINAL";
+
+propulsion.style.color =
+"#00ff99";
+
+guidance.style.color =
+"#00ff99";
+
+communications.style.color =
+"#00ff99";
+
+trajectoryRocket.style.left =
+"8%";
+
+trajectoryRocket.style.bottom =
+"18px";
 
 timeline(-1);
 
-alerts.innerHTML=
+alerts.innerHTML =
 '<div class="alert">SYSTEM MONITOR: NO ACTIVE FAULTS</div>';
 
-missionLog.innerHTML="";
+missionLog.innerHTML = "";
 
-log("MISSION RESET");
+log(
+"SYSTEM INITIALIZED"
+);
 
-log("2060-X1 RETURNED TO LAUNCH CONFIGURATION");
-
-log("FUEL RESTORED TO 100%");
-
-log("ALL SYSTEMS READY");
+log(
+"2060-X1 READY"
+);
 
 }
 
 
 /* REPLAY */
 
-replayButton.onclick=function(){
+replayButton.onclick =
+function(){
 
 resetMission();
 
-setTimeout(function(){
+setTimeout(
+function(){
 
 startMission();
 
-},500);
+},
+500
+);
 
 };
 
 
 /* RESET BUTTON */
 
-resetButton.onclick=function(){
+resetButton.onclick =
+function(){
 
 resetMission();
 
@@ -704,144 +1150,198 @@ resetMission();
 
 /* FAULTS */
 
-function addAlert(message,type){
+function addAlert(
+message,
+type
+){
 
 const alert =
-document.createElement("div");
+document.createElement(
+"div"
+);
 
 alert.className =
-"alert "+type;
+"alert " + type;
 
-alert.innerText=message;
+alert.innerText =
+message;
 
-alerts.prepend(alert);
+alerts.prepend(
+alert
+);
 
-log("ALERT: "+message);
+log(
+"ALERT: " + message
+);
 
 }
 
 
-engineFault.onclick=function(){
+engineFault.onclick =
+function(){
 
 addAlert(
 "SIMULATED ENGINE FAULT DETECTED",
 "critical"
 );
 
-propulsion.innerText="FAULT";
+propulsion.innerText =
+"FAULT";
 
-propulsion.style.color="#ef4444";
+propulsion.style.color =
+"#ef4444";
 
 eventMessage(
 "SIMULATION: ENGINE FAULT"
 );
 
-const timer=setTimeout(function(){
+const timer =
+setTimeout(
+function(){
 
-propulsion.innerText=
-running ? "ACTIVE" : "READY";
+propulsion.innerText =
+running ?
+"ACTIVE" :
+"READY";
 
-propulsion.style.color="#00ff99";
+propulsion.style.color =
+"#00ff99";
 
 addAlert(
 "ENGINE SYSTEM RECOVERED",
 "recovered"
 );
 
-},3000);
+},
+3000
+);
 
 missionTimers.push(timer);
 
 };
 
 
-commsFault.onclick=function(){
+commsFault.onclick =
+function(){
 
 addAlert(
 "SIMULATED COMMUNICATION LOSS",
 "warning"
 );
 
-communications.innerText="SIGNAL LOST";
+communications.innerText =
+"SIGNAL LOST";
 
-communications.style.color="#facc15";
+communications.style.color =
+"#facc15";
 
 eventMessage(
 "SIMULATION: COMMUNICATION WARNING"
 );
 
-const timer=setTimeout(function(){
+const timer =
+setTimeout(
+function(){
 
-communications.innerText=
-running ? "LINKED" : "ONLINE";
+communications.innerText =
+running ?
+"LINKED" :
+"ONLINE";
 
-communications.style.color="#00ff99";
+communications.style.color =
+"#00ff99";
 
 addAlert(
 "COMMUNICATION LINK RESTORED",
 "recovered"
 );
 
-},3000);
+},
+3000
+);
 
 missionTimers.push(timer);
 
 };
 
 
-guidanceFault.onclick=function(){
+guidanceFault.onclick =
+function(){
 
 addAlert(
 "SIMULATED GUIDANCE DEVIATION",
 "warning"
 );
 
-guidance.innerText="CHECK";
+guidance.innerText =
+"CHECK";
 
-guidance.style.color="#facc15";
+guidance.style.color =
+"#facc15";
 
 eventMessage(
 "SIMULATION: GUIDANCE WARNING"
 );
 
-const timer=setTimeout(function(){
+const timer =
+setTimeout(
+function(){
 
-guidance.innerText=
-running ? "ACTIVE" : "READY";
+guidance.innerText =
+running ?
+"ACTIVE" :
+"READY";
 
-guidance.style.color="#00ff99";
+guidance.style.color =
+"#00ff99";
 
 addAlert(
 "GUIDANCE SYSTEM NOMINAL",
 "recovered"
 );
 
-},3000);
+},
+3000
+);
 
 missionTimers.push(timer);
 
 };
 
 
-clearFaults.onclick=function(){
+clearFaults.onclick =
+function(){
 
-alerts.innerHTML=
+alerts.innerHTML =
 '<div class="alert recovered">ALL SIMULATED FAULTS CLEARED</div>';
 
-propulsion.innerText=
-running ? "ACTIVE" : "READY";
+propulsion.innerText =
+running ?
+"ACTIVE" :
+"READY";
 
-guidance.innerText=
-running ? "ACTIVE" : "READY";
+guidance.innerText =
+running ?
+"ACTIVE" :
+"READY";
 
-communications.innerText=
-running ? "LINKED" : "ONLINE";
+communications.innerText =
+running ?
+"LINKED" :
+"ONLINE";
 
-propulsion.style.color="#00ff99";
-guidance.style.color="#00ff99";
-communications.style.color="#00ff99";
+propulsion.style.color =
+"#00ff99";
 
-log("ALL SIMULATED FAULTS CLEARED");
+guidance.style.color =
+"#00ff99";
+
+communications.style.color =
+"#00ff99";
+
+log(
+"ALL SIMULATED FAULTS CLEARED"
+);
 
 };
 
@@ -851,68 +1351,101 @@ log("ALL SIMULATED FAULTS CLEARED");
 function startMission(){
 
 if(running){
+
 return;
+
 }
 
-running=true;
+running = true;
 
-button.disabled=true;
+missionCompleted = false;
 
-altitude=0;
-speed=0;
-fuel=100;
+button.disabled = true;
 
-status.innerText=
+altitude = 0;
+
+speed = 0;
+
+fuel = 100;
+
+maxAltitude = 0;
+
+maxSpeed = 0;
+
+missionStart =
+Date.now();
+
+status.innerText =
 "COUNTDOWN STARTED";
 
-phase.innerText=
+phase.innerText =
 "MISSION PHASE: COUNTDOWN";
 
 timeline(0);
 
-eventMessage("T-3 COUNTDOWN");
+eventMessage(
+"T-3 COUNTDOWN"
+);
 
-let number=3;
+let number = 3;
 
-countdown.innerText=number;
+countdown.innerText =
+number;
 
 
-countdownTimer=
-setInterval(function(){
+countdownTimer =
+setInterval(
+function(){
 
 number--;
 
-if(number===2){
 
-countdown.innerText="2";
+if(number === 2){
+
+countdown.innerText =
+"2";
 
 timeline(1);
 
-eventMessage("T-2 COUNTDOWN");
+eventMessage(
+"T-2 COUNTDOWN"
+);
 
 }
 
-else if(number===1){
 
-countdown.innerText="1";
+else if(number === 1){
+
+countdown.innerText =
+"1";
 
 timeline(2);
 
-eventMessage("T-1 COUNTDOWN");
+eventMessage(
+"T-1 COUNTDOWN"
+);
 
 }
 
+
 else{
 
-clearInterval(countdownTimer);
+clearInterval(
+countdownTimer
+);
 
-countdownTimer=null;
+countdownTimer = null;
 
-countdown.innerText="🚀";
+countdown.innerText =
+"🚀";
 
-status.innerText="LIFTOFF!";
 
-phase.innerText=
+/* LIFTOFF */
+
+status.innerText =
+"LIFTOFF!";
+
+phase.innerText =
 "MISSION PHASE: LIFTOFF";
 
 timeline(3);
@@ -921,73 +1454,109 @@ eventMessage(
 "LIFTOFF CONFIRMED"
 );
 
-propulsion.innerText="ACTIVE";
-guidance.innerText="ACTIVE";
-communications.innerText="LINKED";
-power.innerText="NOMINAL";
+propulsion.innerText =
+"ACTIVE";
+
+guidance.innerText =
+"ACTIVE";
+
+communications.innerText =
+"LINKED";
+
+power.innerText =
+"NOMINAL";
 
 
 /* TELEMETRY */
 
-telemetryTimer=
-setInterval(function(){
+telemetryTimer =
+setInterval(
+function(){
 
-altitude+=100;
+altitude += 100;
 
-speed+=5000;
+speed += 5000;
 
-fuel-=2;
+fuel -= 2;
 
-if(fuel<0){
-fuel=0;
+if(fuel < 0){
+
+fuel = 0;
+
 }
 
-altitudeDisplay.innerText=
+if(altitude > maxAltitude){
+
+maxAltitude =
 altitude;
 
-speedDisplay.innerText=
+}
+
+if(speed > maxSpeed){
+
+maxSpeed =
+speed;
+
+}
+
+altitudeDisplay.innerText =
+altitude;
+
+speedDisplay.innerText =
 speed.toLocaleString();
 
-fuelDisplay.innerText=
+fuelDisplay.innerText =
 fuel;
 
-fuelBar.style.width=
-fuel+"%";
+fuelBar.style.width =
+fuel + "%";
 
-if(fuel<=20){
-fuelBar.style.background="#ef4444";
+if(fuel <= 20){
+
+fuelBar.style.background =
+"#ef4444";
+
 }
 
 moveTrajectory();
 
-},1000);
+},
+1000
+);
 
 
-/* EVENTS */
+/* MISSION EVENTS */
 
 missionTimers.push(
 
-setTimeout(function(){
+setTimeout(
+function(){
 
-status.innerText="MAX-Q";
+status.innerText =
+"MAX-Q";
 
-phase.innerText=
+phase.innerText =
 "MISSION PHASE: ASCENT";
 
 timeline(4);
 
-eventMessage("MAX-Q PASSED");
+eventMessage(
+"MAX-Q PASSED"
+);
 
-},2000)
+},
+2000
+)
 
 );
 
 
 missionTimers.push(
 
-setTimeout(function(){
+setTimeout(
+function(){
 
-status.innerText=
+status.innerText =
 "MAIN ENGINE BURN";
 
 timeline(5);
@@ -996,16 +1565,19 @@ eventMessage(
 "MAIN ENGINE BURN NOMINAL"
 );
 
-},3000)
+},
+3000
+)
 
 );
 
 
 missionTimers.push(
 
-setTimeout(function(){
+setTimeout(
+function(){
 
-status.innerText=
+status.innerText =
 "STAGE SEPARATION";
 
 timeline(6);
@@ -1014,19 +1586,22 @@ eventMessage(
 "STAGE SEPARATION CONFIRMED"
 );
 
-},5000)
+},
+5000
+)
 
 );
 
 
 missionTimers.push(
 
-setTimeout(function(){
+setTimeout(
+function(){
 
-status.innerText=
+status.innerText =
 "ORBIT INSERTION";
 
-phase.innerText=
+phase.innerText =
 "MISSION PHASE: ORBIT INSERTION";
 
 timeline(7);
@@ -1035,55 +1610,72 @@ eventMessage(
 "ORBIT INSERTION BURN"
 );
 
-},7000)
+},
+7000
+)
 
 );
 
 
+/* ORBIT */
+
 missionTimers.push(
 
-setTimeout(function(){
+setTimeout(
+function(){
 
-status.innerText=
+status.innerText =
 "ORBIT ACHIEVED";
 
-phase.innerText=
+phase.innerText =
 "MISSION PHASE: ORBIT ACHIEVED";
 
 timeline(8);
 
-guidance.innerText=
+guidance.innerText =
 "ORBIT LOCK";
 
 eventMessage(
 "ORBIT ACHIEVED"
 );
 
-},9000)
+
+/* RECORD MISSION */
+
+completeMission();
+
+},
+9000
+)
 
 );
 
 }
 
-},1000);
+},
+1000
+);
 
 }
 
 
 /* LAUNCH */
 
-button.onclick=function(){
+button.onclick =
+function(){
 
 startMission();
 
 };
 
 
-/* INITIAL LOG */
+/* INITIALIZE */
+
+displayHistory();
 
 resetMission();
 
 </script>
 
 </body>
-</html>
+  </html>
