@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>2060 Mission Control V2.5.2</title>
+<title>2060 Mission Control V2.5.1</title>
 
 <style>
 
@@ -105,4 +105,448 @@ margin-top:20px;
 
 .card{
 padding:18px;
-background
+background:#081226;
+border:1px solid #263858;
+border-radius:12px;
+}
+
+.card small{
+display:block;
+color:#94a3b8;
+margin-bottom:8px;
+}
+
+.card strong{
+font-size:24px;
+color:#38bdf8;
+}
+
+.fuelBar{
+height:10px;
+background:#1e293b;
+border-radius:10px;
+margin-top:10px;
+overflow:hidden;
+}
+
+#fuelBar{
+height:100%;
+width:100%;
+background:#00d084;
+}
+
+#missionPanel{
+margin-top:20px;
+padding:18px;
+background:#081226;
+border:1px solid #263858;
+border-radius:12px;
+text-align:left;
+}
+
+#missionPanel h2{
+text-align:center;
+}
+
+#missionLog{
+height:160px;
+overflow-y:auto;
+background:#020617;
+padding:12px;
+border-radius:8px;
+font-family:monospace;
+font-size:14px;
+}
+
+.log{
+margin-bottom:8px;
+color:#9fffd3;
+}
+
+@media(max-width:500px){
+
+.telemetry{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<h1>
+🚀 2060 MISSION CONTROL
+</h1>
+
+
+<div id="status">
+SYSTEM READY
+</div>
+
+
+<div id="phase">
+MISSION PHASE: READY
+</div>
+
+
+<div id="countdown"></div>
+
+
+<button id="launchButton">
+🚀 LAUNCH
+</button>
+
+
+<div id="space">
+
+<div id="rocket">
+🚀
+</div>
+
+</div>
+
+
+<div class="telemetry">
+
+
+<div class="card">
+
+<small>
+ALTITUDE
+</small>
+
+<strong>
+<span id="altitude">0</span> km
+</strong>
+
+</div>
+
+
+<div class="card">
+
+<small>
+SPEED
+</small>
+
+<strong>
+<span id="speed">0</span> km/h
+</strong>
+
+</div>
+
+
+<div class="card">
+
+<small>
+FUEL
+</small>
+
+<strong>
+<span id="fuel">100</span> %
+</strong>
+
+<div class="fuelBar">
+
+<div id="fuelBar"></div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div id="missionPanel">
+
+<h2>
+📝 MISSION LOG
+</h2>
+
+<div id="missionLog">
+
+<div class="log">
+SYSTEM INITIALIZED
+</div>
+
+<div class="log">
+VEHICLE READY
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const button =
+document.getElementById("launchButton");
+
+const countdown =
+document.getElementById("countdown");
+
+const rocket =
+document.getElementById("rocket");
+
+const status =
+document.getElementById("status");
+
+const phase =
+document.getElementById("phase");
+
+const altitudeDisplay =
+document.getElementById("altitude");
+
+const speedDisplay =
+document.getElementById("speed");
+
+const fuelDisplay =
+document.getElementById("fuel");
+
+const fuelBar =
+document.getElementById("fuelBar");
+
+const missionLog =
+document.getElementById("missionLog");
+
+
+let altitude = 0;
+
+let speed = 0;
+
+let fuel = 100;
+
+
+function addLog(message){
+
+const line =
+document.createElement("div");
+
+line.className =
+"log";
+
+line.innerText =
+message;
+
+missionLog.appendChild(line);
+
+missionLog.scrollTop =
+missionLog.scrollHeight;
+
+}
+
+
+button.onclick = function(){
+
+button.disabled = true;
+
+
+/* COUNTDOWN */
+
+status.innerText =
+"COUNTDOWN STARTED";
+
+phase.innerText =
+"MISSION PHASE: COUNTDOWN";
+
+addLog(
+"LAUNCH SEQUENCE STARTED"
+);
+
+
+let number = 3;
+
+countdown.innerText =
+number;
+
+
+let timer =
+setInterval(function(){
+
+number--;
+
+
+if(number > 0){
+
+countdown.innerText =
+number;
+
+addLog(
+"T-" + number
+);
+
+}
+
+
+else{
+
+clearInterval(timer);
+
+countdown.innerText =
+"🚀";
+
+
+/* LIFTOFF */
+
+status.innerText =
+"LIFTOFF!";
+
+phase.innerText =
+"MISSION PHASE: LIFTOFF";
+
+
+addLog(
+"ENGINE IGNITION"
+);
+
+addLog(
+"LIFTOFF CONFIRMED"
+);
+
+
+rocket.classList.remove("fly");
+
+void rocket.offsetWidth;
+
+rocket.classList.add("fly");
+
+
+altitude = 0;
+
+speed = 0;
+
+fuel = 100;
+
+
+altitudeDisplay.innerText =
+"0";
+
+speedDisplay.innerText =
+"0";
+
+fuelDisplay.innerText =
+"100";
+
+fuelBar.style.width =
+"100%";
+
+
+/* ASCENT */
+
+setTimeout(function(){
+
+status.innerText =
+"ASCENT";
+
+phase.innerText =
+"MISSION PHASE: ASCENT";
+
+addLog(
+"ASCENT PHASE STARTED"
+);
+
+},1000);
+
+
+/* ORBIT INSERTION */
+
+setTimeout(function(){
+
+status.innerText =
+"ORBIT INSERTION";
+
+phase.innerText =
+"MISSION PHASE: ORBIT INSERTION";
+
+addLog(
+"ORBIT INSERTION BURN"
+);
+
+},4000);
+
+
+/* ORBIT ACHIEVED */
+
+setTimeout(function(){
+
+status.innerText =
+"ORBIT ACHIEVED";
+
+phase.innerText =
+"MISSION PHASE: ORBIT ACHIEVED";
+
+addLog(
+"ORBIT ACHIEVED"
+);
+
+},7000);
+
+
+/* ALTITUDE */
+
+setInterval(function(){
+
+altitude += 100;
+
+altitudeDisplay.innerText =
+altitude;
+
+},1000);
+
+
+/* SPEED */
+
+setInterval(function(){
+
+speed += 5000;
+
+speedDisplay.innerText =
+speed.toLocaleString();
+
+},1000);
+
+
+/* FUEL */
+
+setInterval(function(){
+
+fuel -= 2;
+
+if(fuel < 0){
+
+fuel = 0;
+
+}
+
+fuelDisplay.innerText =
+fuel;
+
+fuelBar.style.width =
+fuel + "%";
+
+
+if(fuel <= 20){
+
+fuelBar.style.background =
+"#ff4444";
+
+}
+
+},1000);
+
+}
+
+},1000);
+
+};
+
+</script>
+
+</body>
+
+</html>
